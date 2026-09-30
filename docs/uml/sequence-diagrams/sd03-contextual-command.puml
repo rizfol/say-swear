@@ -1,90 +1,113 @@
 @startuml
-title SD03 - Contextual AI Decision (UC03; F05, F09)
+title SD03 - Contextual command: repeat after expiry (UC03; F05, F08, F09)
+skinparam defaultFontName Arial
+skinparam shadowing false
+skinparam sequenceMessageAlign center
 hide footbox
-skinparam maxMessageSize 70
-actor "Player" as human
-boundary "cli : CliView" as cli
-control "controller : ApplicationController" as controller
-control "controls : ControlManager" as controls
-participant "agent : VoiceCommandAgent" as agent
-participant "model : OpenJevAdapter" as model
-participant "service : OpenJevService" as service
-participant "executor : ActionExecutor" as executor
-participant "rightUp : KeyUpCommand" as rightUp
-participant "leftDown : KeyDownCommand" as leftDown
-entity "game : GameModel" as game
+actor Player
+participant "controller :\nApplicationController" as Controller
+participant "controls :\nControlManager" as Controls
+participant "executor :\nActionExecutor" as Executor
+participant "oldTimer :\nTimedPressCommand" as OldTimer
+participant "game :\nGameModel" as Game
+participant "agent :\nVoiceCommandAgent" as Agent
+participant "model :\nOpenJevAdapter" as Model
+participant "SemIfService\n(local Qwen3.5 4B)" as Service <<external HTTP>>
+participant "proposal :\nActionDecision" as Proposal
+participant "freshTimer :\nTimedPressCommand" as FreshTimer
+participant "view :\nGameView" as View
 
-note over human, game
-  Precondition: ActiveState; game.heldDirections = {RIGHT}.
-  A new CLI line starts a new utterance. GUI speech enters the same flow through SD01.
+note over Controls,OldTimer
+  Previously accepted: TIMED_PRESS {RIGHT}, 200 ms.
+  lastMovement = MovementIntent(TIMED_PRESS, {RIGHT}, 200).
+  The stored value is immutable semantics, not oldTimer.
 end note
-cli -> cli : readCommand()
-human -> cli : enter "other way" and press Enter
-cli --> cli : "other way"
-cli ->> controller : submitTextCommand("other way")
-controller -> controls : getContext()
-controls --> controller : context (current epoch)
-controller -> controller : handleTranscript("other way", newUtteranceId, context.epoch)
-controller -> controls : beginInput(update.version)
-controller -> controls : getContext()
-controls -> game : getSnapshot()
-game --> controls : snapshot: held {RIGHT}, status ACTIVE
-controls --> controller : ControlContext(held={RIGHT}, previousCommand, metadata)
-note right of controls
-  The context also contains epoch, revision,
-  latestVersion, and movementAllowed.
+== Automatic expiry on the application loop ==
+Controller -> Controller : advance(dt)
+Controller -> Controls : advance(dt)
+Controls -> Executor : advance(dt)
+Executor -> OldTimer : advance(dt, game)
+OldTimer -> OldTimer : cancel(game)
+OldTimer -> Game : release(RIGHT)
+OldTimer --> Executor : true (expired)
+Executor --> Controls : true
+note right of Controls
+  Increment revision; preserve lastMovement.
+  heldDirections is now empty.
 end note
-controller ->> agent : interpret(update, context)
-note right of agent
-  First update in this utterance: freeze baseContext = context.
-  Further partials reuse this base, so repeated "other way"
-  cannot alternate LEFT/RIGHT as held inputs change.
-  Dispatch metadata still uses the current context revision.
-end note
-agent ->> model : decide(update, baseContext)
-model ->> service : systemOne(state, choices)
-note over model, service
-  State: "other way", held RIGHT, previous command, session flags.
-  Choices describe bounded movement intents. No geometry or route is supplied.
-end note
-service --> model : "SWITCH_LEFT"
-model --> agent : ActionDecision(SWITCH, {LEFT}, durationMs=0)
-agent -->> controller : decision stamped with this request's version/epoch/revision
-controller -> controller : handleDecision(decision)
-controller -> controls : accept(decision)
-controls -> controls : validate(decision)
+Controller -> Game : update(dt)
+ref over Game,View : Observer state update (SD02 / SD05)
 
-alt request is current and player can move
-  controls -> game : getSnapshot()
-  game --> controls : authoritative held {RIGHT}
-  controls -> controls : plan(decision)
-  controls --> controls : [KeyUpCommand(RIGHT), KeyDownCommand(LEFT)]
-  note right of controls : Deterministic translation; the AI never constructs game commands.
-  controls -> executor : cancelAll()
-  controls -> executor : execute(commands)
-  executor -> rightUp : execute(game)
-  rightUp -> game : release(RIGHT)
-  executor -> leftDown : execute(game)
-  leftDown -> game : press(LEFT)
-  note right of controls : Save previousCommand; increment revision.
-  controls --> controller : true
-  controller -> cli : showMessage("Accepted: SWITCH LEFT")
-else context, epoch, or version changed before completion
-  controls --> controller : false (ignore; no execution)
-  opt still latest version/epoch; only context revision changed
-    controller -> controls : getContext()
-    controls --> controller : current context confirms revision mismatch
-    controller -> cli : showMessage("Control state changed; repeat command.")
+== New utterance: again ==
+Player -> Controller : submitTextCommand("again")
+note left of Controller
+  CLI / GUI text entry shown.
+  Voice enters through handleTranscript
+  and reaches the same submit operation.
+end note
+Controller -> Controller : submit("again", newUtterance)
+Controller -> Controls : beginInput(++version)
+Controller -> Controls : getContext()
+Controls -> Game : getSnapshot()
+Game --> Controls : held={}, ACTIVE
+Controls --> Controller : ControlContext(..., lastMovement)
+Controller -> Agent : interpret(update, context)
+note right of Agent
+  Freeze base context for this utterance.
+  Retain current dispatch context for stamping.
+end note
+Agent -> Model : decide(update, baseContext)
+Model -> Service : POST /decide\ntranscript + bounded control context
+Service --> Model : {backend: "semif", model, choice: "REPEAT_LAST"}
+note right of Model : Map choice to REPEAT_LAST, directions={}, durationMs=0.
+Model --> Agent : proposal (async completion)
+Agent -> Proposal : withRequest(update, dispatchContext)
+Proposal --> Agent : decision with current epoch/version/revision
+Agent --> Controller : decision (completion enqueued on application loop)
+Controller -> Controller : handleDecision(decision)
+Controller -> Controls : accept(decision)
+alt stale epoch / version / revision, or player not ACTIVE
+  Controls --> Controller : false; no mutation
+else current request
+  Controls -> Controls : validate(decision)
+  alt already repeated in this utterance
+    Controls --> Controller : true; do not restart timer
+  else lastMovement is absent
+    note right of Controls
+      Record accepted request and increment revision.
+      No commands; no movement history is invented.
+    end note
+    Controls --> Controller : true
+    Controller -> View : showMessage("No previous movement to repeat...")
+  else remembered movement exists
+    Controls -> Controls : plan(decision)
+    note right of Controls
+      Resolve TIMED_PRESS {RIGHT}, 200 ms using
+      current request metadata; construct fresh commands.
+      Snapshot desired held inputs before cancellation.
+    end note
+    Controls -> Executor : cancelAll()
+    Controls -> Executor : execute([freshTimer])
+    Executor -> FreshTimer : execute(game)
+    FreshTimer -> Game : press(RIGHT)
+    note right of Controls
+      Record lastRepeatedUtterance; increment revision.
+      Preserve the resolved lastMovement value.
+    end note
+    Controls --> Controller : true
+    Controller -> View : showMessage("Accepted: REPEAT_LAST TIMED_PRESS [RIGHT] for 200 ms")
   end
+  Controller -> Controller : publish()
+  Controller -> Game : getSnapshot()
+  Game --> Controller : snapshot
+  Controller -> View : render(snapshot)
 end
 
-ref over cli, game
-  Next fixed tick updates deterministic movement and publishes STATE_CHANGED (SD02).
-end ref
-
-note over controls, service
-  "keep going" maps to KEEP_CURRENT, preserving both held inputs and any active timer.
-  "other way" without a usable directional context maps to NO_ACTION and requests clarification.
-  Neither choice plans a path. The player remains responsible for navigation.
+note over Controls,Agent
+  "other way" remains an AI interpretation of the initial held set:
+  held RIGHT -> SWITCH LEFT -> KeyUpCommand(RIGHT), KeyDownCommand(LEFT).
+  "again" repeats the stored resolved movement, not the previous raw sentence.
+  Automatic expiry and spoken "stop" preserve history.
+  Session pause, failure, fall, restart and close clear it through reset().
 end note
 @enduml

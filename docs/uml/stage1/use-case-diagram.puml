@@ -1,0 +1,50 @@
+@startuml
+title Say Swear - use cases (Stage 1)
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Player" as human
+actor "MicrophoneDevice\n<<external device>>" as mic
+actor "SherpaOnnxRuntime\n<<external ASR runtime>>" as asr
+actor "OpenJevService\n<<external AI service>>" as ai
+
+rectangle "Say Swear - shared Java application" {
+  usecase "UC01 - Play Using\nContinuous Voice Control\n(F01-F10)" as UC01
+  usecase "UC02 - Play Using\nCLI Commands\n(F01, F04-F10)" as UC02
+  usecase "UC03 - Interpret\nContextual Command\n(F05, F09)" as UC03
+  usecase "UC04 - Correct an\nActive Command\n(F06, F09)" as UC04
+  usecase "UC05 - Execute Combined\nor Timed Command\n(F07, F08, F09)" as UC05
+  usecase "UC06 - Fall and Recover\n(F09, F10)" as UC06
+
+  UC03 ..> UC01 : <<extend>>\n[contextual phrase]
+  UC03 ..> UC02 : <<extend>>\n[contextual phrase]
+  UC04 ..> UC01 : <<extend>>\n[new correction]
+  UC04 ..> UC02 : <<extend>>\n[new correction]
+  UC05 ..> UC01 : <<extend>>\n[combined/timed instruction]
+  UC05 ..> UC02 : <<extend>>\n[combined/timed instruction]
+  UC06 ..> UC01 : <<extend>>\n[player leaves safe path]
+  UC06 ..> UC02 : <<extend>>\n[player leaves safe path]
+}
+
+human -- UC01
+human -- UC02
+mic -- UC01
+asr -- UC01
+ai -- UC01
+ai -- UC02
+ai -- UC03
+ai -- UC04
+ai -- UC05
+
+note bottom of UC02
+  One selected frontend per launch.
+  Typed instructions reuse the same agent,
+  controls, simulation, and recovery as the GUI.
+  F02/F03 are the GUI microphone/ASR path.
+end note
+
+note bottom of UC06
+  Recovery is deterministic Java behavior.
+  No AI service chooses a route or checkpoint.
+end note
+@enduml

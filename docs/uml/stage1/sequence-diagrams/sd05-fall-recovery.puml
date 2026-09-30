@@ -1,0 +1,184 @@
+@startuml
+title SD05 - Fall and Checkpoint Recovery (UC06; F01, F09, F10)
+hide footbox
+skinparam maxMessageSize 70
+actor "Player" as human
+boundary "gui : JavaFxGameView" as gui
+boundary "cli : CliView" as cli
+control "controller : ApplicationController" as controller
+control "controls : ControlManager" as controls
+participant "executor : ActionExecutor" as executor
+participant "timed : TimedPressCommand" as timed
+participant "release : ReleaseAllCommand" as release
+participant "agent : VoiceCommandAgent" as agent
+participant "voice : VoiceInputService" as voice
+entity "game : GameModel" as game
+entity "player : Player" as player
+participant "active : ActiveState" as active
+participant "falling : FallingState" as falling
+participant "respawning : RespawningState" as respawning
+entity "level : Level" as level
+
+ref over human, controller
+  Player supplied the preceding movement through SD01 (GUI) or SD02 (CLI).
+  Only the selected frontend is registered; both alternatives are shown here.
+end ref
+controller -> controller : tick(deltaTime)
+controller -> controls : advance(deltaTime)
+controls -> executor : advance(deltaTime)
+executor --> controls : whether a timer expired
+controller -> game : update(deltaTime)
+game -> player : update(game, deltaTime)
+player -> active : update(player, game, deltaTime)
+active -> player : move(deltaTime, heldDirections)
+active -> game : evaluatePosition()
+game -> level : isSafe(position)
+level --> game : safe?
+
+alt player left the safe path
+  game -> player : setState(FallingState)
+  game -> game : getSnapshot()
+  game --> game : fallSnapshot
+  game -> game : notifyObservers(GameEvent(FALL_DETECTED, fallSnapshot))
+  game -> controller : onGameEvent(fallEvent)
+  controller -> controller : invalidateControls("fall")
+  controller -> controls : reset()
+  note right of controls
+    Increment epoch and revision; clear accepted-command memory.
+    Pending decisions immediately become stale.
+  end note
+  controls -> executor : cancelAll()
+  opt an active timed command exists
+    executor -> timed : cancel(game)
+    loop each direction owned by the timed command
+      timed -> game : release(direction)
+    end
+  end
+  controls -> executor : execute([ReleaseAllCommand])
+  executor -> release : execute(game)
+  release -> game : releaseAll()
+  note right of game : Empty held inputs and zero velocity.
+  controller -> agent : reset()
+  opt selected frontend is GUI
+    controller -> voice : stop()
+    note right of voice
+      Stop recognizer and close microphone.
+      Preserve voiceSessionRequested on a fall.
+      Old callbacks retain their old epoch and are ignored.
+    end note
+  end
+  alt selected frontend is GUI
+    game -> gui : onGameEvent(fallEvent)
+    gui -> gui : render(fallEvent.snapshot)
+    gui -> gui : showMessage("Fell; returning to checkpoint.")
+  else selected frontend is CLI
+    game -> cli : onGameEvent(fallEvent)
+    cli -> cli : render(fallEvent.snapshot)
+    cli -> cli : showMessage("Fell; returning to checkpoint.")
+  end
+  note over controller, game
+    Synchronous observer delivery finishes before the tick continues.
+    FALL_DETECTED contains the pre-cleanup event snapshot.
+    This update ends with a fresh STATE_CHANGED snapshot as shown below.
+  end note
+
+  == Following tick: deterministic checkpoint reset ==
+  controller -> controller : tick(deltaTime)
+  controller -> controls : advance(deltaTime)
+  controls -> executor : advance(deltaTime)
+  executor --> controls : false
+  controller -> game : update(deltaTime)
+  game -> player : update(game, deltaTime)
+  player -> falling : update(player, game, deltaTime)
+  falling -> game : resetToCheckpoint()
+  game -> player : setState(RespawningState)
+  game -> player : respawn(checkpoint)
+  note right of player : Place player at latest checkpoint; velocity remains zero.
+  ref over gui, game
+    Publish fresh STATE_CHANGED for this completed tick (delivery below).
+  end ref
+
+  == Following tick: movement becomes available ==
+  controller -> controller : tick(deltaTime)
+  controller -> controls : advance(deltaTime)
+  controls -> executor : advance(deltaTime)
+  executor --> controls : false
+  controller -> game : update(deltaTime)
+  game -> player : update(game, deltaTime)
+  player -> respawning : update(player, game, deltaTime)
+  respawning -> player : setState(ActiveState)
+  respawning -> game : notifyObservers(GameEvent(RESPAWNED, snapshot))
+  game -> controller : onGameEvent(respawnEvent)
+  opt GUI and voiceSessionRequested is still true
+    controller -> controls : getContext()
+    controls --> controller : context with new epoch
+    controller -> voice : start(context.epoch)
+    ref over voice
+      Reopen microphone/recognizer as in SD01.
+      Resume listening with no held input; player must speak again.
+    end ref
+  end
+  alt selected frontend is GUI
+    game -> gui : onGameEvent(respawnEvent)
+    gui -> gui : render(respawnEvent.snapshot)
+  else selected frontend is CLI
+    game -> cli : onGameEvent(respawnEvent)
+    cli -> cli : render(respawnEvent.snapshot)
+  end
+
+else position remains safe
+  game -> level : checkpointAt(position)
+  level --> game : optional checkpoint
+  opt a new checkpoint was reached
+    note right of game : Store the newly activated checkpoint.
+    game -> game : notifyObservers(GameEvent(CHECKPOINT_ACTIVATED, snapshot))
+    game -> controller : onGameEvent(checkpointEvent)
+    alt selected frontend is GUI
+      game -> gui : onGameEvent(checkpointEvent)
+      gui -> gui : render(checkpointEvent.snapshot)
+    else selected frontend is CLI
+      game -> cli : onGameEvent(checkpointEvent)
+      cli -> cli : render(checkpointEvent.snapshot)
+    end
+  end
+  game -> level : isGoal(position)
+  level --> game : reachedGoal
+  opt goal reached
+    game -> player : setState(FinishedState)
+    game -> game : notifyObservers(GameEvent(GOAL_REACHED, snapshot))
+    game -> controller : onGameEvent(goalEvent)
+    controller -> controller : invalidateControls("goal reached")
+    ref over controller, game
+      Same reset/cancel/release/agent-reset cleanup as above.
+      Goal completion clears voiceSessionRequested and stops listening.
+    end ref
+    alt selected frontend is GUI
+      game -> gui : onGameEvent(goalEvent)
+      gui -> gui : showMessage("Goal reached.")
+    else selected frontend is CLI
+      game -> cli : onGameEvent(goalEvent)
+      cli -> cli : showMessage("Goal reached.")
+    end
+  end
+end
+
+group end of EVERY GameModel.update, after any synchronous cleanup
+  game -> game : getSnapshot()
+  game --> game : freshSnapshot
+  game -> game : notifyObservers(GameEvent(STATE_CHANGED, freshSnapshot))
+  game -> controller : onGameEvent(stateEvent)
+  alt selected frontend is GUI
+    game -> gui : onGameEvent(stateEvent)
+    gui -> gui : render(stateEvent.snapshot)
+  else selected frontend is CLI
+    game -> cli : onGameEvent(stateEvent)
+    cli -> cli : render(stateEvent.snapshot)
+  end
+end
+
+note over player, respawning
+  ActiveState alone allows movement. FallingState, RespawningState,
+  and FinishedState reject it. FinishedState.update has no movement effect.
+  No decision service participates in fall detection or recovery.
+end note
+@enduml

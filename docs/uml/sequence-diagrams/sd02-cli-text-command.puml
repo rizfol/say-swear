@@ -1,100 +1,112 @@
 @startuml
-title SD02 - CLI Text Command (UC02; F01, F04, F09)
+title SD02 - CLI text command and shared simulation (UC02; F01, F04, F09)
 hide footbox
-skinparam maxMessageSize 70
-actor "Player" as human
+skinparam defaultFontName Arial
+skinparam maxMessageSize 48
+actor Player as human
+participant Main as main
 boundary "cli : CliView" as cli
 control "controller : ApplicationController" as controller
 participant "agent : VoiceCommandAgent" as agent
 participant "model : OpenJevAdapter" as model
-participant "service : OpenJevService" as service
+participant "Local SemIf / Qwen3.5 4B" as service <<external HTTP>>
 control "controls : ControlManager" as controls
 participant "executor : ActionExecutor" as executor
-participant "command : GameCommand" as command
+participant "up : KeyDownCommand" as up
 entity "game : GameModel" as game
 
-human -> controller : start()
+human -> main : main(["--cli"])
+main -> main : runCli(configuration)
+main -> cli : open(configuration.quietCli)
+cli --> main : owned CliView
+note over main, cli
+  Static open selects a JLine editor with a fixed status panel on a supported terminal.
+  Quiet mode, redirected streams or unsupported terminals use plain output, no periodic maps.
+end note
+note over main, controller : Main composes the same Java core, with CliView and no microphone service.
+main -> cli : setSessionDescription(configuration.decisionDescription)
+main -> cli : showHelp()
+main ->> controller : start()
 controller -> game : addObserver(controller)
 controller -> game : addObserver(cli)
+controller -> controller : publish()
 controller -> game : getSnapshot()
-game --> controller : snapshot
+game --> controller : initial snapshot
 controller -> cli : render(snapshot)
-note over cli, controller
-  A terminal worker blocks in readCommand(), independently of the fixed loop.
-  Each completed line posts submitTextCommand(text) to that loop.
-  Each line has a new utteranceId and the same version/epoch checks as voice.
-end note
 
-cli -> cli : readCommand()
-human -> cli : enter "up" and press Enter
-cli --> cli : "up" (completed input line)
-cli ->> controller : submitTextCommand("up")
+main -> cli : readCommand()
+human -> cli : type "up" and press Enter
+cli --> main : "up"
+main ->> controller : submitTextCommand("up")
+controller -> controller : submit("up", ++utterance)
+controller -> cli : showTranscript("up")
+controller -> controls : beginInput(++version)
 controller -> controls : getContext()
-controls --> controller : current context
-controller -> controller : handleTranscript("up", newUtteranceId, context.epoch)
-controller -> controls : beginInput(update.version)
-controller -> controls : getContext()
-controls --> controller : dispatch context
+controls --> controller : context
 controller ->> agent : interpret(update, context)
 agent ->> model : decide(update, baseContext)
-model ->> service : systemOne(state, choices)
-service --> model : bounded choice (e.g. "PRESS_UP")
-model --> agent : candidate ActionDecision (e.g. PRESS, {UP})
-agent -->> controller : completed ActionDecision with local metadata
+model ->> service : POST /decide\ncontrol state and bounded choices
+service --> model : {backend: "semif", model, choice: "PRESS_UP"}
+model --> agent : validated candidate ActionDecision
+agent -->> controller : completion with locally stamped request metadata
 controller -> controller : handleDecision(decision)
 controller -> controls : accept(decision)
 controls -> controls : validate(decision)
+note right of controls
+  Example assumes ACTIVE and no held input.
+  Epoch, latest version and revision must match;
+  action schema must be valid before planning.
+end note
+controls -> controls : plan(decision)
+controls --> controls : new KeyDownCommand(UP)
+controls -> executor : cancelAll()
+controls -> executor : execute(commands)
+executor -> up : execute(game)
+up -> game : press(UP)
+note right of controls : Remember resolved movement and accepted text; increment revision.
+controls --> controller : true
+controller -> cli : showMessage("Accepted: PRESS [UP]")
+controller -> controller : publish()
+controller -> game : getSnapshot()
+game --> controller : snapshot
+controller -> cli : render(snapshot)
 
-alt current, valid movement decision
-  controls -> controls : plan(decision)
-  controls --> controls : commands (e.g. KeyDownCommand(UP))
-  controls -> executor : cancelAll()
-  controls -> executor : execute(commands)
-  executor -> command : execute(game)
-  command -> game : press(UP)
-  controls --> controller : true
-  controller -> cli : showMessage("Accepted: PRESS UP")
-else current NO_ACTION (unrecognized or insufficient instruction)
-  controls --> controller : true (no movement change)
-  controller -> cli : showMessage("No movement change; try a direction.")
-else stale epoch, version, or context revision
-  controls --> controller : false (ignore)
-  opt still latest version/epoch; only context revision changed
-    controller -> controls : getContext()
-    controls --> controller : current context confirms revision mismatch
-    controller -> cli : showMessage("Control state changed; repeat command.")
-  end
-end
-
-loop fixed simulation ticks, including while readCommand() waits
-  controller -> controller : tick(deltaTime)
-  controller -> controls : advance(deltaTime)
-  controls -> executor : advance(deltaTime)
-  executor --> controls : whether a timed command expired
-  note right of controls : Increment revision if a timed action expired.
-  controller -> game : update(deltaTime)
-  ref over game
-    SD05: Player.update delegates to PlayerState;
-    ActiveState moves the player and checks path/checkpoint/goal.
-  end ref
+main -> cli : readCommand()
+loop scheduled simulation continues while Main waits in readCommand()
+  controller -> controller : advance(seconds)
+  controller -> controls : advance(seconds)
+  controls -> executor : advance(seconds)
+  executor --> controls : whether a timed action expired
+  controller -> game : update(seconds)
+  ref over game : Player.update delegates movement/lifecycle to PlayerState (SD05).
   game -> game : getSnapshot()
-  game --> game : current snapshot
   game -> game : notifyObservers(GameEvent(STATE_CHANGED, snapshot))
   game -> controller : onGameEvent(event)
   game -> cli : onGameEvent(event)
-  cli -> cli : render(event.snapshot)
-  cli --> human : ASCII path/player/checkpoint/goal and coordinates
-  note right of cli
-    Display velocity, held directions, and lifecycle status too.
-    Coalesce ordinary tick output for readability; show fall,
-    checkpoint, and completion events immediately.
-  end note
+  opt supported live terminal and one-second display interval elapsed
+    cli -> cli : render(event.snapshot)
+    cli -> cli : refreshDashboard()
+    cli -> cli : updateDashboard()
+    cli --> human : replace bounded status panel; preserve editable command
+  end
 end
+note right of cli
+  JLine serializes panel refresh and line editing with its editor lock.
+  Resize fits the panel to current dimensions before redisplay.
+  Between reads, latest state waits for the next editor initialization.
+  Plain output still prints explicit snapshots and lifecycle events.
+end note
 
-ref over cli, game
-  SD03: contextual phrases; SD04: corrections, combined and timed actions.
-  SD05: fall recovery, checkpoint activation, and goal completion.
-  Provider failure uses SD01 handleInputFailure and releases controls;
-  the next explicit CLI line can retry. The CLI requires no microphone or ASR.
-end ref
+cli --> main : "/quit" or null (EOF)
+main -> controller : close()
+main -> cli : close()
+note over main, cli : Controller closes first; terminal cleanup restores its scrolling region and mode.
+
+note over main, game
+  A text line gets a new utterance identity; it never calls handleTranscript().
+  Main handles /state, /pause, /restart, /help and /quit; Ctrl+C returns /pause.
+  Model calls are asynchronous; all game/control mutations share one application loop.
+  SD01 covers failure cleanup, SD03 context/repeat, SD04 correction/timing, SD05 recovery.
+  No microphone or speech recognition is needed for the CLI.
+end note
 @enduml

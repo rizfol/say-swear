@@ -1,162 +1,94 @@
 @startuml
-title SD01 - GUI Voice Command (UC01; F01-F04, F09)
+title SD01 - GUI voice command (UC01; F02-F04, F09)
 hide footbox
-skinparam maxMessageSize 70
-actor "Player" as human
+skinparam defaultFontName Arial
+skinparam maxMessageSize 48
+actor Player as human
 boundary "gui : JavaFxGameView" as gui
 control "controller : ApplicationController" as controller
 participant "voice : VoiceInputService" as voice
 participant "mic : MicrophoneDevice" as mic
 participant "recognizer : SherpaOnnxAdapter" as recognizer
-participant "runtime : SherpaOnnxRuntime" as runtime
 participant "agent : VoiceCommandAgent" as agent
 participant "model : OpenJevAdapter" as model
-participant "service : OpenJevService" as service
+participant "Local SemIf / Qwen3.5 4B" as service <<external HTTP>>
 control "controls : ControlManager" as controls
-participant "executor : ActionExecutor" as executor
-participant "rightDown : KeyDownCommand" as rightDown
 entity "game : GameModel" as game
 
-human -> controller : start()
-controller -> game : addObserver(controller)
-controller -> game : addObserver(gui)
-controller -> game : getSnapshot()
-game --> controller : initialSnapshot
-controller -> gui : render(initialSnapshot)
-human -> gui : requestStartVoice()
-gui -> controller : startVoiceControl()
-controller -> controls : getContext()
-controls --> controller : context (current epoch)
-controller -> voice : start(context.epoch)
-voice -> mic : open()
-voice -> recognizer : start(onPartial, onEndpoint, onError)
-recognizer -> runtime : openStream()
-note over voice, runtime
-  Audio and recognition run on a worker.
-  Partial/error callbacks post tasks to the application loop.
-  Runtime methods are conceptual vendor boundary contracts.
+note over gui, controller
+  Preconditions: GUI is composed; controller.start() registered
+  the controller and selected view as game observers.
 end note
+human -> gui : requestStartVoice()
+gui ->> controller : startVoiceControl()
+controller -> controls : getContext()
+controls --> controller : context with current epoch
+controller -> voice : start(context.epoch)
+voice -> recognizer : start(partial callback, endpoint callback, error callback)
+note over voice, recognizer : Native initialization and capture run on the voice worker.
+voice -> mic : open()
+voice ->> controller : handleVoiceReady(epoch)
+controller -> gui : showVoiceStatus("Listening - speak a movement instruction")
 
-loop continuous audio while the voice session is active
+loop active voice session; example changed partial is "right"
   voice -> mic : readSamples()
-  mic --> voice : samples
-  voice -> voice : acceptAudio(samples)
+  mic --> voice : float[] samples
   voice -> recognizer : acceptAudio(samples)
-  recognizer -> runtime : decode(samples)
-  runtime --> recognizer : partial text, e.g. "right"
-  recognizer -> voice : onPartial(text)
-  voice ->> controller : handleTranscript(text, utteranceId, epoch)
-  alt duplicate normalized text in this utterance, old epoch, or inactive player
-    note right of controller : Ignore; no new decision request.
-  else current, changed transcript
-    controller -> gui : showTranscript(text)
-    note right of controller
-      Create TranscriptUpdate with the next monotonic version.
-      Assign epoch/version locally; they are not model choices.
-    end note
-    controller -> controls : beginInput(update.version)
-    controller -> controls : getContext()
-    controls --> controller : current ControlContext
-    controller ->> agent : interpret(update, context)
-    note right of agent
-      At most two model calls; retain only the latest pending input.
-      If queued, dispatch when a slot opens, keeping captured context.
-      Deadline includes queue time; obsolete pending futures are cancelled.
-    end note
-    note over agent, model
-      Freeze baseContext for this utterance.
-      Retain the current dispatch revision for the response stamp.
-      The AI receives control context, never the level or position.
-    end note
-    agent ->> model : decide(update, baseContext)
-    model ->> service : systemOne(state, choices)
-    alt service returns a valid bounded choice
-      service --> model : "PRESS_RIGHT"
-      model --> agent : candidate ActionDecision(PRESS, {RIGHT})
-      agent -->> controller : completed ActionDecision with local metadata
-      controller -> controller : handleDecision(decision)
-      controller -> controls : accept(decision)
-      controls -> controls : validate(decision)
-      alt latest version, epoch, revision, allowed movement, and valid schema
-        controls -> controls : plan(decision)
-        controls --> controls : [KeyDownCommand(RIGHT)]
-        controls -> executor : cancelAll()
-        controls -> executor : execute(commands)
-        executor -> rightDown : execute(game)
-        rightDown -> game : press(RIGHT)
-        note right of controls : Record accepted command; increment revision.
-        controls --> controller : true
-        controller -> gui : showMessage("Accepted: PRESS RIGHT")
-      else obsolete response
-        controls --> controller : false (no control mutation)
-        opt still latest version/epoch; only context revision changed
-          controller -> controls : getContext()
-          controls --> controller : current context confirms revision mismatch
-          controller -> gui : showMessage("Control state changed; repeat command.")
-        end
-      else current response fails defensive schema validation
-        controls --> controller : throw IllegalArgumentException (invalid schema)
-        controller -> controller : handleInputFailure("invalid decision", epoch, version)
-        controller -> controller : invalidateControls("invalid decision")
-        ref over controller, game
-          SD05 cleanup; stop voice and require an explicit restart.
-        end ref
-      end
-    else timeout, provider error, or invalid current response
-      service --> model : failure
-      model --> agent : failed completion
-      agent -->> controller : failure with original epoch/version
-      controller -> controller : handleInputFailure(message, epoch, version)
-      alt failure still belongs to the current request
-        controller -> controller : invalidateControls("input failure")
-        ref over controller, game
-          SD05 cleanup: reset controls, cancel commands,
-          release all inputs, reset agent, stop voice.
-          For failure, voiceSessionRequested becomes false.
-        end ref
-        controller -> gui : showMessage("Input unavailable; restart voice to retry.")
-      else obsolete failure
-        note right of controller : Ignore; a newer request/session owns the controls.
-      end
-    end
-  end
-  opt recognizer detects an utterance endpoint
-    recognizer -> voice : onEndpoint()
-    note right of voice : Increment utteranceId for subsequent partials.
+  recognizer -> voice : partial(session, "right")
+  voice ->> controller : handleTranscript("right", utteranceId, epoch)
+  note right of controller
+    Ignore old epochs, superseded utterances and duplicate text.
+    The accepted callback posts work to the application loop.
+  end note
+  controller -> controller : submit("right", voiceUtterance)
+  controller -> gui : showTranscript("right")
+  controller -> controls : beginInput(++version)
+  controller -> controls : getContext()
+  controls --> controller : context
+  controller ->> agent : interpret(update, context)
+  note over agent, model
+    Freeze context for this utterance, including lastMovement.
+    Two active calls and one latest pending input; deadline includes waiting.
+  end note
+  agent ->> model : decide(update, baseContext)
+  model ->> service : POST /decide\n{model, state, question, choices, timeoutMs}
+  note right of service
+    Genuine SemIf logits: 1-4 bounded readouts.
+    Select one of 52 semantic actions.
+    No map, position, goal or game access.
+  end note
+  service --> model : {backend: "semif", model, choice: "PRESS_RIGHT"}
+  model --> agent : validated candidate ActionDecision
+  agent -->> controller : completion with locally stamped request metadata
+  controller -> controller : handleDecision(decision)
+  controller -> controls : accept(decision)
+  ref over controls, game
+    SD02: validate freshness/schema, plan and execute Java commands.
+    Current valid PRESS_RIGHT calls GameModel.press(RIGHT).
+  end ref
+  controls --> controller : accepted
+  controller -> gui : showMessage("Accepted: PRESS [RIGHT]")
+  controller -> controller : publish()
+  controller -> game : getSnapshot()
+  game --> controller : snapshot
+  controller -> gui : render(snapshot)
+  opt recognizer reports an utterance endpoint
+    recognizer -> voice : endpoint(session)
+    note right of voice : Increment the captured session's utterance counter.
   end
 end
 
-opt microphone/ASR failure reported by capture or recognizer callback
-  voice ->> controller : handleVoiceFailure(message, originatingEpoch)
-  alt originatingEpoch is the current voice session
-    controller -> controller : invalidateControls("voice failure")
-    ref over controller, game
-      SD05 cleanup; clear voiceSessionRequested and require explicit restart.
-    end ref
-    controller -> gui : showMessage("Voice unavailable; restart listening to retry.")
-  else error belongs to an old voice stream
-    note right of controller : Ignore the old stream's error.
-  end
-end
-
-ref over gui, game
-  Each fixed tick: ControlManager.advance(deltaTime), then GameModel.update(deltaTime).
-  STATE_CHANGED notifies the controller and selected view; the GUI renders the snapshot.
-  SD02/SD05 detail deterministic simulation and observer delivery.
-end ref
-
-opt user explicitly stops voice
-  human -> gui : requestStopVoice()
-  gui -> controller : stopVoiceControl()
-  controller -> controller : invalidateControls("voice stopped")
-  ref over controller, game
-    SD05 cleanup; voiceSessionRequested becomes false.
+note over gui, game
+  The loop above shows a current, active, successful request.
+  Stale decisions do not mutate controls; invalid current decisions fail closed.
+  GUI render coalesces updates onto the JavaFX thread; ticks continue independently.
+end note
+opt current provider failure, deadline, or voice failure
+  ref over controller, controls
+    Provider completion checks isCurrent(update) before failCurrent(message).
+    Capture failures call handleVoiceFailure(message, originatingEpoch).
+    failCurrent -> invalidateControls(): controls.reset(), agent.reset(), voice.stop().
+    Voice must be explicitly restarted after a failure; SD05 shows reset mechanics.
   end ref
 end
-
-note over controller, game
-  All control mutations and decision completions run on one application loop.
-  Network calls do not block ticks. GUI render schedules JavaFX repaint.
-  Voice stream errors use handleVoiceFailure and check the epoch independently of input versions.
-end note
 @enduml
