@@ -1,0 +1,90 @@
+@startuml
+title SD03 - Contextual AI Decision (UC03; F05, F09)
+hide footbox
+skinparam maxMessageSize 70
+actor "Player" as human
+boundary "cli : CliView" as cli
+control "controller : ApplicationController" as controller
+control "controls : ControlManager" as controls
+participant "agent : VoiceCommandAgent" as agent
+participant "model : OpenJevAdapter" as model
+participant "service : OpenJevService" as service
+participant "executor : ActionExecutor" as executor
+participant "rightUp : KeyUpCommand" as rightUp
+participant "leftDown : KeyDownCommand" as leftDown
+entity "game : GameModel" as game
+
+note over human, game
+  Precondition: ActiveState; game.heldDirections = {RIGHT}.
+  A new CLI line starts a new utterance. GUI speech enters the same flow through SD01.
+end note
+cli -> cli : readCommand()
+human -> cli : enter "other way" and press Enter
+cli --> cli : "other way"
+cli ->> controller : submitTextCommand("other way")
+controller -> controls : getContext()
+controls --> controller : context (current epoch)
+controller -> controller : handleTranscript("other way", newUtteranceId, context.epoch)
+controller -> controls : beginInput(update.version)
+controller -> controls : getContext()
+controls -> game : getSnapshot()
+game --> controls : snapshot: held {RIGHT}, status ACTIVE
+controls --> controller : ControlContext(held={RIGHT}, previousCommand, metadata)
+note right of controls
+  The context also contains epoch, revision,
+  latestVersion, and movementAllowed.
+end note
+controller ->> agent : interpret(update, context)
+note right of agent
+  First update in this utterance: freeze baseContext = context.
+  Further partials reuse this base, so repeated "other way"
+  cannot alternate LEFT/RIGHT as held inputs change.
+  Dispatch metadata still uses the current context revision.
+end note
+agent ->> model : decide(update, baseContext)
+model ->> service : systemOne(state, choices)
+note over model, service
+  State: "other way", held RIGHT, previous command, session flags.
+  Choices describe bounded movement intents. No geometry or route is supplied.
+end note
+service --> model : "SWITCH_LEFT"
+model --> agent : ActionDecision(SWITCH, {LEFT}, durationMs=0)
+agent -->> controller : decision stamped with this request's version/epoch/revision
+controller -> controller : handleDecision(decision)
+controller -> controls : accept(decision)
+controls -> controls : validate(decision)
+
+alt request is current and player can move
+  controls -> game : getSnapshot()
+  game --> controls : authoritative held {RIGHT}
+  controls -> controls : plan(decision)
+  controls --> controls : [KeyUpCommand(RIGHT), KeyDownCommand(LEFT)]
+  note right of controls : Deterministic translation; the AI never constructs game commands.
+  controls -> executor : cancelAll()
+  controls -> executor : execute(commands)
+  executor -> rightUp : execute(game)
+  rightUp -> game : release(RIGHT)
+  executor -> leftDown : execute(game)
+  leftDown -> game : press(LEFT)
+  note right of controls : Save previousCommand; increment revision.
+  controls --> controller : true
+  controller -> cli : showMessage("Accepted: SWITCH LEFT")
+else context, epoch, or version changed before completion
+  controls --> controller : false (ignore; no execution)
+  opt still latest version/epoch; only context revision changed
+    controller -> controls : getContext()
+    controls --> controller : current context confirms revision mismatch
+    controller -> cli : showMessage("Control state changed; repeat command.")
+  end
+end
+
+ref over cli, game
+  Next fixed tick updates deterministic movement and publishes STATE_CHANGED (SD02).
+end ref
+
+note over controls, service
+  "keep going" maps to KEEP_CURRENT, preserving both held inputs and any active timer.
+  "other way" without a usable directional context maps to NO_ACTION and requests clarification.
+  Neither choice plans a path. The player remains responsible for navigation.
+end note
+@enduml
