@@ -1,0 +1,71 @@
+.app-root {
+    -fx-background-color: #101925;
+    -fx-font-family: "Segoe UI", "System";
+    -fx-font-size: 13px;
+}
+.label { -fx-text-fill: #e7edf2; }
+.app-title { -fx-font-size: 36px; -fx-font-weight: bold; }
+.eyebrow { -fx-text-fill: #6be8e2; -fx-font-size: 10px; -fx-font-weight: bold; }
+.subtitle { -fx-text-fill: #9cacbc; -fx-font-size: 14px; }
+.state-pill {
+    -fx-background-color: #203535;
+    -fx-text-fill: #93e4cc;
+    -fx-padding: 8 14;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+.section-title { -fx-text-fill: #a7b8c9; -fx-font-size: 10px; -fx-font-weight: bold; }
+.small-muted { -fx-text-fill: #697f94; -fx-font-size: 10px; }
+.card {
+    -fx-background-color: #172331;
+    -fx-background-radius: 12;
+    -fx-border-color: #273646;
+    -fx-border-radius: 12;
+    -fx-padding: 17;
+}
+.voice-status { -fx-text-fill: #b6c7d7; -fx-font-size: 13px; }
+.helper { -fx-text-fill: #91a3b5; -fx-font-size: 11px; -fx-line-spacing: 2px; }
+.transcript { -fx-text-fill: #e7f3f3; -fx-font-size: 16px; -fx-line-spacing: 4px; }
+.message { -fx-text-fill: #dbc8a9; -fx-font-size: 12px; -fx-line-spacing: 3px; }
+.metric-title { -fx-text-fill: #7f93a8; -fx-font-size: 9px; }
+.metric-value { -fx-text-fill: #d7e5ed; -fx-font-family: "Consolas", "Monospaced"; -fx-font-size: 12px; }
+.examples { -fx-text-fill: #b7c7d5; -fx-font-size: 12px; -fx-line-spacing: 5px; }
+.button {
+    -fx-background-color: #2a3b4c;
+    -fx-text-fill: #e1eaf2;
+    -fx-background-radius: 7;
+    -fx-padding: 10 12;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.button:hover { -fx-background-color: #344c61; }
+.button:pressed { -fx-background-color: #1f3040; }
+.button:focused { -fx-border-color: #8fd8d2; -fx-border-radius: 7; }
+.primary-button { -fx-background-color: #6be8d5; -fx-text-fill: #102a2d; }
+.primary-button:hover { -fx-background-color: #97f1e4; }
+.primary-button:pressed { -fx-background-color: #47c6b4; }
+.stop-button { -fx-background-color: #3f2a34; -fx-text-fill: #f3b2b7; }
+.stop-button:hover { -fx-background-color: #583640; }
+.quiet-button { -fx-background-color: transparent; -fx-text-fill: #93a7ba; }
+.quiet-button:hover { -fx-background-color: #1b2b3b; }
+.text-field {
+    -fx-background-color: #0e1925;
+    -fx-text-fill: #e5eff5;
+    -fx-prompt-text-fill: #698095;
+    -fx-background-radius: 7;
+    -fx-border-color: #34485b;
+    -fx-border-radius: 7;
+    -fx-padding: 10;
+}
+.text-field:focused { -fx-border-color: #6be8d5; }
+.legend-player { -fx-text-fill: #6be8e2; -fx-font-size: 10px; }
+.legend-start { -fx-text-fill: #d0c3ac; -fx-font-size: 10px; }
+.legend-goal { -fx-text-fill: #f4c267; -fx-font-size: 10px; }
+.sidebar-scroll, .sidebar-scroll > .viewport { -fx-background-color: transparent; }
+.sidebar-scroll { -fx-padding: 0; }
+.scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 8; }
+.scroll-bar:vertical .thumb { -fx-background-color: #34475b; -fx-background-radius: 5; }
+.scroll-bar .increment-button, .scroll-bar .decrement-button { -fx-background-color: transparent; -fx-padding: 0; }
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow { -fx-shape: ""; -fx-padding: 0; }

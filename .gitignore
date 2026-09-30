@@ -1,0 +1,14 @@
+target/
+build/
+.gradle/
+.tools/
+models/
+.env
+.env.*
+!.env.example
+*.log
+.idea/
+*.iml
+.DS_Store
+__pycache__/
+*.pyc
