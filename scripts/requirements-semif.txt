@@ -1,5 +1,5 @@
 # Inference/tokenizer dependencies from the pinned SemIf environment.
-# The native llama-cpp-python wheel and SemIf commit are installed by setup-semif.ps1.
+# The native llama-cpp-python runtime and SemIf commit are installed by setup-semif.ps1/.sh.
 numpy==2.2.6
 transformers==5.17.0
 huggingface-hub==1.31.0

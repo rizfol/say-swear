@@ -26,7 +26,7 @@ The Stage 1 report links to the archived original diagrams and remains the desig
 
 ### Prerequisites
 
-- A **Java 21 JDK**. `java -version` must report 21 when using Gradle directly. `run.ps1` can find an installed Adoptium/Oracle JDK 21 or accept `-JavaHome`.
+- A **Java 21 JDK**. `java -version` must report 21 when using Gradle directly. `run.ps1` can find an installed Adoptium/Oracle JDK 21 or accept `-JavaHome`. On Linux, `run.sh` checks `JAVA_HOME`, `PATH`, and `/usr/lib/jvm`, or accepts `--java-home`.
 - Git and internet access for the first dependency/model download. Gradle 8.14.2 is supplied through the wrapper; a separate Gradle installation is unnecessary.
 - For local decisions: Python 3.12 and the pinned SemIf/native runtime described in [SemIf setup](docs/semif-setup.md). Python hosts this external inference dependency; the application, both frontends, controls, and game remain Java.
 - For GUI voice input: a microphone, OS microphone permission, and the downloaded English ASR model. The CLI needs no microphone or ASR model.
@@ -45,6 +45,39 @@ If JDK discovery needs help:
 ```
 
 The scripts keep Gradle, native caches, temporary files, the inference virtual environment, and model weights under ignored `.tools/` and `models/` directories. The first setup needs several GB of disk space. Do not commit those directories.
+
+### Linux startup
+
+With Bash and a Java 21 JDK installed, use the Linux equivalent of `run.ps1`:
+
+```bash
+./run.sh --mode test
+./run.sh --mode build
+./run.sh --demo                  # GUI demo; no decision service needed
+./run.sh --mode cli --demo       # Terminal demo
+```
+
+The default mode is `gui`. The GUI needs a graphical desktop and GTK 3 runtime libraries. Once your local SemIf service is running, omit `--demo` to use it:
+
+```bash
+./run.sh
+./run.sh --mode cli
+./run.sh --mode cli --quiet-cli
+./run.sh --java-home /path/to/jdk-21 --endpoint http://127.0.0.1:8765/decide
+```
+
+Use `--decision-timeout-ms` and `--asr-model-dir` for the other configuration overrides, or set the environment variables listed below. `./run.sh --help` lists all options. The launcher builds the CLI distribution and starts it directly to preserve terminal input. It runs from the repository root, so the default model path works even when invoked from another directory.
+
+This launcher starts the Java application; SemIf runs in a separate terminal. Install Python 3.12 and the build prerequisites in [SemIf setup](docs/semif-setup.md#install-and-launch-on-linux), then use:
+
+```bash
+./scripts/setup-semif.sh --cpu-only   # One-time dependencies and model download
+./scripts/run-semif.sh --cpu-only     # Keep running; wait for Ready
+# In another terminal:
+./run.sh --mode cli
+```
+
+For NVIDIA CUDA, omit `--cpu-only` in both commands; the CUDA toolkit is required during setup. Demo mode needs no SemIf service, and typed input needs no ASR model. The ASR model download script remains a Windows PowerShell script.
 
 ### Local decision model
 

@@ -15,6 +15,39 @@ Say Swear uses **[SemIf, formerly OpenJev](https://openjev.com/)** from [TheoLee
 
 The setup scripts download about 3 GB of weights and store dependencies and caches under the repository's ignored `.tools/` and `models/` directories. Initial setup needs internet access; inference uses the downloaded files locally. Preserve upstream licenses/model attribution when redistributing dependencies or weights.
 
+## Install and launch on Linux
+
+Use Bash, **Python 3.12 with venv support**, Git, CMake, a C/C++ compiler, and Make or Ninja. Install these with your distribution's package manager; Python 3.12 may need a separate installation on distributions with a newer default Python. `setup-semif.sh` finds `python3.12` before `python3`, or accepts `--python /path/to/python3.12`. It validates the Python version before installing the pinned dependencies.
+
+The default is NVIDIA CUDA, matching the PowerShell scripts. Install a compatible NVIDIA driver and CUDA toolkit, with `nvcc` on `PATH` and CUDA runtime libraries available to the dynamic linker. A driver alone is insufficient to compile the runtime.
+
+```bash
+./scripts/setup-semif.sh
+./scripts/run-semif.sh
+```
+
+For CPU inference, pass `--cpu-only` in **both** steps:
+
+```bash
+./scripts/setup-semif.sh --cpu-only
+./scripts/run-semif.sh --cpu-only
+```
+
+The setup creates `.tools/semif-venv`, installs the shared pinned requirements and SemIf commit, and compiles `llama-cpp-python==0.3.35` for Linux. It uses the upstream [source-build and CUDA configuration](https://github.com/abetlen/llama-cpp-python/blob/v0.3.35/README.md#installation) with `GGML_CUDA` enabled or disabled. Each setup run rebuilds the native package so switching CPU/CUDA cannot reuse a wheel built for the other backend. Build parallelism defaults to two jobs; set `CMAKE_BUILD_PARALLEL_LEVEL` to override it. Linux uses the installed shared libraries; neither Linux script uses the Windows DLL overlay or an inherited `LLAMA_CPP_LIB_PATH`.
+
+Setup checks native imports before downloading the pinned weights and tokenizer (about 3 GB). `--skip-model-download` installs just the dependencies; rerun without that flag to download assets before first startup. Existing downloads are reused by the model downloader. Both scripts resolve paths from their own location, so they work when invoked outside the repository root. An existing Windows virtual environment must be moved aside before Linux setup.
+
+Keep the service terminal open and wait for `Ready`. In another terminal:
+
+```bash
+curl --fail http://127.0.0.1:8765/health
+./run.sh --mode cli
+```
+
+`run.sh` starts the Java app separately. Use `./scripts/run-semif.sh --port 8766` for a different port, then `./run.sh --endpoint http://127.0.0.1:8766/decide` (add `--cpu-only` to the service command for CPU inference). Service startup uses the downloaded files offline and binds to loopback only. Ctrl+C stops it. CPU inference may exceed the game's default 2000 ms decision deadline; the existing CPU measurements below do not establish Linux latency.
+
+The Linux scripts have been checked for argument handling, CPU/CUDA selection, environment setup, and error propagation using a stub runtime. Full native installation and real inference on Linux remain unverified.
+
 ## Install and launch on Windows
 
 Run from the repository root. Python 3.12 and a compatible native runtime are required. The NVIDIA setup uses CUDA. On this AVX2 machine, the setup combines matching official CPU/CUDA native artifacts as described below; a C++ build toolchain is not needed for that procedure.
