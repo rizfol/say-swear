@@ -1,1 +1,563 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="SEQUENCE" style="width:2016px;height:2273px;background:#FFFFFF;" width="2016px" height="2273px" viewBox="0 0 2016 2273" zoomAndPan="magnify" preserveAspectRatio="none" contentStyleType="text/css"><?plantuml 1.2026.8?><defs/><g font-family="sans-serif" lengthAdjust="spacing"><g class="title" data-source-line="1"><text x="774.421" y="28.132" fill="#000" font-size="14" textLength="465.247" font-weight="700" font-family="Arial">SD03 - Contextual command: repeat after expiry (UC03; F05, F08, F09)</text></g><rect x="237.969" y="1348.894" width="1758.12" height="794.665" fill="none" style="stroke:#000;stroke-width:1.5;"/><rect x="256.969" y="1469.389" width="1714.12" height="531.375" fill="none" style="stroke:#000;stroke-width:1.5;"/><g><title>Player</title><rect x="72.235" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="75.735" y1="123.197" x2="75.735" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>controller .</title><rect x="269.469" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="272.969" y1="123.197" x2="272.969" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>controls .</title><rect x="487.815" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="491.315" y1="123.197" x2="491.315" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>executor .</title><rect x="635.347" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="638.847" y1="123.197" x2="638.847" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>oldTimer .</title><rect x="776.057" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="779.557" y1="123.197" x2="779.557" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>game .</title><rect x="907.815" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="911.315" y1="123.197" x2="911.315" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>agent .</title><rect x="1038.035" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1041.535" y1="123.197" x2="1041.535" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>model .</title><rect x="1228.979" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1232.479" y1="123.197" x2="1232.479" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>..external HTTP..</title><rect x="1553.965" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1557.465" y1="123.197" x2="1557.465" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>proposal .</title><rect x="1683.792" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1687.292" y1="123.197" x2="1687.292" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>freshTimer .</title><rect x="1823.723" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1827.223" y1="123.197" x2="1827.223" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><g><title>view .</title><rect x="1951.588" y="123.197" width="8" height="2139.105" fill="#000" fill-opacity="0"/><line x1="1955.088" y1="123.197" x2="1955.088" y2="2262.303" style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;"/></g><text x="52.894" y="120.23" fill="#000" font-size="14" textLength="39.683" font-family="Arial">Player</text><ellipse cx="75.735" cy="55.599" rx="8" ry="8" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;"/><path d="M75.735,63.599 L75.735,90.599 M62.735,71.599 L88.735,71.599 M75.735,90.599 L62.735,105.599 M75.735,90.599 L88.735,105.599" style="stroke:#181818;stroke-width:0.5;" fill="none"/><rect x="201.379" y="76" width="143.179" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="240.29" y="96.132" fill="#000" font-size="14" textLength="65.358" font-family="Arial">controller :</text><text x="208.379" y="112.23" fill="#000" font-size="14" textLength="129.179" font-family="Arial">ApplicationController</text><rect x="434.122" y="76" width="114.386" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="462.915" y="96.132" fill="#000" font-size="14" textLength="56.8" font-family="Arial">controls :</text><text x="441.122" y="112.23" fill="#000" font-size="14" textLength="100.386" font-family="Arial">ControlManager</text><rect x="584.768" y="76" width="108.158" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="608.109" y="96.132" fill="#000" font-size="14" textLength="61.476" font-family="Arial">executor :</text><text x="591.768" y="112.23" fill="#000" font-size="14" textLength="94.158" font-family="Arial">ActionExecutor</text><rect x="702.926" y="76" width="153.262" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="748.439" y="96.132" fill="#000" font-size="14" textLength="62.234" font-family="Arial">oldTimer :</text><text x="709.926" y="112.23" fill="#000" font-size="14" textLength="139.262" font-family="Arial">TimedPressCommand</text><rect x="866.188" y="76" width="90.255" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="889.915" y="96.132" fill="#000" font-size="14" textLength="42.8" font-family="Arial">game :</text><text x="873.188" y="112.23" fill="#000" font-size="14" textLength="76.255" font-family="Arial">GameModel</text><rect x="966.442" y="76" width="150.186" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1020.128" y="96.132" fill="#000" font-size="14" textLength="42.813" font-family="Arial">agent :</text><text x="973.442" y="112.23" fill="#000" font-size="14" textLength="136.186" font-family="Arial">VoiceCommandAgent</text><rect x="1172.944" y="76" width="119.068" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1209.523" y="96.132" fill="#000" font-size="14" textLength="45.91" font-family="Arial">model :</text><text x="1179.944" y="112.23" fill="#000" font-size="14" textLength="105.068" font-family="Arial">OpenJevAdapter</text><rect x="1490.938" y="59.901" width="133.055" height="62.296" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1504.555" y="80.033" fill="#000" font-size="14" textLength="105.82" font-style="italic" font-family="Arial">«external HTTP»</text><text x="1515.841" y="96.132" fill="#000" font-size="14" textLength="83.248" font-family="Arial">SemIfService</text><text x="1497.938" y="112.23" fill="#000" font-size="14" textLength="119.055" font-family="Arial">(local Qwen3.5 4B)</text><rect x="1633.993" y="76" width="106.6" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1656.551" y="96.132" fill="#000" font-size="14" textLength="61.482" font-family="Arial">proposal :</text><text x="1640.993" y="112.23" fill="#000" font-size="14" textLength="92.6" font-family="Arial">ActionDecision</text><rect x="1750.592" y="76" width="153.262" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1789.885" y="96.132" fill="#000" font-size="14" textLength="74.676" font-family="Arial">freshTimer :</text><text x="1757.592" y="112.23" fill="#000" font-size="14" textLength="139.262" font-family="Arial">TimedPressCommand</text><rect x="1913.854" y="76" width="82.469" height="46.197" fill="#E2E2F0" style="stroke:#181818;stroke-width:0.5;" rx="2.5" ry="2.5"/><text x="1937.195" y="96.132" fill="#000" font-size="14" textLength="35.786" font-family="Arial">view :</text><text x="1920.854" y="112.23" fill="#000" font-size="14" textLength="68.469" font-family="Arial">GameView</text><path d="M429.403,136.197 L429.403,190.197 L841.403,190.197 L841.403,146.197 L831.403,136.197 L429.403,136.197" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M831.403,136.197 L831.403,146.197 L841.403,146.197 L831.403,136.197" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="441.823" y="153.391" fill="#000" font-size="13" textLength="321.509" font-family="Arial">Previously accepted: TIMED_PRESS {RIGHT}, 200 ms.</text><text x="441.823" y="168.34" fill="#000" font-size="13" textLength="378.225" font-family="Arial">lastMovement = MovementIntent(TIMED_PRESS, {RIGHT}, 200).</text><text x="441.823" y="183.289" fill="#000" font-size="13" textLength="318.627" font-family="Arial">The stored value is immutable semantics, not oldTimer.</text><rect x="10" y="216.518" width="1995.088" height="3" fill="#EEE" style="stroke:#EEE;stroke-width:1;"/><line x1="10" y1="216.518" x2="2005.088" y2="216.518" style="stroke:#000;stroke-width:1;"/><line x1="10" y1="219.518" x2="2005.088" y2="219.518" style="stroke:#000;stroke-width:1;"/><rect x="873.061" y="206.043" width="268.966" height="22.949" fill="#EEE" style="stroke:#000;stroke-width:2;"/><text x="879.061" y="222.237" fill="#000" font-size="13" textLength="251.354" font-weight="700" font-family="Arial">Automatic expiry on the application loop</text><line x1="272.969" y1="259.941" x2="314.969" y2="259.941" style="stroke:#181818;stroke-width:1;"/><line x1="314.969" y1="259.941" x2="314.969" y2="272.941" style="stroke:#181818;stroke-width:1;"/><line x1="273.969" y1="272.941" x2="314.969" y2="272.941" style="stroke:#181818;stroke-width:1;"/><polygon points="283.969,268.941,273.969,272.941,283.969,276.941,279.969,272.941" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="279.969" y="255.186" fill="#000" font-size="13" textLength="68.65" font-family="Arial">advance(dt)</text><polygon points="479.315,297.89,489.315,301.89,479.315,305.89,483.315,301.89" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="301.89" x2="485.315" y2="301.89" style="stroke:#181818;stroke-width:1;"/><text x="347.817" y="297.135" fill="#000" font-size="13" textLength="68.65" font-family="Arial">advance(dt)</text><polygon points="626.847,326.838,636.847,330.838,626.847,334.838,630.847,330.838" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="491.315" y1="330.838" x2="632.847" y2="330.838" style="stroke:#181818;stroke-width:1;"/><text x="530.756" y="326.083" fill="#000" font-size="13" textLength="68.65" font-family="Arial">advance(dt)</text><polygon points="767.557,355.787,777.557,359.787,767.557,363.787,771.557,359.787" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="638.847" y1="359.787" x2="773.557" y2="359.787" style="stroke:#181818;stroke-width:1;"/><text x="655.005" y="355.032" fill="#000" font-size="13" textLength="108.393" font-family="Arial">advance(dt, game)</text><line x1="779.557" y1="388.736" x2="821.557" y2="388.736" style="stroke:#181818;stroke-width:1;"/><line x1="821.557" y1="388.736" x2="821.557" y2="401.736" style="stroke:#181818;stroke-width:1;"/><line x1="780.557" y1="401.736" x2="821.557" y2="401.736" style="stroke:#181818;stroke-width:1;"/><polygon points="790.557,397.736,780.557,401.736,790.557,405.736,786.557,401.736" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="786.557" y="383.981" fill="#000" font-size="13" textLength="78.755" font-family="Arial">cancel(game)</text><polygon points="899.315,426.685,909.315,430.685,899.315,434.685,903.315,430.685" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="779.557" y1="430.685" x2="905.315" y2="430.685" style="stroke:#181818;stroke-width:1;"/><text x="799.568" y="425.93" fill="#000" font-size="13" textLength="91.736" font-family="Arial">release(RIGHT)</text><polygon points="649.847,455.633,639.847,459.633,649.847,463.633,645.847,459.633" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="643.847" y1="459.633" x2="778.557" y2="459.633" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="670.548" y="454.878" fill="#000" font-size="13" textLength="77.308" font-family="Arial">true (expired)</text><polygon points="502.315,484.582,492.315,488.582,502.315,492.582,498.315,488.582" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="496.315" y1="488.582" x2="637.847" y2="488.582" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="553.88" y="483.827" fill="#000" font-size="13" textLength="22.401" font-family="Arial">true</text><path d="M496.315,501.582 L496.315,540.582 L769.315,540.582 L769.315,511.582 L759.315,501.582 L496.315,501.582" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M759.315,501.582 L759.315,511.582 L769.315,511.582 L759.315,501.582" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="502.315" y="518.776" fill="#000" font-size="13" textLength="252.154" font-family="Arial">Increment revision; preserve lastMovement.</text><text x="502.315" y="533.725" fill="#000" font-size="13" textLength="165.458" font-family="Arial">heldDirections is now empty.</text><polygon points="899.315,563.428,909.315,567.428,899.315,571.428,903.315,567.428" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="567.428" x2="905.315" y2="567.428" style="stroke:#181818;stroke-width:1;"/><text x="562.511" y="562.673" fill="#000" font-size="13" textLength="59.262" font-family="Arial">update(dt)</text><rect x="868.188" y="575.428" width="1126.135" height="38.748" fill="none" style="stroke:#000;stroke-width:1.5;"/><path d="M868.188,575.428 L929.188,575.428 L929.188,581.428 L919.188,591.428 L868.188,591.428 L868.188,575.428" style="stroke:#000;stroke-width:2;" fill="#EEE"/><text x="881.188" y="589.622" fill="#000" font-size="13" textLength="16.618" font-weight="700" font-family="Arial">ref</text><text x="1331.206" y="606.684" fill="#000" font-size="12" textLength="200.098" font-family="Arial">Observer state update (SD02 / SD05)</text><rect x="10" y="639.65" width="1995.088" height="3" fill="#EEE" style="stroke:#EEE;stroke-width:1;"/><line x1="10" y1="639.65" x2="2005.088" y2="639.65" style="stroke:#000;stroke-width:1;"/><line x1="10" y1="642.65" x2="2005.088" y2="642.65" style="stroke:#000;stroke-width:1;"/><rect x="933.361" y="629.176" width="148.367" height="22.949" fill="#EEE" style="stroke:#000;stroke-width:2;"/><text x="939.361" y="645.37" fill="#000" font-size="13" textLength="130.755" font-weight="700" font-family="Arial">New utterance: again</text><polygon points="260.969,679.073,270.969,683.073,260.969,687.073,264.969,683.073" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="75.735" y1="683.073" x2="266.969" y2="683.073" style="stroke:#181818;stroke-width:1;"/><text x="87.735" y="678.318" fill="#000" font-size="13" textLength="173.234" font-family="Arial">submitTextCommand("again")</text><path d="M15,696.073 L15,750.073 L267,750.073 L267,706.073 L257,696.073 L15,696.073" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M257,696.073 L257,706.073 L267,706.073 L257,696.073" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="21" y="713.267" fill="#000" font-size="13" textLength="156.057" font-family="Arial">CLI / GUI text entry shown.</text><text x="21" y="728.216" fill="#000" font-size="13" textLength="220.403" font-family="Arial">Voice enters through handleTranscript</text><text x="21" y="743.165" fill="#000" font-size="13" textLength="231.969" font-family="Arial">and reaches the same submit operation.</text><line x1="272.969" y1="776.868" x2="314.969" y2="776.868" style="stroke:#181818;stroke-width:1;"/><line x1="314.969" y1="776.868" x2="314.969" y2="789.868" style="stroke:#181818;stroke-width:1;"/><line x1="273.969" y1="789.868" x2="314.969" y2="789.868" style="stroke:#181818;stroke-width:1;"/><polygon points="283.969,785.868,273.969,789.868,283.969,793.868,279.969,789.868" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="279.969" y="772.113" fill="#000" font-size="13" textLength="175.417" font-family="Arial">submit("again", newUtterance)</text><polygon points="479.315,814.817,489.315,818.817,479.315,822.817,483.315,818.817" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="818.817" x2="485.315" y2="818.817" style="stroke:#181818;stroke-width:1;"/><text x="318.906" y="814.062" fill="#000" font-size="13" textLength="126.471" font-family="Arial">beginInput(++version)</text><polygon points="479.315,843.766,489.315,847.766,479.315,851.766,483.315,847.766" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="847.766" x2="485.315" y2="847.766" style="stroke:#181818;stroke-width:1;"/><text x="346.376" y="843.011" fill="#000" font-size="13" textLength="71.532" font-family="Arial">getContext()</text><polygon points="899.315,872.714,909.315,876.714,899.315,880.714,903.315,876.714" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="491.315" y1="876.714" x2="905.315" y2="876.714" style="stroke:#181818;stroke-width:1;"/><text x="660.484" y="871.959" fill="#000" font-size="13" textLength="81.663" font-family="Arial">getSnapshot()</text><polygon points="502.315,901.663,492.315,905.663,502.315,909.663,498.315,905.663" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="496.315" y1="905.663" x2="910.315" y2="905.663" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="653.8" y="900.908" fill="#000" font-size="13" textLength="95.031" font-family="Arial">held={}, ACTIVE</text><polygon points="283.969,930.612,273.969,934.612,283.969,938.612,279.969,934.612" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="934.612" x2="490.315" y2="934.612" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="284.969" y="929.857" fill="#000" font-size="13" textLength="194.346" font-family="Arial">ControlContext(..., lastMovement)</text><polygon points="1029.535,959.561,1039.535,963.561,1029.535,967.561,1033.535,963.561" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="963.561" x2="1035.535" y2="963.561" style="stroke:#181818;stroke-width:1;"/><text x="584.628" y="958.806" fill="#000" font-size="13" textLength="145.247" font-family="Arial">interpret(update, context)</text><path d="M1046.535,976.561 L1046.535,1015.561 L1324.535,1015.561 L1324.535,986.561 L1314.535,976.561 L1046.535,976.561" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M1314.535,976.561 L1314.535,986.561 L1324.535,986.561 L1314.535,976.561" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="1052.535" y="993.754" fill="#000" font-size="13" textLength="221.838" font-family="Arial">Freeze base context for this utterance.</text><text x="1052.535" y="1008.703" fill="#000" font-size="13" textLength="257.962" font-family="Arial">Retain current dispatch context for stamping.</text><polygon points="1220.479,1038.407,1230.479,1042.407,1220.479,1046.407,1224.479,1042.407" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1041.535" y1="1042.407" x2="1226.479" y2="1042.407" style="stroke:#181818;stroke-width:1;"/><text x="1053.535" y="1037.652" fill="#000" font-size="13" textLength="166.943" font-family="Arial">decide(update, baseContext)</text><polygon points="1545.465,1082.304,1555.465,1086.304,1545.465,1090.304,1549.465,1086.304" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1232.479" y1="1086.304" x2="1551.465" y2="1086.304" style="stroke:#181818;stroke-width:1;"/><text x="1354.509" y="1066.601" fill="#000" font-size="13" textLength="80.926" font-family="Arial">POST /decide</text><text x="1291.451" y="1081.549" fill="#000" font-size="13" textLength="207.042" font-family="Arial">transcript + bounded control context</text><polygon points="1243.479,1111.253,1233.479,1115.253,1243.479,1119.253,1239.479,1115.253" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1237.479" y1="1115.253" x2="1556.465" y2="1115.253" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="1244.479" y="1110.498" fill="#000" font-size="13" textLength="300.987" font-family="Arial">{backend: "semif", model, choice: "REPEAT_LAST"}</text><path d="M1237.479,1128.253 L1237.479,1152.253 L1603.479,1152.253 L1603.479,1138.253 L1593.479,1128.253 L1237.479,1128.253" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M1593.479,1128.253 L1593.479,1138.253 L1603.479,1138.253 L1593.479,1128.253" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="1243.479" y="1145.447" fill="#000" font-size="13" textLength="345.401" font-family="Arial">Map choice to REPEAT_LAST, directions={}, durationMs=0.</text><polygon points="1052.535,1175.15,1042.535,1179.15,1052.535,1183.15,1048.535,1179.15" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1046.535" y1="1179.15" x2="1231.479" y2="1179.15" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="1055.719" y="1174.396" fill="#000" font-size="13" textLength="162.576" font-family="Arial">proposal (async completion)</text><polygon points="1675.292,1204.099,1685.292,1208.099,1675.292,1212.099,1679.292,1208.099" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1041.535" y1="1208.099" x2="1681.292" y2="1208.099" style="stroke:#181818;stroke-width:1;"/><text x="1254.212" y="1203.344" fill="#000" font-size="13" textLength="220.403" font-family="Arial">withRequest(update, dispatchContext)</text><polygon points="1052.535,1233.048,1042.535,1237.048,1052.535,1241.048,1048.535,1237.048" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="1046.535" y1="1237.048" x2="1686.292" y2="1237.048" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="1238.686" y="1232.293" fill="#000" font-size="13" textLength="251.456" font-family="Arial">decision with current epoch/version/revision</text><polygon points="283.969,1261.997,273.969,1265.997,283.969,1269.997,279.969,1265.997" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="1265.997" x2="1040.535" y2="1265.997" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="509.094" y="1261.242" fill="#000" font-size="13" textLength="296.315" font-family="Arial">decision (completion enqueued on application loop)</text><line x1="272.969" y1="1294.945" x2="314.969" y2="1294.945" style="stroke:#181818;stroke-width:1;"/><line x1="314.969" y1="1294.945" x2="314.969" y2="1307.945" style="stroke:#181818;stroke-width:1;"/><line x1="273.969" y1="1307.945" x2="314.969" y2="1307.945" style="stroke:#181818;stroke-width:1;"/><polygon points="283.969,1303.945,273.969,1307.945,283.969,1311.945,279.969,1307.945" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="279.969" y="1290.19" fill="#000" font-size="13" textLength="145.247" font-family="Arial">handleDecision(decision)</text><polygon points="479.315,1332.894,489.315,1336.894,479.315,1340.894,483.315,1336.894" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="1336.894" x2="485.315" y2="1336.894" style="stroke:#181818;stroke-width:1;"/><text x="334.814" y="1332.139" fill="#000" font-size="13" textLength="94.656" font-family="Arial">accept(decision)</text><path d="M237.969,1348.894 L298.14,1348.894 L298.14,1355.843 L288.14,1365.843 L237.969,1365.843 L237.969,1348.894" style="stroke:#000;stroke-width:1.5;" fill="#EEE"/><rect x="237.969" y="1348.894" width="1758.12" height="794.665" fill="none" style="stroke:#000;stroke-width:1.5;"/><text x="252.969" y="1362.088" fill="#000" font-size="13" textLength="15.171" font-weight="700" font-family="Arial">alt</text><text x="313.14" y="1361.212" fill="#000" font-size="11" textLength="283.626" font-weight="700" font-family="Arial">[stale epoch / version / revision, or player not ACTIVE]</text><polygon points="283.969,1392.792,273.969,1396.792,283.969,1400.792,279.969,1396.792" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="1396.792" x2="490.315" y2="1396.792" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="330.834" y="1392.037" fill="#000" font-size="13" textLength="102.616" font-family="Arial">false; no mutation</text><line x1="237.969" y1="1405.792" x2="1996.088" y2="1405.792" style="stroke:#000;stroke-width:1;stroke-dasharray:2,2;"/><text x="242.969" y="1418.109" fill="#000" font-size="11" textLength="88.016" font-weight="700" font-family="Arial">[current request]</text><line x1="491.315" y1="1444.389" x2="533.315" y2="1444.389" style="stroke:#181818;stroke-width:1;"/><line x1="533.315" y1="1444.389" x2="533.315" y2="1457.389" style="stroke:#181818;stroke-width:1;"/><line x1="492.315" y1="1457.389" x2="533.315" y2="1457.389" style="stroke:#181818;stroke-width:1;"/><polygon points="502.315,1453.389,492.315,1457.389,502.315,1461.389,498.315,1457.389" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="498.315" y="1439.634" fill="#000" font-size="13" textLength="101.163" font-family="Arial">validate(decision)</text><path d="M256.969,1469.389 L317.14,1469.389 L317.14,1476.338 L307.14,1486.338 L256.969,1486.338 L256.969,1469.389" style="stroke:#000;stroke-width:1.5;" fill="#EEE"/><rect x="256.969" y="1469.389" width="1714.12" height="531.375" fill="none" style="stroke:#000;stroke-width:1.5;"/><text x="271.969" y="1482.583" fill="#000" font-size="13" textLength="15.171" font-weight="700" font-family="Arial">alt</text><text x="332.14" y="1481.707" fill="#000" font-size="11" textLength="182.778" font-weight="700" font-family="Arial">[already repeated in this utterance]</text><polygon points="283.969,1513.287,273.969,1517.287,283.969,1521.287,279.969,1517.287" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="1517.287" x2="490.315" y2="1517.287" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="312.781" y="1512.532" fill="#000" font-size="13" textLength="138.722" font-family="Arial">true; do not restart timer</text><line x1="256.969" y1="1526.287" x2="1971.088" y2="1526.287" style="stroke:#000;stroke-width:1;stroke-dasharray:2,2;"/><text x="261.969" y="1538.604" fill="#000" font-size="11" textLength="131.42" font-weight="700" font-family="Arial">[lastMovement is absent]</text><path d="M496.315,1548.936 L496.315,1587.936 L800.315,1587.936 L800.315,1558.936 L790.315,1548.936 L496.315,1548.936" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M790.315,1548.936 L790.315,1558.936 L800.315,1558.936 L790.315,1548.936" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="502.315" y="1566.129" fill="#000" font-size="13" textLength="283.264" font-family="Arial">Record accepted request and increment revision.</text><text x="502.315" y="1581.078" fill="#000" font-size="13" textLength="281.068" font-family="Arial">No commands; no movement history is invented.</text><polygon points="283.969,1610.782,273.969,1614.782,283.969,1618.782,279.969,1614.782" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="1614.782" x2="490.315" y2="1614.782" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="370.941" y="1610.027" fill="#000" font-size="13" textLength="22.401" font-family="Arial">true</text><polygon points="1943.088,1639.73,1953.088,1643.73,1943.088,1647.73,1947.088,1643.73" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="1643.73" x2="1949.088" y2="1643.73" style="stroke:#181818;stroke-width:1;"/><text x="963.821" y="1638.976" fill="#000" font-size="13" textLength="300.416" font-family="Arial">showMessage("No previous movement to repeat...")</text><line x1="256.969" y1="1652.73" x2="1971.088" y2="1652.73" style="stroke:#000;stroke-width:1;stroke-dasharray:2,2;"/><text x="261.969" y="1665.048" fill="#000" font-size="11" textLength="165.677" font-weight="700" font-family="Arial">[remembered movement exists]</text><line x1="491.315" y1="1691.328" x2="533.315" y2="1691.328" style="stroke:#181818;stroke-width:1;"/><line x1="533.315" y1="1691.328" x2="533.315" y2="1704.328" style="stroke:#181818;stroke-width:1;"/><line x1="492.315" y1="1704.328" x2="533.315" y2="1704.328" style="stroke:#181818;stroke-width:1;"/><polygon points="502.315,1700.328,492.315,1704.328,502.315,1708.328,498.315,1704.328" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="498.315" y="1686.573" fill="#000" font-size="13" textLength="80.933" font-family="Arial">plan(decision)</text><path d="M496.315,1717.328 L496.315,1771.328 L825.315,1771.328 L825.315,1727.328 L815.315,1717.328 L496.315,1717.328" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M815.315,1717.328 L815.315,1727.328 L825.315,1727.328 L815.315,1717.328" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="502.315" y="1734.522" fill="#000" font-size="13" textLength="279.602" font-family="Arial">Resolve TIMED_PRESS {RIGHT}, 200 ms using</text><text x="502.315" y="1749.471" fill="#000" font-size="13" textLength="308.528" font-family="Arial">current request metadata; construct fresh commands.</text><text x="502.315" y="1764.419" fill="#000" font-size="13" textLength="284.026" font-family="Arial">Snapshot desired held inputs before cancellation.</text><polygon points="626.847,1794.123,636.847,1798.123,626.847,1802.123,630.847,1798.123" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="491.315" y1="1798.123" x2="632.847" y2="1798.123" style="stroke:#181818;stroke-width:1;"/><text x="534.739" y="1793.368" fill="#000" font-size="13" textLength="60.684" font-family="Arial">cancelAll()</text><polygon points="626.847,1823.072,636.847,1827.072,626.847,1831.072,630.847,1827.072" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="491.315" y1="1827.072" x2="632.847" y2="1827.072" style="stroke:#181818;stroke-width:1;"/><text x="503.315" y="1822.317" fill="#000" font-size="13" textLength="123.532" font-family="Arial">execute([freshTimer])</text><polygon points="1815.223,1852.021,1825.223,1856.021,1815.223,1860.021,1819.223,1856.021" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="638.847" y1="1856.021" x2="1821.223" y2="1856.021" style="stroke:#181818;stroke-width:1;"/><text x="1189.68" y="1851.266" fill="#000" font-size="13" textLength="86.709" font-family="Arial">execute(game)</text><polygon points="922.315,1880.969,912.315,1884.969,922.315,1888.969,918.315,1884.969" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="916.315" y1="1884.969" x2="1826.223" y2="1884.969" style="stroke:#181818;stroke-width:1;"/><text x="1328.825" y="1880.214" fill="#000" font-size="13" textLength="80.888" font-family="Arial">press(RIGHT)</text><path d="M496.315,1897.969 L496.315,1936.969 L811.315,1936.969 L811.315,1907.969 L801.315,1897.969 L496.315,1897.969" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M801.315,1897.969 L801.315,1907.969 L811.315,1907.969 L801.315,1897.969" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="502.315" y="1915.163" fill="#000" font-size="13" textLength="294.811" font-family="Arial">Record lastRepeatedUtterance; increment revision.</text><text x="502.315" y="1930.112" fill="#000" font-size="13" textLength="249.285" font-family="Arial">Preserve the resolved lastMovement value.</text><polygon points="283.969,1959.815,273.969,1963.815,283.969,1967.815,279.969,1963.815" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="1963.815" x2="490.315" y2="1963.815" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="370.941" y="1959.061" fill="#000" font-size="13" textLength="22.401" font-family="Arial">true</text><polygon points="1943.088,1988.764,1953.088,1992.764,1943.088,1996.764,1947.088,1992.764" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="1992.764" x2="1949.088" y2="1992.764" style="stroke:#181818;stroke-width:1;"/><text x="881.117" y="1988.009" fill="#000" font-size="13" textLength="465.823" font-family="Arial">showMessage("Accepted: REPEAT_LAST TIMED_PRESS [RIGHT] for 200 ms")</text><line x1="272.969" y1="2035.713" x2="314.969" y2="2035.713" style="stroke:#181818;stroke-width:1;"/><line x1="314.969" y1="2035.713" x2="314.969" y2="2048.713" style="stroke:#181818;stroke-width:1;"/><line x1="273.969" y1="2048.713" x2="314.969" y2="2048.713" style="stroke:#181818;stroke-width:1;"/><polygon points="283.969,2044.713,273.969,2048.713,283.969,2052.713,279.969,2048.713" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><text x="279.969" y="2030.958" fill="#000" font-size="13" textLength="49.854" font-family="Arial">publish()</text><polygon points="899.315,2073.662,909.315,2077.662,899.315,2081.662,903.315,2077.662" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="2077.662" x2="905.315" y2="2077.662" style="stroke:#181818;stroke-width:1;"/><text x="551.311" y="2072.907" fill="#000" font-size="13" textLength="81.663" font-family="Arial">getSnapshot()</text><polygon points="283.969,2102.61,273.969,2106.61,283.969,2110.61,279.969,2106.61" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="277.969" y1="2106.61" x2="910.315" y2="2106.61" style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;"/><text x="565.761" y="2101.855" fill="#000" font-size="13" textLength="52.762" font-family="Arial">snapshot</text><polygon points="1943.088,2131.559,1953.088,2135.559,1943.088,2139.559,1947.088,2135.559" fill="#181818" style="stroke:#181818;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:10;"/><line x1="272.969" y1="2135.559" x2="1949.088" y2="2135.559" style="stroke:#181818;stroke-width:1;"/><text x="1064.53" y="2130.804" fill="#000" font-size="13" textLength="98.998" font-family="Arial">render(snapshot)</text><path d="M430.172,2162.559 L430.172,2246.559 L1102.172,2246.559 L1102.172,2172.559 L1092.172,2162.559 L430.172,2162.559" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><path d="M1092.172,2162.559 L1092.172,2172.559 L1102.172,2172.559 L1092.172,2162.559" style="stroke:#181818;stroke-width:0.5;" fill="#FEFFDD"/><text x="507.651" y="2179.753" fill="#000" font-size="13" textLength="351.025" font-family="Arial">"other way" remains an AI interpretation of the initial held set:</text><text x="507.651" y="2194.702" fill="#000" font-size="13" textLength="508.549" font-family="Arial">held RIGHT -> SWITCH LEFT -> KeyUpCommand(RIGHT), KeyDownCommand(LEFT).</text><text x="507.651" y="2209.65" fill="#000" font-size="13" textLength="450.76" font-family="Arial">"again" repeats the stored resolved movement, not the previous raw sentence.</text><text x="507.651" y="2224.599" fill="#000" font-size="13" textLength="304.04" font-family="Arial">Automatic expiry and spoken "stop" preserve history.</text><text x="507.651" y="2239.548" fill="#000" font-size="13" textLength="389.467" font-family="Arial">Session pause, failure, fall, restart and close clear it through reset().</text><?plantuml-src jLVRSjiu4dtNLtJfYQeeZckogTgrnwdI-f9eDuwzbf9zc4nDGIGaeGOYE0HeMPkQVz_Jk52auYZxidwmIA8RwClfxWEdd9OqkpfzJI_fqfHEFhb6QChDPYFAuengMKdXI2oTh4a-LQhUKVRfylJrETsSlXdZtr_vtzz60_kxAYjHYmqLSYaQxMwmtKUnaJIfbT2TTRiMXTcgSaLBeQtihiW_6bdcybPQArPoejMgf5p2h7gmLeMafJ5kOPu68dUcfdijTbY1hbEvgaJfQ9ZZrDfe3NFFlfIJgj8g5qwPyh9T69Amj7zzLj-oTfIv5IMCwQdPlf9yadd35l6HEPzs7RzufVJILpAwcAjDi9CVYliQRb-6o7kzkoZHrrjnJA7p3h-tff3Qo_9RNmusumU2dutAPTntmX-zWd_gQsnuDzQugsJv3_auAKJbekF-fBxuJ6wcovci7x7zbpBJ9WTo_hMLvUkJD_INlu-yNboddty6j6HTGkJzV7x_zcr_hwesbR52xoDu9NDbyUjtkO_BVQKb0hR-GGnlMfc-xgEIsnJ5ptZsmlmm69J6IJAFs3LbUzncWc2AV5IciNf78iyb0eGocKzlhwz-kt-uditewyFqtVlvdsFwwVIKDlO4EbfOTuiTDvoH2qgFKm2xT5b7UTpJ7h7kV2t90Zooe4UX6qdAajfi6YSMA5qhuIcyicE2sPGmTJAGPS5VvE3YWYO0tmP5aASADYKvR2lsrK7Qc8ekBWRxkg2NRpjLGcSaYaU1uimADtfUp3ulP5dakYsHdaZx6I9tRK5qHCR4U1yDsiM-OCvYEljMvfsl4lGlBOMLcOzgLw9lagiHsCn7HnPTg_hEiLY0HwrMQuHxkMy8HDCohqEA6IACtNEg03zKWEn1WDEwbhgumcaUwvQJMfejoKtbTftazSCSVMggGhWGlbek0r9vQVpPOvhk5lx86h21N1Id35t-9th5pVxDQC2m-0Zfng4eEOQ8-KgeaY4GsketwRVDOgFS76KSwoiRUfNXA8H4osKt8jfNo-M7ASvyzsbAF5e8pWD-Tcss9GV1ToRo_Tq2aRLfLcjQOsijvx3AvhMg7EJm1J4L-LfQ3rpBWGZsaAdW00Vnks5xnejaEgf6RZ-b61o1zKAkL3ajgyPbBruWjfpT8-8hwU8qpVfb45E8zLafAWI21Vp70wWnFYw-eWzCBkVJpzUTJGuzYY_fl9EJat4FROTcJi9S8CLX1pvT5X0ofZniCJg0U9WKnArK_aVI0lMKH36GQsG4w6s1n7bza8wnb3TrpMSLobR2vUkU5i2vgK02EcaBbi74sp28m2HoJFtMFZxvCjaOP22S9imPtT_DvlGgA7s1omb1z88MfYaBjD0utfCbWwJyidFgruN8VvVCVePehse9bFZ9Y02j6R3u_d1zVpsP__PXCfiF_pm8LzhcLbHHWPoXZiOO0Kc5xrDSD071j_RYz2GvribKEnmpONTbpkoiqj9v2BOnksydA6sLMpymbRBxtAOSjF5hvRid5N7e-YtQ_CdAvEjN4VMlKdDBHn_YiTqZszk96eSv3HA0vyEnCpfMhw4R93AGfSsFJI0_bJkIGZj66wQbTmJzABg2f-JCc039AZG-7gInweY-NtUUl9v3cdWOipS3gRaqOjJga87U7Zr3CSvLwEIjgMXrC5PeDBjY5yatWgRAWoA3u37JU4wTKs6yAvX03io7N2GmtiWU8y7E0ZF35pdHT-SR_pt8tDH5otoIaxv3gs_ctqdK-cZIZSA6WAMJuHJ6xCvpclAH1q4HTDgUy6D7ko8H3N4Gyfo9Lubi21kgIDtsvwCmGv3HDOUZ51psOhEGJBbQIVa4K-s1ERrq0ZrbBvK_3AKr6ipW27Uang93Hla3ND46JHRm4UVSp2mYaQEnCjjjOvt2dqODIjComV731G77DBEOREZ6CX8f7IVfaHJqU5FGccYTZOw9XVkHp7xPC_PVWqAN_zrqw7oh4fWTYtQMzuEK-PLDxEv_HI-3_o7MLZlypu_WzpwnE2OVTSXRqQyXpyt_NzYTj1UDpXZf0USN7u9V_MGDs0bmBel1uG4z8wfcePLT-_GzIpRxJ8NeaAj4LXL51j_n1i0jP9qbiH7F_6SlMebh30r2NTDMx8PSZc0Jw54bJQPxsX8629BCIL6bSWh3p2FRIdSMAJRvk7YQyE_f_F8zVRY-yQ__bBjFLIAo0JzZ_dW5Qfe-iwo_WqMs67j5vA3XJjQY8NMAS15ZYRRTr69Bt5vbf4VVtCUuUzhAW7I0SZXJ3VVtXjWXMMq6EB3BbMWi9lfIADtK_a63cwGsptlbsl0WmjMd9kLQPirx8ejxnlLV?></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN'
+          'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" width="5080" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" viewBox="0 0 5080 2640" height="2640" xmlns="http://www.w3.org/2000/svg" font-family="'Dialog'" font-style="normal" stroke-linejoin="miter" font-size="12px" stroke-dashoffset="0" image-rendering="auto"
+><!--Generated by the Batik Graphics2D SVG Generator--><defs id="genericDefs"
+  /><g
+  ><defs id="defs1"
+    ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath1"
+      ><path d="M0 0 L2147483647 0 L2147483647 2147483647 L0 2147483647 L0 0 Z"
+      /></clipPath
+      ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath2"
+      ><path d="M0 0 L0 2600 L5040 2600 L5040 0 Z"
+      /></clipPath
+    ></defs
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><text x="5" xml:space="preserve" y="15.9688" clip-path="url(#clipPath2)" stroke="none"
+      >SD03 - Contextual command: repeat after expiry</text
+      ><text x="5" xml:space="preserve" y="31.9375" clip-path="url(#clipPath2)" stroke="none"
+      >UC03 | F05, F08, F09</text
+      ><path fill="none" d="M0.5 38.4375 L318.6504 38.4375 L338.6504 23.2625 L338.6504 0.5" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M0.5 0.5 L5039 0.5" clip-path="url(#clipPath2)"
+    /></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="950.7601" width="1322.6342" height="57.9062" y="150.4062" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="950.7601" width="1322.6342" height="57.9062" y="150.4062" clip-path="url(#clipPath2)"
+      /><text x="955.2601" xml:space="preserve" y="165.875" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M950.7601 172.375 L984.8841 172.375 L1004.8841 163.5875 L1004.8841 150.4062" clip-path="url(#clipPath2)"
+      /><text x="1438" xml:space="preserve" y="167.875" clip-path="url(#clipPath2)" stroke="none"
+      > Previously accepted TIMED_PRESS {RIGHT}, 200 ms.</text
+      ><text x="1421" xml:space="preserve" y="183.8438" clip-path="url(#clipPath2)" stroke="none"
+      >lastMovement = immutable MovementIntent(TIMED_PRESS,</text
+      ><text x="1497" xml:space="preserve" y="199.8125" clip-path="url(#clipPath2)" stroke="none"
+      >{RIGHT}, 200), not the running timer.</text
+      ><path fill="none" d="M703.6544 224.3125 L723.6544 224.3125 L723.6544 256.2812 L703.6544 256.2812" clip-path="url(#clipPath2)"
+      /><path d="M714.9127 249.7812 L703.6544 256.2812 L714.9127 262.7812 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M714.9127 249.7812 L703.6544 256.2812 L714.9127 262.7812 Z" clip-path="url(#clipPath2)"
+      /><text x="728.1544" xml:space="preserve" y="244.7812" clip-path="url(#clipPath2)" stroke="none"
+      > advance(dt)</text
+      ><path fill="none" d="M703.6544 256.2812 L1157.8657 256.2812" clip-path="url(#clipPath2)"
+      /><path d="M1146.6074 262.7812 L1157.8657 256.2812 L1146.6074 249.7812 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1146.6074 262.7812 L1157.8657 256.2812 L1146.6074 249.7812 Z" clip-path="url(#clipPath2)"
+      /><text x="891" xml:space="preserve" y="252.7812" clip-path="url(#clipPath2)" stroke="none"
+      > advance(dt)</text
+      ><path fill="none" d="M1157.8657 294.2188 L1612.0771 294.2188" clip-path="url(#clipPath2)"
+      /><path d="M1600.8188 300.7188 L1612.0771 294.2188 L1600.8188 287.7188 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1600.8188 300.7188 L1612.0771 294.2188 L1600.8188 287.7188 Z" clip-path="url(#clipPath2)"
+      /><text x="1345" xml:space="preserve" y="290.7188" clip-path="url(#clipPath2)" stroke="none"
+      > advance(dt)</text
+      ><path fill="none" d="M1612.0771 332.1562 L2066.2886 332.1562" clip-path="url(#clipPath2)"
+      /><path d="M2055.0303 338.6562 L2066.2886 332.1562 L2055.0303 325.6562 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2055.0303 338.6562 L2066.2886 332.1562 L2055.0303 325.6562 Z" clip-path="url(#clipPath2)"
+      /><text x="1778" xml:space="preserve" y="328.6562" clip-path="url(#clipPath2)" stroke="none"
+      > advance(dt, game)</text
+      ><path fill="none" d="M2066.2886 364.125 L2086.2886 364.125 L2086.2886 396.0938 L2066.2886 396.0938" clip-path="url(#clipPath2)"
+      /><path d="M2077.5469 389.5938 L2066.2886 396.0938 L2077.5469 402.5938 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2077.5469 389.5938 L2066.2886 396.0938 L2077.5469 402.5938 Z" clip-path="url(#clipPath2)"
+      /><text x="2090.7886" xml:space="preserve" y="384.5938" clip-path="url(#clipPath2)" stroke="none"
+      > cancel(game)</text
+      ><path fill="none" d="M2066.2886 396.0938 L2520.5 396.0938" clip-path="url(#clipPath2)"
+      /><path d="M2509.2417 402.5938 L2520.5 396.0938 L2509.2417 389.5938 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2509.2417 402.5938 L2520.5 396.0938 L2509.2417 389.5938 Z" clip-path="url(#clipPath2)"
+      /><text x="2241" xml:space="preserve" y="392.5938" clip-path="url(#clipPath2)" stroke="none"
+      > release(RIGHT)</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 434.0312 L1612.0771 434.0312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M1623.3356 427.5312 L1612.0771 434.0312 L1623.3356 440.5312" clip-path="url(#clipPath2)"
+      /><text x="1795" xml:space="preserve" y="430.5312" clip-path="url(#clipPath2)" stroke="none"
+      > true (expired)</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 471.9688 L1157.8657 471.9688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M1169.1241 465.4688 L1157.8657 471.9688 L1169.1241 478.4688" clip-path="url(#clipPath2)"
+      /><text x="1370" xml:space="preserve" y="468.4688" clip-path="url(#clipPath2)" stroke="none"
+      > true</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="950.7601" width="1776.8456" height="41.9375" y="493.9375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="950.7601" width="1776.8456" height="41.9375" y="493.9375" clip-path="url(#clipPath2)"
+      /><text x="955.2601" xml:space="preserve" y="509.4062" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M950.7601 515.9062 L984.8841 515.9062 L1004.8841 507.1187 L1004.8841 493.9375" clip-path="url(#clipPath2)"
+      /><text x="1605" xml:space="preserve" y="511.4062" clip-path="url(#clipPath2)" stroke="none"
+      > Increment revision. Held directions now empty. Automatic expiry preserves</text
+      ><text x="1793" xml:space="preserve" y="527.375" clip-path="url(#clipPath2)" stroke="none"
+      >lastMovement.</text
+      ><path fill="none" d="M703.6544 557.8438 L2520.5 557.8438" clip-path="url(#clipPath2)"
+      /><path d="M2509.2417 564.3438 L2520.5 557.8438 L2509.2417 551.3438 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2509.2417 564.3438 L2520.5 557.8438 L2509.2417 551.3438 Z" clip-path="url(#clipPath2)"
+      /><text x="1577" xml:space="preserve" y="554.3438" clip-path="url(#clipPath2)" stroke="none"
+      > update(dt)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="2313.3943" width="2685.2684" height="25.9688" y="579.8125" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="2313.3943" width="2685.2684" height="25.9688" y="579.8125" clip-path="url(#clipPath2)"
+      /><text x="2317.8943" xml:space="preserve" y="595.2812" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M2313.3943 601.7812 L2347.5183 601.7812 L2367.5183 592.9938 L2367.5183 579.8125" clip-path="url(#clipPath2)"
+      /><text x="3522" xml:space="preserve" y="597.2812" clip-path="url(#clipPath2)" stroke="none"
+      > Observer state update as in SD02 / SD05.</text
+      ><path fill="none" d="M249.443 627.75 L703.6544 627.75" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M692.3961 634.25 L703.6544 627.75 L692.3961 621.25" clip-path="url(#clipPath2)"
+      /><text x="380" xml:space="preserve" y="624.25" clip-path="url(#clipPath2)" stroke="none"
+      > submitTextCommand("again")</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="496.5487" width="868.4228" height="57.9062" y="649.7188" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="496.5487" width="868.4228" height="57.9062" y="649.7188" clip-path="url(#clipPath2)"
+      /><text x="501.0487" xml:space="preserve" y="665.1875" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M496.5487 671.6875 L530.6727 671.6875 L550.6727 662.9 L550.6727 649.7188" clip-path="url(#clipPath2)"
+      /><text x="837" xml:space="preserve" y="667.1875" clip-path="url(#clipPath2)" stroke="none"
+      > Text entry shown. Voice calls</text
+      ><text x="786" xml:space="preserve" y="683.1562" clip-path="url(#clipPath2)" stroke="none"
+      >handleTranscript(text, utteranceId, epoch) and</text
+      ><text x="818" xml:space="preserve" y="699.125" clip-path="url(#clipPath2)" stroke="none"
+      >reaches the same submit operation.</text
+      ><path fill="none" d="M703.6544 729.5938 L723.6544 729.5938 L723.6544 767.5312 L703.6544 767.5312" clip-path="url(#clipPath2)"
+      /><path d="M714.9127 761.0312 L703.6544 767.5312 L714.9127 774.0312 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M714.9127 761.0312 L703.6544 767.5312 L714.9127 774.0312 Z" clip-path="url(#clipPath2)"
+      /><text x="728.1544" xml:space="preserve" y="745.0625" clip-path="url(#clipPath2)" stroke="none"
+      > submit("again",</text
+      ><text x="728.1544" xml:space="preserve" y="761.0312" clip-path="url(#clipPath2)" stroke="none"
+      >newUtterance)</text
+      ><path fill="none" d="M703.6544 767.5312 L1157.8657 767.5312" clip-path="url(#clipPath2)"
+      /><path d="M1146.6074 774.0312 L1157.8657 767.5312 L1146.6074 761.0312 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1146.6074 774.0312 L1157.8657 767.5312 L1146.6074 761.0312 Z" clip-path="url(#clipPath2)"
+      /><text x="860" xml:space="preserve" y="764.0312" clip-path="url(#clipPath2)" stroke="none"
+      > beginInput(++version)</text
+      ><path fill="none" d="M703.6544 805.4688 L1157.8657 805.4688" clip-path="url(#clipPath2)"
+      /><path d="M1146.6074 811.9688 L1157.8657 805.4688 L1146.6074 798.9688 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1146.6074 811.9688 L1157.8657 805.4688 L1146.6074 798.9688 Z" clip-path="url(#clipPath2)"
+      /><text x="889" xml:space="preserve" y="801.9688" clip-path="url(#clipPath2)" stroke="none"
+      > getContext()</text
+      ><path fill="none" d="M1157.8657 843.4062 L2520.5 843.4062" clip-path="url(#clipPath2)"
+      /><path d="M2509.2417 849.9062 L2520.5 843.4062 L2509.2417 836.9062 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2509.2417 849.9062 L2520.5 843.4062 L2509.2417 836.9062 Z" clip-path="url(#clipPath2)"
+      /><text x="1792" xml:space="preserve" y="839.9062" clip-path="url(#clipPath2)" stroke="none"
+      > getSnapshot()</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 881.3438 L1157.8657 881.3438" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M1169.1241 874.8438 L1157.8657 881.3438 L1169.1241 887.8438" clip-path="url(#clipPath2)"
+      /><text x="1785" xml:space="preserve" y="877.8438" clip-path="url(#clipPath2)" stroke="none"
+      > held={}, ACTIVE</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 919.2812 L703.6544 919.2812" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 912.7812 L703.6544 919.2812 L714.9127 925.7812" clip-path="url(#clipPath2)"
+      /><text x="823" xml:space="preserve" y="915.7812" clip-path="url(#clipPath2)" stroke="none"
+      > ControlContext(..., lastMovement)</text
+      ><path fill="none" d="M703.6544 957.2188 L2974.7114 957.2188" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M2963.4531 963.7188 L2974.7114 957.2188 L2963.4531 950.7188" clip-path="url(#clipPath2)"
+      /><text x="1758" xml:space="preserve" y="953.7188" clip-path="url(#clipPath2)" stroke="none"
+      > interpret(update, context)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="2767.6057" width="868.4228" height="41.9375" y="979.1875" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="2767.6057" width="868.4228" height="41.9375" y="979.1875" clip-path="url(#clipPath2)"
+      /><text x="2772.1057" xml:space="preserve" y="994.6562" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M2767.6057 1001.1562 L2801.7297 1001.1562 L2821.7297 992.3688 L2821.7297 979.1875" clip-path="url(#clipPath2)"
+      /><text x="3063" xml:space="preserve" y="996.6562" clip-path="url(#clipPath2)" stroke="none"
+      > Freeze this utterance's base context. Retain</text
+      ><text x="3068" xml:space="preserve" y="1012.625" clip-path="url(#clipPath2)" stroke="none"
+      >current dispatch context for local stamping.</text
+      ><path fill="none" d="M2974.7114 1043.0938 L3428.9229 1043.0938" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M3417.6646 1049.5938 L3428.9229 1043.0938 L3417.6646 1036.5938" clip-path="url(#clipPath2)"
+      /><text x="3109" xml:space="preserve" y="1039.5938" clip-path="url(#clipPath2)" stroke="none"
+      > decide(update, baseContext)</text
+      ><path fill="none" d="M3428.9229 1097 L3883.1343 1097" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M3871.876 1103.5 L3883.1343 1097 L3871.876 1090.5" clip-path="url(#clipPath2)"
+      /><text x="3610" xml:space="preserve" y="1077.5312" clip-path="url(#clipPath2)" stroke="none"
+      > POST /decide</text
+      ><text x="3536" xml:space="preserve" y="1093.5" clip-path="url(#clipPath2)" stroke="none"
+      >transcript and bounded control context</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3883.1343 1150.9062 L3428.9229 1150.9062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M3440.1812 1144.4062 L3428.9229 1150.9062 L3440.1812 1157.4062" clip-path="url(#clipPath2)"
+      /><text x="3495" xml:space="preserve" y="1147.4062" clip-path="url(#clipPath2)" stroke="none"
+      > backend="semif", model, choice="REPEAT_LAST"</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3428.9229 1188.8438 L2974.7114 1188.8438" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M2985.9697 1182.3438 L2974.7114 1188.8438 L2985.9697 1195.3438" clip-path="url(#clipPath2)"
+      /><text x="3082" xml:space="preserve" y="1185.3438" clip-path="url(#clipPath2)" stroke="none"
+      > ActionDecision(REPEAT_LAST, {}, 0)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="2767.6057" width="868.4228" height="57.9062" y="1210.8125" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="2767.6057" width="868.4228" height="57.9062" y="1210.8125" clip-path="url(#clipPath2)"
+      /><text x="2772.1057" xml:space="preserve" y="1226.2812" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M2767.6057 1232.7812 L2801.7297 1232.7812 L2821.7297 1223.9938 L2821.7297 1210.8125" clip-path="url(#clipPath2)"
+      /><text x="3086" xml:space="preserve" y="1228.2812" clip-path="url(#clipPath2)" stroke="none"
+      > ActionDecision.withRequest(update,</text
+      ><text x="3068" xml:space="preserve" y="1244.25" clip-path="url(#clipPath2)" stroke="none"
+      >dispatchContext) attaches the current local</text
+      ><text x="3114" xml:space="preserve" y="1260.2188" clip-path="url(#clipPath2)" stroke="none"
+      >epoch, version and revision.</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 1290.6875 L703.6544 1290.6875" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 1284.1875 L703.6544 1290.6875 L714.9127 1297.1875" clip-path="url(#clipPath2)"
+      /><text x="1746" xml:space="preserve" y="1287.1875" clip-path="url(#clipPath2)" stroke="none"
+      > stamped decision completion</text
+      ><path fill="none" d="M703.6544 1322.6562 L723.6544 1322.6562 L723.6544 1354.625 L703.6544 1354.625" clip-path="url(#clipPath2)"
+      /><path d="M714.9127 1348.125 L703.6544 1354.625 L714.9127 1361.125 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M714.9127 1348.125 L703.6544 1354.625 L714.9127 1361.125 Z" clip-path="url(#clipPath2)"
+      /><text x="728.1544" xml:space="preserve" y="1343.125" clip-path="url(#clipPath2)" stroke="none"
+      > handleDecision(decision)</text
+      ><path fill="none" d="M703.6544 1354.625 L1157.8657 1354.625" clip-path="url(#clipPath2)"
+      /><path d="M1146.6074 1361.125 L1157.8657 1354.625 L1146.6074 1348.125 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1146.6074 1361.125 L1157.8657 1354.625 L1146.6074 1348.125 Z" clip-path="url(#clipPath2)"
+      /><text x="877" xml:space="preserve" y="1351.125" clip-path="url(#clipPath2)" stroke="none"
+      > accept(decision)</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1451.5625 L703.6544 1451.5625" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 1445.0625 L703.6544 1451.5625 L714.9127 1458.0625" clip-path="url(#clipPath2)"
+      /><text x="870" xml:space="preserve" y="1448.0625" clip-path="url(#clipPath2)" stroke="none"
+      > false (no mutation)</text
+      ><path fill="none" d="M1157.8657 1535.5312 L1177.8657 1535.5312 L1177.8657 1568.5312 L1157.8657 1568.5312" clip-path="url(#clipPath2)"
+      /><path d="M1169.1241 1562.0312 L1157.8657 1568.5312 L1169.1241 1575.0312 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1169.1241 1562.0312 L1157.8657 1568.5312 L1169.1241 1575.0312 Z" clip-path="url(#clipPath2)"
+      /><text x="1182.3657" xml:space="preserve" y="1556.5156" clip-path="url(#clipPath2)" stroke="none"
+      > validate(decision)</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1626.5 L703.6544 1626.5" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 1620 L703.6544 1626.5 L714.9127 1633" clip-path="url(#clipPath2)"
+      /><text x="850" xml:space="preserve" y="1623" clip-path="url(#clipPath2)" stroke="none"
+      > true (do not restart timer)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="957.7601" width="861.4228" height="41.9375" y="1700.4688" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="957.7601" width="861.4228" height="41.9375" y="1700.4688" clip-path="url(#clipPath2)"
+      /><text x="962.2601" xml:space="preserve" y="1715.9375" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M957.7601 1722.4375 L991.8841 1722.4375 L1011.8841 1713.65 L1011.8841 1700.4688" clip-path="url(#clipPath2)"
+      /><text x="1227" xml:space="preserve" y="1717.9375" clip-path="url(#clipPath2)" stroke="none"
+      > Record accepted metadata and increment revision.</text
+      ><text x="1231" xml:space="preserve" y="1733.9062" clip-path="url(#clipPath2)" stroke="none"
+      >No commands and no invented movement history.</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1764.375 L703.6544 1764.375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 1757.875 L703.6544 1764.375 L714.9127 1770.875" clip-path="url(#clipPath2)"
+      /><text x="916" xml:space="preserve" y="1760.875" clip-path="url(#clipPath2)" stroke="none"
+      > true</text
+      ><path fill="none" d="M703.6544 1802.3125 L4791.5571 1802.3125" clip-path="url(#clipPath2)"
+      /><path d="M4780.2988 1808.8125 L4791.5571 1802.3125 L4780.2988 1795.8125 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M4780.2988 1808.8125 L4791.5571 1802.3125 L4780.2988 1795.8125 Z" clip-path="url(#clipPath2)"
+      /><text x="2583" xml:space="preserve" y="1798.8125" clip-path="url(#clipPath2)" stroke="none"
+      > showMessage("No previous movement to repeat...")</text
+      ><path fill="none" d="M1157.8657 1886.2812 L1177.8657 1886.2812 L1177.8657 1931.2344 L1157.8657 1931.2344" clip-path="url(#clipPath2)"
+      /><path d="M1169.1241 1924.7344 L1157.8657 1931.2344 L1169.1241 1937.7344 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1169.1241 1924.7344 L1157.8657 1931.2344 L1169.1241 1937.7344 Z" clip-path="url(#clipPath2)"
+      /><text x="1182.3657" xml:space="preserve" y="1913.2422" clip-path="url(#clipPath2)" stroke="none"
+      > plan(decision)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="957.7601" width="861.4228" height="57.9062" y="1902.2812" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="957.7601" width="861.4228" height="57.9062" y="1902.2812" clip-path="url(#clipPath2)"
+      /><text x="962.2601" xml:space="preserve" y="1917.75" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M957.7601 1924.25 L991.8841 1924.25 L1011.8841 1915.4625 L1011.8841 1902.2812" clip-path="url(#clipPath2)"
+      /><text x="1212" xml:space="preserve" y="1919.75" clip-path="url(#clipPath2)" stroke="none"
+      > Resolve remembered TIMED_PRESS {RIGHT}, 200 ms</text
+      ><text x="1266" xml:space="preserve" y="1935.7188" clip-path="url(#clipPath2)" stroke="none"
+      >with current request identity. Plan fresh</text
+      ><text x="1244" xml:space="preserve" y="1951.6875" clip-path="url(#clipPath2)" stroke="none"
+      >commands from the pre-cancel held snapshot.</text
+      ><path fill="none" d="M1157.8657 1982.1562 L1612.0771 1982.1562" clip-path="url(#clipPath2)"
+      /><path d="M1600.8188 1988.6562 L1612.0771 1982.1562 L1600.8188 1975.6562 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1600.8188 1988.6562 L1612.0771 1982.1562 L1600.8188 1975.6562 Z" clip-path="url(#clipPath2)"
+      /><text x="1349" xml:space="preserve" y="1978.6562" clip-path="url(#clipPath2)" stroke="none"
+      > cancelAll()</text
+      ><path fill="none" d="M1157.8657 2020.0938 L1612.0771 2020.0938" clip-path="url(#clipPath2)"
+      /><path d="M1600.8188 2026.5938 L1612.0771 2020.0938 L1600.8188 2013.5938 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M1600.8188 2026.5938 L1612.0771 2020.0938 L1600.8188 2013.5938 Z" clip-path="url(#clipPath2)"
+      /><text x="1316" xml:space="preserve" y="2016.5938" clip-path="url(#clipPath2)" stroke="none"
+      > execute([freshTimer])</text
+      ><path fill="none" d="M1612.0771 2058.0312 L4337.3457 2058.0312" clip-path="url(#clipPath2)"
+      /><path d="M4326.0874 2064.5312 L4337.3457 2058.0312 L4326.0874 2051.5312 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M4326.0874 2064.5312 L4337.3457 2058.0312 L4326.0874 2051.5312 Z" clip-path="url(#clipPath2)"
+      /><text x="2925" xml:space="preserve" y="2054.5312" clip-path="url(#clipPath2)" stroke="none"
+      > execute(game)</text
+      ><path fill="none" d="M4337.3457 2095.9688 L2520.5 2095.9688" clip-path="url(#clipPath2)"
+      /><path d="M2531.7583 2089.4688 L2520.5 2095.9688 L2531.7583 2102.4688 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2531.7583 2089.4688 L2520.5 2095.9688 L2531.7583 2102.4688 Z" clip-path="url(#clipPath2)"
+      /><text x="3382" xml:space="preserve" y="2092.4688" clip-path="url(#clipPath2)" stroke="none"
+      > press(RIGHT)</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="957.7601" width="861.4228" height="57.9062" y="2117.9375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="957.7601" width="861.4228" height="57.9062" y="2117.9375" clip-path="url(#clipPath2)"
+      /><text x="962.2601" xml:space="preserve" y="2133.4062" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M957.7601 2139.9062 L991.8841 2139.9062 L1011.8841 2131.1187 L1011.8841 2117.9375" clip-path="url(#clipPath2)"
+      /><text x="1254" xml:space="preserve" y="2135.4062" clip-path="url(#clipPath2)" stroke="none"
+      > Record lastRepeatedUtterance. Increment</text
+      ><text x="1246" xml:space="preserve" y="2151.375" clip-path="url(#clipPath2)" stroke="none"
+      >revision. Preserve the resolved lastMovement</text
+      ><text x="1369" xml:space="preserve" y="2167.3438" clip-path="url(#clipPath2)" stroke="none"
+      >value.</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 2197.8125 L703.6544 2197.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 2191.3125 L703.6544 2197.8125 L714.9127 2204.3125" clip-path="url(#clipPath2)"
+      /><text x="916" xml:space="preserve" y="2194.3125" clip-path="url(#clipPath2)" stroke="none"
+      > true</text
+      ><path fill="none" d="M703.6544 2235.75 L4791.5571 2235.75" clip-path="url(#clipPath2)"
+      /><path d="M4780.2988 2242.25 L4791.5571 2235.75 L4780.2988 2229.25 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M4780.2988 2242.25 L4791.5571 2235.75 L4780.2988 2229.25 Z" clip-path="url(#clipPath2)"
+      /><text x="2494" xml:space="preserve" y="2232.25" clip-path="url(#clipPath2)" stroke="none"
+      > showMessage("Accepted: REPEAT_LAST TIMED_PRESS [RIGHT] for 200 ms")</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M950.7601 1645.4688 L4991.6626 1645.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M950.7601 1821.2812 L4991.6626 1821.2812" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><path d="M950.7601 1551.5312 L4991.6626 1551.5312 L4991.6626 2284.7188 L950.7601 2284.7188 Z" stroke="none" clip-path="url(#clipPath2)"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><path fill="none" d="M950.7601 1551.5312 L4991.6626 1551.5312 L4991.6626 2284.7188 L950.7601 2284.7188 Z" clip-path="url(#clipPath2)"
+      /><text x="955.2601" xml:space="preserve" y="1567" clip-path="url(#clipPath2)" stroke="none"
+      >alt</text
+      ><path fill="none" d="M950.7601 1573.5 L983.3323 1573.5 L1003.3323 1564.7125 L1003.3323 1551.5312" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M703.6544 2300.7188 L723.6544 2300.7188 L723.6544 2332.6875 L703.6544 2332.6875" clip-path="url(#clipPath2)"
+      /><path d="M714.9127 2326.1875 L703.6544 2332.6875 L714.9127 2339.1875 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M714.9127 2326.1875 L703.6544 2332.6875 L714.9127 2339.1875 Z" clip-path="url(#clipPath2)"
+      /><text x="728.1544" xml:space="preserve" y="2321.1875" clip-path="url(#clipPath2)" stroke="none"
+      > publish()</text
+      ><path fill="none" d="M703.6544 2332.6875 L2520.5 2332.6875" clip-path="url(#clipPath2)"
+      /><path d="M2509.2417 2339.1875 L2520.5 2332.6875 L2509.2417 2326.1875 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M2509.2417 2339.1875 L2520.5 2332.6875 L2509.2417 2326.1875 Z" clip-path="url(#clipPath2)"
+      /><text x="1565" xml:space="preserve" y="2329.1875" clip-path="url(#clipPath2)" stroke="none"
+      > getSnapshot()</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 2370.625 L703.6544 2370.625" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M714.9127 2364.125 L703.6544 2370.625 L714.9127 2377.125" clip-path="url(#clipPath2)"
+      /><text x="1581" xml:space="preserve" y="2367.125" clip-path="url(#clipPath2)" stroke="none"
+      > snapshot</text
+      ><path fill="none" d="M703.6544 2408.5625 L4791.5571 2408.5625" clip-path="url(#clipPath2)"
+      /><path d="M4780.2988 2415.0625 L4791.5571 2408.5625 L4780.2988 2402.0625 Z" clip-path="url(#clipPath2)" stroke="none"
+      /><path fill="none" d="M4780.2988 2415.0625 L4791.5571 2408.5625 L4780.2988 2402.0625 Z" clip-path="url(#clipPath2)"
+      /><text x="2691" xml:space="preserve" y="2405.0625" clip-path="url(#clipPath2)" stroke="none"
+      > render(snapshot)</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M496.5487 1470.5312 L4998.6626 1470.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><path d="M496.5487 1376.5938 L4998.6626 1376.5938 L4998.6626 2457.5312 L496.5487 2457.5312 Z" stroke="none" clip-path="url(#clipPath2)"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><path fill="none" d="M496.5487 1376.5938 L4998.6626 1376.5938 L4998.6626 2457.5312 L496.5487 2457.5312 Z" clip-path="url(#clipPath2)"
+      /><text x="501.0487" xml:space="preserve" y="1392.0625" clip-path="url(#clipPath2)" stroke="none"
+      >alt</text
+      ><path fill="none" d="M496.5487 1398.5625 L529.1209 1398.5625 L549.1209 1389.775 L549.1209 1376.5938" clip-path="url(#clipPath2)"
+    /></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="950.7601" width="2231.057" height="41.9375" y="2463.5312" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="950.7601" width="2231.057" height="41.9375" y="2463.5312" clip-path="url(#clipPath2)"
+      /><text x="955.2601" xml:space="preserve" y="2479" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M950.7601 2485.5 L984.8841 2485.5 L1004.8841 2476.7124 L1004.8841 2463.5312" clip-path="url(#clipPath2)"
+      /><text x="1761" xml:space="preserve" y="2481" clip-path="url(#clipPath2)" stroke="none"
+      > Other contextual example: held RIGHT + "other way" -&gt; AI selects SWITCH LEFT -&gt; deterministic</text
+      ><text x="1896" xml:space="preserve" y="2496.9688" clip-path="url(#clipPath2)" stroke="none"
+      >KeyUpCommand(RIGHT), KeyDownCommand(LEFT).</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><rect x="950.7601" width="2231.057" height="41.9375" y="2511.4688" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="950.7601" width="2231.057" height="41.9375" y="2511.4688" clip-path="url(#clipPath2)"
+      /><text x="955.2601" xml:space="preserve" y="2526.9375" clip-path="url(#clipPath2)" stroke="none"
+      >ref</text
+      ><path fill="none" d="M950.7601 2533.4375 L984.8841 2533.4375 L1004.8841 2524.6499 L1004.8841 2511.4688" clip-path="url(#clipPath2)"
+      /><text x="1753" xml:space="preserve" y="2528.9375" clip-path="url(#clipPath2)" stroke="none"
+      > "again" repeats stored resolved movement, not the previous raw sentence. Expiry and spoken "stop"</text
+      ><text x="1845" xml:space="preserve" y="2544.9062" clip-path="url(#clipPath2)" stroke="none"
+      >preserve it. Pause, failure, fall, restart and close clear it through reset().</text
+    ></g
+    ><g font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke="rgb(255,255,255)" stroke-opacity="0"
+    ><circle r="5" clip-path="url(#clipPath2)" cx="248.5" cy="82.5" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><circle fill="none" r="5" clip-path="url(#clipPath2)" cx="248.5" cy="82.5"
+      /><path fill="none" d="M233.5 92.5 L263.5 92.5" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M248.5 87.5 L248.5 107.5" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M248.5 107.5 L238.5 127.5" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M248.5 107.5 L258.5 127.5" clip-path="url(#clipPath2)"
+      /><text x="229" xml:space="preserve" y="140.9062" clip-path="url(#clipPath2)" stroke="none"
+      >Player</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M249.443 144.4062 L249.443 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="496.5487" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="496.5487" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="670" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >controller :</text
+      ><text x="638" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >ApplicationController</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M703.6544 144.4062 L703.6544 649.7188" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M703.6544 707.625 L703.6544 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="950.7601" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="950.7601" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="1128" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >controls :</text
+      ><text x="1107" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >ControlManager</text
+      ><text x="1037" xml:space="preserve" y="1424.0781" clip-path="url(#clipPath2)" stroke="none"
+      >[stale identity / revision or not ACTIVE]</text
+      ><text x="1106" xml:space="preserve" y="1514.0156" clip-path="url(#clipPath2)" stroke="none"
+      >[current request]</text
+      ><text x="1049" xml:space="preserve" y="1599.0156" clip-path="url(#clipPath2)" stroke="none"
+      >[already repeated in this utterance]</text
+      ><text x="1086" xml:space="preserve" y="1688.9531" clip-path="url(#clipPath2)" stroke="none"
+      >[lastMovement absent]</text
+      ><text x="1059" xml:space="preserve" y="1864.7656" clip-path="url(#clipPath2)" stroke="none"
+      >[remembered movement exists]</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 144.4062 L1157.8657 150.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 208.3125 L1157.8657 493.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 535.875 L1157.8657 649.7188" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 707.625 L1157.8657 1411.6094" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1427.5781 L1157.8657 1501.5469" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1517.5156 L1157.8657 1586.5469" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1602.5156 L1157.8657 1676.4844" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1692.4531 L1157.8657 1700.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1742.4062 L1157.8657 1852.2969" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1868.2656 L1157.8657 1902.2812" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 1960.1875 L1157.8657 2117.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 2175.8438 L1157.8657 2463.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 2505.4688 L1157.8657 2511.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1157.8657 2553.4062 L1157.8657 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="1404.9715" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="1404.9715" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="1580" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >executor :</text
+      ><text x="1564" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >ActionExecutor</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 144.4062 L1612.0771 150.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 208.3125 L1612.0771 493.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 535.875 L1612.0771 1700.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 1742.4062 L1612.0771 1902.2812" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 1960.1875 L1612.0771 2117.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 2175.8438 L1612.0771 2463.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 2505.4688 L1612.0771 2511.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M1612.0771 2553.4062 L1612.0771 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="1859.1829" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="1859.1829" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="2034" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >oldTimer :</text
+      ><text x="1996" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >TimedPressCommand</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 144.4062 L2066.2886 150.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 208.3125 L2066.2886 493.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 535.875 L2066.2886 2463.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 2505.4688 L2066.2886 2511.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2066.2886 2553.4062 L2066.2886 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="2313.3943" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="2313.3943" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="2498" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >game :</text
+      ><text x="2481" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >GameModel</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 144.4062 L2520.5 493.9375" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 535.875 L2520.5 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 605.7812 L2520.5 2463.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 2505.4688 L2520.5 2511.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2520.5 2553.4062 L2520.5 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="2767.6057" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="2767.6057" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="2952" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >agent :</text
+      ><text x="2906" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >VoiceCommandAgent</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 144.4062 L2974.7114 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 605.7812 L2974.7114 979.1875" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 1021.125 L2974.7114 1210.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 1268.7188 L2974.7114 2463.5312" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 2505.4688 L2974.7114 2511.4688" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M2974.7114 2553.4062 L2974.7114 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="3221.8171" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="3221.8171" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="3405" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >model :</text
+      ><text x="3375" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >OpenJevAdapter</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3428.9229 144.4062 L3428.9229 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3428.9229 605.7812 L3428.9229 979.1875" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3428.9229 1021.125 L3428.9229 1210.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3428.9229 1268.7188 L3428.9229 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="3676.0285" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="3676.0285" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="3841" xml:space="preserve" y="99.9375" clip-path="url(#clipPath2)" stroke="none"
+      >Local SemIf /</text
+      ><text x="3844" xml:space="preserve" y="115.9062" clip-path="url(#clipPath2)" stroke="none"
+      >Qwen3.5 4B</text
+      ><text x="3829" xml:space="preserve" y="131.875" clip-path="url(#clipPath2)" stroke="none"
+      >«external HTTP»</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3883.1343 144.4062 L3883.1343 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M3883.1343 605.7812 L3883.1343 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="4130.2399" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="4130.2399" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="4299" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >freshTimer :</text
+      ><text x="4267" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >TimedPressCommand</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M4337.3457 144.4062 L4337.3457 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M4337.3457 605.7812 L4337.3457 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+    /></g
+    ><g stroke-linecap="butt" font-size="14px" transform="translate(20,20)" fill-opacity="0" fill="rgb(255,255,255)" font-family="sans-serif" stroke-dasharray="8,5" stroke="rgb(255,255,255)" stroke-opacity="0" stroke-miterlimit="5"
+    ><rect x="4584.4513" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)" stroke="none"
+    /></g
+    ><g font-family="sans-serif" font-size="14px" transform="translate(20,20)"
+    ><rect fill="none" x="4584.4513" width="414.2114" height="65.9688" y="78.4375" clip-path="url(#clipPath2)"
+      /><text x="4773" xml:space="preserve" y="107.9219" clip-path="url(#clipPath2)" stroke="none"
+      >view :</text
+      ><text x="4756" xml:space="preserve" y="123.8906" clip-path="url(#clipPath2)" stroke="none"
+      >GameView</text
+      ><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M4791.5571 144.4062 L4791.5571 579.8125" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" stroke-miterlimit="5" stroke-dasharray="8,5" d="M4791.5571 605.7812 L4791.5571 2579.4062" clip-path="url(#clipPath2)" stroke-linecap="butt"
+      /><path fill="none" d="M0.5 2599 L5039 2599" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M0.5 0.5 L0.5 2599" clip-path="url(#clipPath2)"
+      /><path fill="none" d="M5039 0.5 L5039 2599" clip-path="url(#clipPath2)"
+    /></g
+  ></g
+></svg
+>
