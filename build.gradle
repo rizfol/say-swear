@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.sayswear'
+version = '2.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url = uri('https://jitpack.io') }
+    maven {
+        url = uri('https://packages.jetbrains.team/maven/p/ij/intellij-dependencies')
+        content { includeGroup 'org.jetbrains.jediterm' }
+    }
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
+
+def os = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+def arm = System.getProperty('os.arch').toLowerCase(Locale.ROOT) in ['aarch64', 'arm64']
+def fxPlatform = os.contains('win') ? 'win' : os.contains('mac') ? (arm ? 'mac-aarch64' : 'mac') : (arm ? 'linux-aarch64' : 'linux')
+def sherpaPlatform = os.contains('win') ? (arm ? 'win-arm64' : 'win-x64') : os.contains('mac') ? (arm ? 'osx-aarch64' : 'osx-x64') : (arm ? 'linux-aarch64' : 'linux-x64')
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.4'
+    implementation 'org.jline:jline-reader:3.30.16'
+    runtimeOnly 'org.jline:jline-terminal-jni:3.30.16'
+    implementation "org.openjfx:javafx-base:21.0.8:${fxPlatform}"
+    implementation "org.openjfx:javafx-graphics:21.0.8:${fxPlatform}"
+    implementation "org.openjfx:javafx-controls:21.0.8:${fxPlatform}"
+    implementation 'com.github.k2-fsa.sherpa-onnx:sherpa-onnx-jvm:v1.13.5'
+    runtimeOnly "com.github.k2-fsa.sherpa-onnx:sherpa-onnx-native-lib-${sherpaPlatform}:v1.13.5"
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.jetbrains.jediterm:jediterm-core:3.76'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'com.sayswear.app.Main'
+    applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8']
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+test {
+    useJUnitPlatform { excludeTags 'native-asr', 'live-semif', 'gui-smoke' }
+    testLogging { events 'failed', 'skipped' }
+}
+
+tasks.register('asrSmokeTest', Test) {
+    description = 'Decode the bundled ASR sample using local model/native files; requires SHERPA_MODEL_DIR.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform { includeTags 'native-asr' }
+    testLogging { events 'passed', 'failed', 'skipped'; showStandardStreams = true }
+}
+
+tasks.register('guiSmokeTest', Test) {
+    description = 'Exercise the JavaFX view on a desktop; requires SAY_SWEAR_GUI_SMOKE=1.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform { includeTags 'gui-smoke' }
+    testLogging { events 'passed', 'failed', 'skipped'; showStandardStreams = true }
+}
+
+tasks.register('liveSemIfTest', Test) {
+    description = 'Exercise Qwen3.5 4B through the real local SemIf bridge; requires SAY_SWEAR_LIVE_SEMIF=1.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform { includeTags 'live-semif' }
+    testLogging { events 'passed', 'failed', 'skipped'; showStandardStreams = true }
+}
+
+tasks.named('run') { standardInput = System.in }
+
+tasks.register('runCli', JavaExec) {
+    group = 'application'
+    description = 'Run the terminal frontend; pass --args="--demo" for the offline demo interpreter.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = application.mainClass
+    args '--cli'
+    standardInput = System.in
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '8.14.2'
+    distributionType = Wrapper.DistributionType.BIN
+}
