@@ -1,7 +1,7 @@
 """Pair matching official CUDA and AVX2 CPU DLLs for Windows x64.
 
 Both v0.3.35 wheels use the same upstream commit. The CUDA wheel's CPU DLL
-requires AVX512, which is absent on the tested Ryzen 5700X. Keep the installed
+requires AVX512, which is absent on some AVX2-capable CPUs. Keep the installed
 wheel intact and select a project-local overlay with LLAMA_CPP_LIB_PATH.
 """
 from pathlib import Path

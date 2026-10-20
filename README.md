@@ -12,7 +12,7 @@ The application is **Java 21**, with a **JavaFX GUI and a terminal CLI sharing o
 |---|---|
 | Revised Stage 1 design report | [docs/stage1-report.md](docs/stage1-report.md) |
 | Current class, use-case, and sequence diagrams | [docs/uml/](docs/uml/) |
-| Original Stage 1 snapshot | [Git history](https://github.com/rizfol/say-swear/tree/56da5fd95c43dde4760032e59a36787a2c74049c) |
+| Original Stage 1 snapshot | Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`) |
 | Stage 2 feature → implementation mapping | [docs/feature-implementation-mapping.md](docs/feature-implementation-mapping.md) |
 | AI tools/models and representative collaboration log | [docs/ai-collaboration-log.md](docs/ai-collaboration-log.md) |
 | Original design → implementation change → reason | [docs/design-changes.md](docs/design-changes.md) |
@@ -237,7 +237,7 @@ The [feature mapping](docs/feature-implementation-mapping.md) connects F01–F10
 | SD04 — Correction, combined and timed commands | [View](docs/uml/sequence-diagrams/sd04-live-correction.svg) |
 | SD05 — Fall and start recovery | [View](docs/uml/sequence-diagrams/sd05-fall-recovery.svg) |
 
-These seven SVGs were exported from UMLet. Earlier diagram versions remain in [Git history](https://github.com/rizfol/say-swear/tree/56da5fd95c43dde4760032e59a36787a2c74049c/docs/uml/stage1/).
+These seven SVGs were exported from UMLet. Earlier diagram versions remain in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`).
 
 ## 4. Verification and decisions to review
 

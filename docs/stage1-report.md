@@ -4,7 +4,7 @@
 
 EECS 3311 · Fall 2026 · Stage 1 Project Design Report
 
-**Report revision:** this copy follows the current Stage 1 design report and UMLet diagrams. The [original Stage 1 report](https://github.com/rizfol/say-swear/blob/56da5fd95c43dde4760032e59a36787a2c74049c/README.md) remains available in Git history; [design changes](design-changes.md) record how the design evolved during implementation.
+**Report revision:** this copy follows the current Stage 1 design report and UMLet diagrams. The original Stage 1 report (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `README.md`) remains available in Git history; [design changes](design-changes.md) record how the design evolved during implementation.
 
 This report specifies a **proposed Java application**. Stage 1 contains design documentation, not application implementation or test results. The course's `stage1.pdf` is the detailed rubric; the professor's clarifications require both GUI and CLI access and **UMLet** diagrams. The repository contains seven SVG diagrams exported manually from UMLet and embedded below.
 

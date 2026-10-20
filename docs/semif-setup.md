@@ -50,9 +50,9 @@ The Linux scripts have been checked for argument handling, CPU/CUDA selection, e
 
 ## Install and launch on Windows
 
-Run from the repository root. Python 3.12 and a compatible native runtime are required. The NVIDIA setup uses CUDA. On this AVX2 machine, the setup combines matching official CPU/CUDA native artifacts as described below; a C++ build toolchain is not needed for that procedure.
+Run from the repository root. Python 3.12 and a compatible native runtime are required. The NVIDIA setup uses CUDA. For AVX2 compatibility, the setup combines matching official CPU/CUDA native artifacts as described below; a C++ build toolchain is not needed for that procedure.
 
-The CUDA DLL overlay does **not** bundle the NVIDIA driver, CUDA runtime/cuBLAS, or Microsoft Visual C++ runtime. Install a compatible NVIDIA driver, CUDA 12 runtime libraries including cuBLAS (a CUDA 12 toolkit installation supplies them), and the Microsoft Visual C++ 2015–2022 x64 Redistributable. `CUDA_PATH` should point to the CUDA installation; its `bin` directory must be available to native DLL loading. The tested machine already had CUDA 12 toolkits and the required system runtime.
+The CUDA DLL overlay does **not** bundle the NVIDIA driver, CUDA runtime/cuBLAS, or Microsoft Visual C++ runtime. Install a compatible NVIDIA driver, CUDA 12 runtime libraries including cuBLAS (a CUDA 12 toolkit installation supplies them), and the Microsoft Visual C++ 2015–2022 x64 Redistributable. `CUDA_PATH` should point to the CUDA installation; its `bin` directory must be available to native DLL loading.
 
 ```powershell
 .\scripts\setup-semif.ps1
@@ -92,11 +92,11 @@ Invoke-RestMethod http://127.0.0.1:8765/health
 
 Upstream SemIf's `llamacpp_backend` fixes `n_gpu_layers=0`. This repository makes one explicit allocation extension: `--gpu-layers -1` requests all supported layers on GPU. `--gpu-layers 0` retains upstream CPU allocation. Unsupported GPU offload fails at startup. The extension retains upstream prompt construction, reference/GGUF tokenizer verification, option-token verification, native forward pass and softmax scoring. The bridge uses the official full-prompt `score` function, with no restored-prefix cache.
 
-The initial official Windows CUDA wheel advertised AVX512 and failed during context creation on the Ryzen 7 5700X, which supports AVX2. The verified fix preserves the original virtual environment and creates a separate native-library directory: CUDA libraries from the official `0.3.35` CUDA wheel, with only `ggml-cpu.dll` replaced by the portable AVX2 library from the official `0.3.35` CPU wheel. Both releases point to the same source commit and vendored llama.cpp revision. `LLAMA_CPP_LIB_PATH` selects this directory. The setup scripts record/check the artifact digests; do not substitute unrelated native versions, whose C API layout can differ.
+The initial official Windows CUDA wheel advertised AVX512 and failed during context creation on an AVX2-capable CPU without AVX512. The verified fix preserves the original virtual environment and creates a separate native-library directory: CUDA libraries from the official `0.3.35` CUDA wheel, with only `ggml-cpu.dll` replaced by the portable AVX2 library from the official `0.3.35` CPU wheel. Both releases point to the same source commit and vendored llama.cpp revision. `LLAMA_CPP_LIB_PATH` selects this directory. The setup scripts record/check the artifact digests; do not substitute unrelated native versions, whose C API layout can differ.
 
 [configure-semif-native.py](../scripts/configure-semif-native.py) verifies the CPU wheel and extracted DLL SHA-256 values, and writes `.tools/semif-native-avx2/provenance.json`. [run-semif.ps1](../scripts/run-semif.ps1) selects this directory automatically.
 
-Before repeat support, service initialization, warmup and Java decision tests succeeded with this combination on an RTX 2070 SUPER (8 GB), with 34/34 layers offloaded. Current repeat semantics were checked separately on CPU with diagnostic deadlines. The updated default-budget GPU burst check remains outstanding.
+Before repeat support, service initialization, warmup and Java decision tests succeeded with this combination on a CUDA-capable GPU, with 34/34 layers offloaded. Current repeat semantics were checked separately on CPU with diagnostic deadlines. The updated default-budget GPU burst check remains outstanding. Timing measurements depend on the hardware and runtime configuration.
 
 ## Java boundary and bounded decisions
 

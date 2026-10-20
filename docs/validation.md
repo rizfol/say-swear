@@ -2,7 +2,7 @@
 
 This record separates executed checks from outstanding validation. Results below were obtained on Windows on September 30, 2026, using Java 21, Gradle 8.14.2, and the shared Java application. The [feature mapping](feature-implementation-mapping.md) identifies the corresponding implementation files.
 
-**Current diagram artifacts:** [current UML](uml/) now consists of UMLet-exported SVGs, superseding the earlier source/archive paths. The rendering tools, dimensions, and hashes recorded below describe those historical exports, not verification of the replacement UMLet files. The [original diagram archive remains in Git history](https://github.com/rizfol/say-swear/tree/56da5fd95c43dde4760032e59a36787a2c74049c/docs/uml/stage1); recorded application test results remain unchanged.
+**Current diagram artifacts:** [current UML](uml/) now consists of UMLet-exported SVGs, superseding the earlier source/archive paths. The rendering tools, dimensions, and hashes recorded below describe those historical exports, not verification of the replacement UMLet files. The original diagram archive remains in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`); recorded application test results remain unchanged.
 
 ## Latest setup change — Linux ASR downloader
 
@@ -46,7 +46,7 @@ Native Linux/macOS interaction and human visual/usability review remain unverifi
 
 Automatic timer release, `NO_ACTION`, `KEEP_CURRENT`, and ordinary stop/release retain movement memory. Reset, `/pause`, GUI **Stop & release**, fall, restart, and current input error clear it. The model receives structured memory and selects among 52 actions/eight types. An already-running bridge needs restarting to load the new schema.
 
-**Repeat verification:** the following checks passed after the change. [D18](design-changes.md) and [C14](ai-collaboration-log.md) record the work. All seven diagram sources at that time rendered to matching SVGs; the source boundaries and actual-method references were checked. Original Stage 1 diagrams remain in the [historical archive](https://github.com/rizfol/say-swear/tree/56da5fd95c43dde4760032e59a36787a2c74049c/docs/uml/stage1); the replacement UMLet SVGs are under [uml/](uml/).
+**Repeat verification:** the following checks passed after the change. [D18](design-changes.md) and [C14](ai-collaboration-log.md) record the work. All seven diagram sources at that time rendered to matching SVGs; the source boundaries and actual-method references were checked. Original Stage 1 diagrams remain in the historical archive (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`); the replacement UMLet SVGs are under [uml/](uml/).
 
 | Check | Actual result | Scope and limit |
 |---|---|---|
@@ -124,7 +124,7 @@ Replace `<Java21path>` with the installed JDK 21 directory. Append `--demo` to t
 
 ## Genuine GPU decision-model results before repeat support
 
-The Java [OpenJevAdapter](../src/main/java/com/sayswear/agent/OpenJevAdapter.java) and local [SemIf bridge](../tools/semif/server.py) successfully used SemIf commit `23cf1f39fc9534fe81437200959b6dfc7106e45a` with Qwen3.5 4B Q4_K_M on an RTX 2070 SUPER 8 GB, with 34/34 layers offloaded. The host CPU is a Ryzen 7 5700X. [LiveSemIfTest](../src/test/java/com/sayswear/agent/LiveSemIfTest.java) sent the following isolated sequential requests through the actual Java HTTP adapter:
+The Java [OpenJevAdapter](../src/main/java/com/sayswear/agent/OpenJevAdapter.java) and local [SemIf bridge](../tools/semif/server.py) successfully used SemIf commit `23cf1f39fc9534fe81437200959b6dfc7106e45a` with Qwen3.5 4B Q4_K_M on a CUDA-capable GPU, with 34/34 layers offloaded. Timing measurements depend on the hardware and runtime configuration. [LiveSemIfTest](../src/test/java/com/sayswear/agent/LiveSemIfTest.java) sent the following isolated sequential requests through the actual Java HTTP adapter:
 
 | Input | Initially held | Actual returned action | Observed elapsed time |
 |---|---|---|---:|
