@@ -11,16 +11,21 @@ The application is **Java 21**, with a **JavaFX GUI and a terminal CLI sharing o
 | Artifact | Location |
 |---|---|
 | Revised Stage 1 design report | [docs/stage1-report.md](docs/stage1-report.md) |
+| Stage 2 implementation report | [stage2-report.pdf](stage2-report.pdf) ([editable report source](docs/stage2-report.md)) |
 | Current class, use-case, and sequence diagrams | [docs/uml/](docs/uml/) |
 | Original Stage 1 snapshot | Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`) |
 | Stage 2 feature → implementation mapping | [docs/feature-implementation-mapping.md](docs/feature-implementation-mapping.md) |
 | AI tools/models and representative collaboration log | [docs/ai-collaboration-log.md](docs/ai-collaboration-log.md) |
 | Original design → implementation change → reason | [docs/design-changes.md](docs/design-changes.md) |
 | Executed validation and remaining limitations | [docs/validation.md](docs/validation.md) |
+| Implemented pattern explanations | [docs/implemented-design-patterns.md](docs/implemented-design-patterns.md) |
+| Feature video links and recording plan | [docs/stage2-demonstration-index.md](docs/stage2-demonstration-index.md) |
 
 The revised Stage 1 report describes the current local SemIf/Qwen design and embeds the UMLet-exported SVGs under `docs/uml/`. The original design remains available in the Git snapshot above. The [design-change record](docs/design-changes.md) explains the move from the earlier hosted OpenJev assumption to **SemIf** and the other implementation changes. Stage 3 KUMA evaluation is a later deliverable.
 
 **Current gameplay:** every fall returns to the level start, with no saved intermediate positions. F10 is **Fall Detection and Start Recovery**. A fresh `again` command repeats the remembered movement, including its duration. [D17–D18](docs/design-changes.md) record these changes; current UC06/SD05 show start recovery. The earlier checkpoint design is preserved in Git history. [Validation](docs/validation.md) records repeat tests and the remaining default-budget GPU check.
+
+**Stage 2 submission status (October 27, 2026):** the user reports having played the game and confirms that it works properly. The instructor replied that the existing early commit history works as evidence for the weekly-progress requirement; the [weekly summary](docs/validation.md) preserves the actual dates and links. Videos/timestamps and focused code review are still pending. The [AI accounting](docs/ai-collaboration-log.md) now records student-estimated tokens and subscription spending, with its basis and unmeasured categories stated. The report remains a review draft until these items are completed. Submission is due November 10.
 
 ## 1. Setup
 
@@ -223,7 +228,7 @@ The shared application loop serializes state mutations. HTTP and microphone work
 | Observer | `GameModel` events to controller and selected view through `GameObserver` |
 | State | `ActiveState`, `FallingState`, `RespawningState`, `FinishedState` |
 
-The [feature mapping](docs/feature-implementation-mapping.md) connects F01–F10 to original design identifiers, implementation files, and verification evidence.
+The [feature mapping](docs/feature-implementation-mapping.md) connects F01–F10 to original design identifiers, implementation files, methods, patterns, verification evidence, and pending demonstration segments. [Implemented design patterns](docs/implemented-design-patterns.md) explains the actual roles and collaboration in the source.
 
 ### Current UML diagrams
 
@@ -247,14 +252,27 @@ The repeat update passed **73 Java tests**, **nine bridge tests**, packaged demo
 
 The subsequent CLI display update passed the full build with **76 Java tests**, including **seven CLI tests**, plus packaged demo, automatic piped-fallback, native Windows ConPTY, and actual PowerShell quiet-launch checks. An unfinished instruction survived periodic redraw and reached the actual game intact. [D19](docs/design-changes.md) and [validation](docs/validation.md) record the scope and remaining platform review.
 
-Important student review items:
+The user has played the game and reports that it works properly. This records general gameplay acceptance; the interface, microphone setup, individual commands, and measured latency were not specified. The [validation record](docs/validation.md) identifies the remaining review and evidence without treating that gameplay check as missing.
+
+Important focused review items:
 
 1. **Real interaction:** play with your microphone and voice. Check short words, pause boundaries, corrections, and recovery. Recorded-sample recognition does not establish microphone/accent accuracy.
 2. **Latency and feel:** judge the path width, movement speed, 100/200/400 ms timed actions, and interpretation delay together. The human still controls timing.
 3. **Ambiguity:** `NO_ACTION` preserves movement; a current failure stops it. Confirm that distinction and the immediate pause control.
 4. **Freshness:** inspect the controller, agent, and control-manager tests explaining why old decisions and expired timers cannot override newer controls.
 5. **Mixed GUI input:** a typed instruction supersedes remaining partials of the current spoken utterance; speech becomes eligible again at the next endpoint.
-6. **Course ownership:** read the implementation and append your actual review, changes, and outcomes to the collaboration log. AI-generated tests and source do not substitute for your understanding.
+6. **Course ownership:** read the implementation and record the actual scope and outcome of your focused code review in the collaboration log. General gameplay acceptance has already been recorded; AI-generated tests and source do not establish your understanding of each implementation path.
 7. **Repeat memory:** review `again` after a timed action expires, after ordinary `stop`, and after a pause/fall clears memory. A fresh utterance repeats; duplicate partials should not restart the same action.
 
 The game intentionally has one player, one fixed level, a start, falling, and a goal. There are no checkpoints, enemies, jumping, inventory, combat, procedural generation, or autonomous navigation.
+
+### Rebuild the Stage 2 report
+
+The report source includes the maintained mapping, pattern, change, collaboration, verification, and video-index documents. After filling pending evidence, regenerate the PDF from the repository root:
+
+```text
+python -m pip install reportlab svglib
+python scripts/build-stage2-report.py
+```
+
+These packages are only needed to rebuild the documentation PDF. They are not Java application dependencies. The builder embeds the existing UMLet SVGs and does not regenerate diagrams. The large class/sequence diagrams use larger appendix pages so their text remains readable when zoomed or printed at the indicated size. Review the generated PDF after changing report content.

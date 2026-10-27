@@ -1,41 +1,221 @@
 # Stage 2 Design Changes
 
-This record follows the Stage 2 requirement to explain **original design → change → reason**. The [revised Stage 1 report](stage1-report.md) reflects the selected current design; the original diagram archive in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`) preserves the historical baseline. [Current diagrams](uml/) describe the implementation; the table below explains its changes.
+This is the consolidated **Original design → Implemented change → Reason → Impact** record required by the Course Project Stage 2 Instructions. F01–F10 remain traceable through the [feature mapping](feature-implementation-mapping.md). The same five patterns remain implemented; [pattern roles and methods](implemented-design-patterns.md) explain their structural realization.
 
-**Current diagram artifacts:** the repository now contains UMLet-exported SVGs only. Historical source/archive paths and rendering checks below describe earlier artifacts; the later UMLet revision supersedes those files without changing the recorded implementation or validation outcomes.
+## Baseline, current artifacts and evidence
 
-**Latest change:** D19 replaces scrolling CLI maps with an in-place game panel and a separate editable prompt, using a direct terminal launch. The full build passed 76 Java tests; packaged demo, piped-fallback, and native Windows ConPTY checks passed. The actual PowerShell quiet-launch check also passed: piped state/quit reached the installed application, exited successfully, and emitted no ANSI escapes. D18 records explicit repeat memory and refreshed current UML, preserving the Stage 1 diagrams in `uml/stage1/`. The earlier D17 change makes every fall return to the level start with neutral controls; F10 is **Fall Detection and Start Recovery**. Current UC06/SD05 reflect that recovery, while their archived versions retain the checkpoint design.
+The original Stage 1 design is preserved in Git history at commit `56da5fd95c43dde4760032e59a36787a2c74049c`. The [revised Stage 1 report](stage1-report.md) and current [UMLet-exported SVGs](uml/) describe the selected implementation. Earlier PlantUML sources, rendered previews and `docs/uml/stage1/` archives mentioned in development records are historical artifacts in Git history, not current-file promises. UMLet replaced the diagram authoring/export format; this did not change application behavior or add a design pattern.
 
-**Validation status:** repeat support passed the full build/distribution with **73 ordinary Java tests**, **nine bridge tests**, and packaged demo/live CLI checks. A separate CPU service passed 20 baseline and eight repeat/history cases under a **60000 ms diagnostic cap**; the live CLI used **30000 ms**. The updated **2000 ms GPU burst gate has not been rerun**. All seven current diagrams rendered successfully. Class preview inspection and SVG geometry checks passed; all 14 archived originals match their previous SHA-256 values. Earlier GPU/ASR/gameplay results remain historical evidence in [validation](validation.md). Human code/usability and microphone/gameplay review remain outstanding.
+Recorded verification progressed from 63 ordinary Java tests, to 73 after repeat support, to 76 after terminal redraw. Nine controlled bridge tests and 28 CPU semantic samples were recorded for repeat support. Earlier 20-case GPU and four-partial burst checks predate repeat. Historical diagram rendering/geometry/hash checks apply to the versions named in [validation](validation.md), not automatically to replacement SVGs.
 
-| ID | Original design | Implementation change | Reason and effect | Evidence/status |
-|---|---|---|---|---|
-| D01 | The Stage 1 report interpreted “OpenJev” as the hosted `openjev.sh` service and an `openjev` model alias. | The user identified **SemIf** and selected **Qwen3.5 4B**; assistant research located [openjev.com](https://openjev.com) / [TheoLeeCJ/SemIf-OpenJev](https://github.com/TheoLeeCJ/SemIf-OpenJev). Keep `DecisionModel` and `OpenJevAdapter`; use a local HTTP bridge to genuine SemIf. | Correct an AI research error involving unrelated projects. Game/control/frontends remain Java; Python is confined to the external model runtime. Deterministic commands do not depend on the provider correction. | [OpenJevAdapter.java](../src/main/java/com/sayswear/agent/OpenJevAdapter.java), [SemIf bridge](../tools/semif/server.py); upstream pinned to `23cf1f39fc9534fe81437200959b6dfc7106e45a`. Twenty model cases, a real-agent burst, and the packaged live CLI check passed. |
-| D02 | Immutable value objects and a string-valued snapshot lifecycle status were shown conceptually. | Use Java records for `Vector2`, `GameSnapshot`, `GameEvent`, and agent/control values, plus a typed `PlayerStatus` enum. Snapshot direction sets and level geometry are copied into immutable collections. | Make snapshots safe to share with both frontends and prevent spelling-dependent lifecycle checks. This preserves the State pattern and snapshot boundary. | [GameSnapshot.java](../src/main/java/com/sayswear/game/GameSnapshot.java), [PlayerStatus.java](../src/main/java/com/sayswear/game/PlayerStatus.java), [Level.java](../src/main/java/com/sayswear/game/Level.java); source present. |
-| D03 | The concrete views separately implemented `GameView` and `GameObserver`; transcript/status methods were frontend-specific. | `GameView` extends `GameObserver` and supplies default observer/transcript/voice-status behavior. Concrete views retain `render()` and `showMessage()`. | Centralize ordinary lifecycle presentation and give the controller one presentation contract, while allowing the CLI to customize periodic output. No second simulation is introduced. | [GameView.java](../src/main/java/com/sayswear/view/GameView.java); source present. |
-| D04 | GUI movement entry was described through continuous voice; CLI used typed language. | Add a clearly labelled GUI **Text Instructions** field that calls the same `submitTextCommand()` route as the CLI. Voice remains the primary GUI control path. | Support demonstration, correction, and usability when audio setup is unavailable. This is natural-language input to the same interpreter, not direct keyboard movement. | [JavaFxGameView.java](../src/main/java/com/sayswear/view/JavaFxGameView.java); actual text-field submission moved the shared player in the passing desktop smoke test. |
-| D05 | Session start/stop and checkpoint recovery were designed, but a fresh-run control was not specified. | Add GUI **Restart run** and deterministic `GameModel.restart()`. CLI session commands expose state/pause/restart/help/quit without treating these as movement instructions. | Let a player restart the same small level and inspect/pause a terminal session. Restart invalidates pending work before resetting the game. No level or gameplay mechanic is added. | [GameModel.java](../src/main/java/com/sayswear/game/GameModel.java), [ApplicationController.java](../src/main/java/com/sayswear/app/ApplicationController.java), [Main.java](../src/main/java/com/sayswear/app/Main.java). Desktop Stop & release and Restart run passed against the actual controller/game. |
-| D06 | Snapshot rendering and throttled CLI display were described without concrete scheduling utilities. | Coalesce GUI snapshots/messages on the JavaFX thread. Sample the domain predicate for a 61×27 ASCII overview; refresh CLI frames about once per second by default. Explicit `--quiet-cli` suppresses periodic scripted output while state requests/lifecycle events remain visible. | Avoid repaint accumulation and output flooding. Gradle forwards stdin, so `System.console()==null` cannot reliably detect a scripted session; the explicit flag replaces that heuristic. Renderers still read shared state rather than simulating movement. | [JavaFxGameView.java](../src/main/java/com/sayswear/view/JavaFxGameView.java), [CliView.java](../src/main/java/com/sayswear/view/CliView.java), [Main.java](../src/main/java/com/sayswear/app/Main.java); CLI/JavaFX tests passed. Packaged [CLI check](../scripts/check-cli.py) also passed movement, expiry, state, restart, and quit with the explicit demo model. |
-| D07 | All semantic interpretation used the configured `DecisionModel`. | Add `DemoDecisionModel`, an explicitly labelled deterministic parser behind the same interface, for offline demonstration and application wiring checks. | Permit development without a live AI service. It is not presented as an AI model, and it cannot establish completion of SemIf/Qwen integration or agent evaluation. | [DemoDecisionModel.java](../src/main/java/com/sayswear/agent/DemoDecisionModel.java); [Main.java](../src/main/java/com/sayswear/app/Main.java) selects it only for the explicit demo option. Used in the passing actual JavaFX smoke test. |
-| D08 | The class diagram showed core observer notification but no observer-removal or subscriber-failure policy. | Add `removeObserver()` and isolate exceptions thrown by individual observers during synchronous notification. | A broken presentation observer should not prevent the controller's fall/goal cleanup from receiving its event. Logging records the subscriber failure. | [GameModel.java](../src/main/java/com/sayswear/game/GameModel.java); source present. |
-| D09 | Java and JavaFX were required without a concrete build-system choice. | Target Java 21 and JavaFX 21 with a Gradle wrapper and JUnit tests. | Make the runtime/dependencies and build entry points reproducible for both frontends. This preserves the shared architecture. | [build.gradle](../build.gradle), [Gradle wrapper configuration](../gradle/wrapper/gradle-wrapper.properties); full build/distribution assembly passed, with 63 ordinary tests plus desktop and native ASR smoke tests passing. |
-| D10 | The design proposed a fixed 60 Hz simulation timestep and timer quantization of about one such step. | The controller schedules updates every 16 ms, measures elapsed seconds, and caps one update at 50 ms. Timer advancement precedes game update. `ActiveState` subdivides movement into smaller collision-check steps. | Limit a simulation jump after a delayed loop turn while retaining responsive elapsed-time updates. Timing tolerance is bounded by the actual capped update, not always exactly 16.7 ms. Simulation can lag wall time after a long stall. | [ApplicationController.java](../src/main/java/com/sayswear/app/ApplicationController.java), [ActiveState.java](../src/main/java/com/sayswear/game/ActiveState.java); deterministic movement/timer tests and actual scheduled GUI movement passed. Model request/burst times are recorded in [validation](validation.md); microphone-to-gameplay latency remains unmeasured. |
-| D11 | Sequence diagrams used public `handleInputFailure(message, epoch, version)` and `invalidateControls(reason)` as explanatory operations. | The controller checks captured request identity in completion callbacks and calls private `failCurrent(message)` / `invalidateControls()` helpers. Explicit `close()` lifecycles release application, agent, and voice resources. | Keep implementation cleanup in one internal path. Reset advances the control epoch before cancellation callbacks can run; stale failures cannot clear a newer session. | [ApplicationController.java](../src/main/java/com/sayswear/app/ApplicationController.java), [VoiceCommandAgent.java](../src/main/java/com/sayswear/agent/VoiceCommandAgent.java), [VoiceInputService.java](../src/main/java/com/sayswear/voice/VoiceInputService.java); controller, bounded-agent/reset, and fake-hardware voice-lifecycle tests passed. |
-| D12 | One selected frontend originally supplied either voice or typed instructions. | With GUI text entry, a typed instruction supersedes remaining partials of the active spoken utterance; fresh voice becomes eligible at the next endpoint. | Prevent an older evolving voice partial from overriding a newer typed correction. Both sources share one version counter and control pipeline. | `submitTextCommand()` and `handleTranscript()` in [ApplicationController.java](../src/main/java/com/sayswear/app/ApplicationController.java); source reviewed. Mixed voice/text usability is included in remaining manual microphone review. |
-| D13 | The conceptual adapter selected one bounded action from the provider. | Initially use genuine upstream full-prompt SemIf scoring: seven action types, vertical `UP/DOWN/NONE`, horizontal `LEFT/RIGHT/NONE`, and optional 100/200/400 ms duration. One to four readouts composed into one of 51 allowed Java actions; D18 adds the explicit repeat type/label. | Separate axis decisions support all diagonals and avoid the observed direction-set misinterpretations. Each axis sees the transcript and its initially held direction; no level geometry is supplied. Deterministic composition validates outputs and never chooses a route. | [SemIf bridge](../tools/semif/server.py); seven hardware-free tests, 20 final model cases, and the real-agent burst passed. Historical failures remain in [validation](validation.md). |
-| D14 | Stage 1 left native model deployment unspecified. | Use Q4_K_M weights, GPU allocation, and a project-local overlay pairing the same-version official portable AVX2 CPU DLL with unchanged CUDA runtime libraries. Preserve the installed dependency and pin hashes/provenance. | The initial CUDA wheel's CPU library required AVX512, which an AVX2-capable test CPU lacked. Compatible CPU instructions remain necessary with GPU offload. | [configure-semif-native.py](../scripts/configure-semif-native.py), [SemIf setup](semif-setup.md); final real-model checks and launcher readiness passed with 34/34 layers offloaded to a CUDA-capable GPU. |
-| D15 | The initial implementation used a 1000 ms decision budget including queue time. | Set the default to 2000 ms, retaining queue-inclusive expiry, finite provider timeouts, latest-pending replacement, and fail-closed handling. Launch settings honor the environment unless an explicit parameter overrides it. | The initial four-partial burst expired at 1000 ms. The final burst returned its latest correction after 990.7 ms with a 2000 ms budget. Allow queue/runtime overhead without imposing a forced delay. | [LiveSemIfTest.java](../src/test/java/com/sayswear/agent/LiveSemIfTest.java), [run.ps1](../run.ps1), [validation](validation.md); real CLI check passed with the application budget. Human gameplay review remains outstanding. |
-| D16 | The same raw transcript representation originally reached every model readout. | Preserve raw text in Java, the request, and action-type scoring. Only after Qwen chooses `SWITCH`, format axis input as comma-separated words by splitting commas/whitespace and joining with `, `. | The unchanged ASR-like correction burst exposed sensitivity to unpunctuated text. The generic, idempotent format supplies word boundaries; it neither identifies direction words nor parses correction intent. Qwen still selects both axes through logits. | [SemIf bridge](../tools/semif/server.py), [bridge tests](../tools/semif/test_server.py), [live tests](../src/test/java/com/sayswear/agent/LiveSemIfTest.java); all 20 isolated cases and the unchanged four-partial burst passed together. This empirical formatting choice requires human review and broader later evaluation. |
-| D17 | F10, UC06, and SD05 described checkpoint activation and respawning at the latest checkpoint. `Level` and `GameSnapshot` exposed checkpoint data, `GameModel.resetToCheckpoint()` restored it, and views displayed checkpoint progress. | At the user's request, remove checkpoint geometry, saved positions, activation events, and GUI/CLI checkpoint displays. Rename F10 to **Fall Detection and Start Recovery**, retaining its ID. `GameModel.resetToStart()` always restores `Level.start()` with zero velocity and released inputs; the fall/respawn lifecycle, cancellation, and freshness safeguards still apply. | The user wants a rage game in which every fall loses all progress along the single level. One fixed recovery destination also removes checkpoint bookkeeping from the shared core. UC06/SD05 and the original diagrams remain historical references. | [GameModel.java](../src/main/java/com/sayswear/game/GameModel.java), [Level.java](../src/main/java/com/sayswear/game/Level.java), [GameSnapshot.java](../src/main/java/com/sayswear/game/GameSnapshot.java), [GameEventType.java](../src/main/java/com/sayswear/game/GameEventType.java), [GUI](../src/main/java/com/sayswear/view/JavaFxGameView.java), [CLI](../src/main/java/com/sayswear/view/CliView.java); full build/63 tests, JavaFX smoke, and packaged demo CLI passed after the change. See [validation](validation.md). |
-| D18 | Context retained held directions and previous accepted text, but no structured movement intent. The seven-type/51-action vocabulary had no explicit repeat proposal, so `again` could not reliably replay a timed action after its inputs expired. The original UML remained directly under `docs/uml/`. | Add immutable `MovementIntent(type, directions, durationMs)` for accepted `PRESS`, `SWITCH`, and `TIMED_PRESS`, exposed as `ControlContext.lastMovement`. Add empty-direction, zero-duration `REPEAT_LAST` as the eighth action type and 52nd bounded label. Java validates it and creates a fresh command from memory; no history produces no commands and an explanatory message. Preserve memory through timer expiry, `NO_ACTION`, `KEEP_CURRENT`, and ordinary stop/release; clear it on reset/pause/fall/restart/current error. Allow one repeat per utterance, including across intervening partial interpretations. Archive original diagrams under `docs/uml/stage1/` and refresh current diagrams at the existing paths. | The user requested repeat support and a fix for overlapping diagram text. Archiving the original diagram set was an implementation choice. Structured memory retains exact direction/duration even when held inputs are empty; deterministic replay avoids asking the model to reconstruct an old action. Utterance identity prevents a repeated partial from extending the same timer. The archive preserves design-before-implementation evidence. | [MovementIntent.java](../src/main/java/com/sayswear/agent/MovementIntent.java), [ControlContext.java](../src/main/java/com/sayswear/agent/ControlContext.java), [ControlManager.java](../src/main/java/com/sayswear/control/ControlManager.java), [OpenJevAdapter.java](../src/main/java/com/sayswear/agent/OpenJevAdapter.java), [bridge](../tools/semif/server.py), [current UML](uml/); 73 Java/nine bridge tests, 28 CPU semantic cases, and packaged demo/live CLI checks passed. All seven current UML sources/SVGs were verified, including class-box/text geometry. The updated 2000 ms GPU burst check remains outstanding; see [validation](validation.md). Restart the local bridge for its updated schema. |
-| D19 | The first CLI printed a complete 61×27 ASCII map about once per second and repeated the prompt, causing output to scroll while the user typed. The Windows launcher ran the CLI through Gradle's forwarded streams. | Use JLine 3.30.16 `Status` for a fixed bottom game panel and `LineReader` for a separate editable prompt. Resize the map to fit the terminal. Include the JNI provider for Java 21. Launch the installed distribution directly after `installDist`; `run.ps1 -QuietCli` forwards the existing `--quiet-cli` option. Quiet, redirected, and unsupported-terminal sessions retain plain nonperiodic state/event output. | The user requested a game display that stays in place without disrupting text entry. Direct launch exposes actual terminal capabilities, and the display consumes the same shared snapshots without changing simulation or AI interpretation. | [CliView.java](../src/main/java/com/sayswear/view/CliView.java), [Main.java](../src/main/java/com/sayswear/app/Main.java), [build.gradle](../build.gradle), [run.ps1](../run.ps1); seven CLI tests passed, including actual JLine plus independent screen-emulator checks for editing, resize, interruption, and cleanup. Packaged demo and automatic piped fallback passed. The full build passed 76 ordinary tests; native Windows ConPTY preserved a partially typed command across redraw and passed movement/repeat, pause, restart, quit, and terminal restoration. The actual PowerShell quiet-launch check also passed: piped state/quit reached the installed application, exited successfully, and emitted no ANSI escapes. D19 supersedes D06's append-only CLI display and automatic periodic output policy. Native Linux/macOS interaction is not yet tested. |
+The user reports having played the game and confirms that it works. This is general gameplay acceptance; no interface, microphone, command coverage or timing details were supplied. Specific microphone coverage and the updated 2000 ms GPU burst check remain unverified. Videos remain pending. These limits do not imply that the corresponding code is missing.
 
-D19's UML follow-up is recorded in C16: the current class diagram and SD02 now show terminal ownership, in-place redraw, input handling, fallback, and cleanup. SD05 distinguishes ordinary throttled refresh from lifecycle-event rendering. All seven current diagrams were reviewed; the three affected SVGs were regenerated. The Stage 1 archive remains unchanged.
+## D01 — Correct the decision provider identity
 
-## Preserved design responsibilities
+**Original:** the initial report interpreted OpenJev as the unrelated hosted `openjev.sh` service with an `openjev` model alias.
 
-The player still chooses every direction and turn. AI interpretation receives control context, not level geometry or a destination. `ActionDecision` remains a bounded proposal; deterministic Java components own validation, cancellation, timing, movement, collision/fall checks, and recovery at the level start. GUI and CLI use the same model, controls, and agent contract. MVC, Command, Adapter, Observer, and State remain visible in the implementation structure.
+**Implemented change:** retain Java `DecisionModel`/`OpenJevAdapter`, but connect to a project loopback HTTP bridge for genuine **SemIf (formerly OpenJev), using Qwen3.5 4B**. The upstream SemIf commit is pinned to `23cf1f39fc9534fe81437200959b6dfc7106e45a`. Python hosts the external inference dependency; the game, frontends and controls remain Java.
 
-## Remaining human validation
+**Reason / original need:** correct the provider research error after the user identified the intended project and model. Natural-language movement interpretation remains the original user need; it now runs locally without an API key.
 
-The earlier isolated model gate used a 15-second diagnostic deadline; its real-agent burst and packaged CLI used the 2000 ms application budget. Those pre-repeat checks passed. Repeat verification is recorded separately. A real microphone session, integrated voice/gameplay latency, and student understanding/usability review remain outstanding. Finite samples do not establish general language reliability. Stage 3 KUMA evaluation is separate. Original Stage 1 diagrams remain archived as the historical baseline.
+**Impact:** F04–F08; UC01–UC05; Adapter preserved. [OpenJevAdapter.decide()/parseResponse()](../src/main/java/com/sayswear/agent/OpenJevAdapter.java), [DecisionModel.decide()](../src/main/java/com/sayswear/agent/DecisionModel.java), and [DecisionEngine.decide()/load_scorer()](../tools/semif/server.py) implement the boundary. Genuine-model and packaged CLI checks are recorded separately from demo tests.
+
+## D02 — Concrete immutable values and typed status
+
+**Original:** value objects were conceptual and snapshot lifecycle status was string-valued.
+
+**Implemented change:** use records for `Vector2`, `GameSnapshot`, `GameEvent` and agent/control values, plus `PlayerStatus`. Copy direction sets and level geometry into immutable collections.
+
+**Reason / original need:** safely publish one model to both views and avoid spelling-dependent lifecycle handling. Movement and recovery behavior remain unchanged.
+
+**Impact:** F01/F05/F09/F10; UC01–UC06; MVC, Observer and State preserved. [GameSnapshot constructor](../src/main/java/com/sayswear/game/GameSnapshot.java), [ControlContext constructor](../src/main/java/com/sayswear/agent/ControlContext.java), [Level constructor](../src/main/java/com/sayswear/game/Level.java), [Player.status()](../src/main/java/com/sayswear/game/Player.java), [PlayerStatus](../src/main/java/com/sayswear/game/PlayerStatus.java) define the values. The enum is for presentation; `PlayerState` objects still execute lifecycle behavior.
+
+## D03 — One presentation/observer contract
+
+**Original:** both concrete views separately implemented `GameView` and `GameObserver`; transcript/status methods were frontend-specific.
+
+**Implemented change:** `GameView` extends `GameObserver`, with default transcript/status hooks and lifecycle presentation. Concrete views provide rendering and messages; CLI overrides event handling for its output policy.
+
+**Reason / original need:** give the controller one presentation contract and centralize common fall/respawn/goal messages without duplicating the simulation.
+
+**Impact:** F01–F04/F10; UC01/UC02/UC06; MVC and Observer refined, not replaced. [GameView.onGameEvent()/render()/showMessage()](../src/main/java/com/sayswear/view/GameView.java), [CliView.onGameEvent()](../src/main/java/com/sayswear/view/CliView.java), [ApplicationController.start()](../src/main/java/com/sayswear/app/ApplicationController.java) implement the change.
+
+## D04 — Add GUI natural-language text input
+
+**Original:** GUI instructions entered through speech; CLI instructions were typed.
+
+**Implemented change:** add the GUI Text Instructions field and Send instruction action, routed to the same text-command controller method used by CLI.
+
+**Reason / original need:** allow users to exercise/correct movement when audio setup is unavailable. This is an added entry route for F04, not direct keyboard movement or a substitute for F02/F03.
+
+**Impact:** F04–F09; UC01/UC02/UC04; MVC preserved. [JavaFxGameView.submitTypedCommand()](../src/main/java/com/sayswear/view/JavaFxGameView.java), [ApplicationController.submitTextCommand()](../src/main/java/com/sayswear/app/ApplicationController.java), [Main.runCli()](../src/main/java/com/sayswear/app/Main.java) share the pipeline. Historical GUI smoke testing exercised actual text-field movement with explicit demo mode.
+
+## D05 — Add fresh-run and inspection controls
+
+**Original:** session start/stop and checkpoint recovery were planned; a manual fresh-run control was not specified.
+
+**Implemented change:** GUI Restart run and CLI `/restart`, `/state`, `/pause`, `/help`, `/quit` provide deterministic session operations. Restart invalidates pending work before resetting the game.
+
+**Reason / original need:** let users restart the single level, inspect exact state and stop a session. These supporting operations are not counted toward the ten meaningful features.
+
+**Impact:** F01/F02/F09/F10; UC01/UC02/UC06; MVC, Command, Observer and State preserved. [ApplicationController.restart()/pauseControls()](../src/main/java/com/sayswear/app/ApplicationController.java), [GameModel.restart()](../src/main/java/com/sayswear/game/GameModel.java), [Main.runCli()](../src/main/java/com/sayswear/app/Main.java) and the GUI button handlers implement them. GUI and packaged CLI checks covered reset/release behavior.
+
+## D06 — Implement responsive presentation scheduling
+
+**Original:** snapshots and throttled CLI display were described without concrete scheduling utilities.
+
+**Implemented change:** JavaFX coalesces snapshots/transcript/messages on its application thread. The initial CLI used a 61×27 ASCII overview and approximately one-second refresh; explicit quiet mode suppressed periodic scripted output. D19 later replaces the scrolling interactive presentation. The current GUI also highlights the neutral player at the start; this is presentation of existing state.
+
+**Reason / original need:** prevent repaint accumulation and make the player/state readable without adding game mechanics. At the initial stage, Gradle-forwarded streams made `System.console()` alone insufficient to identify a usable terminal.
+
+**Impact:** F01/F03/F04/F10; UC01/UC02/UC06; MVC and Observer preserved. [JavaFxGameView.render()/scheduleUpdate()/drainUpdates()](../src/main/java/com/sayswear/view/JavaFxGameView.java), [CliView.formatSnapshot()/onGameEvent()](../src/main/java/com/sayswear/view/CliView.java) are relevant. D19 supersedes the original append-only CLI refresh policy, not the shared model.
+
+## D07 — Add an explicitly selected offline demo model
+
+**Original:** semantic interpretation used the configured real `DecisionModel`.
+
+**Implemented change:** add `DemoDecisionModel`, a limited deterministic parser selected only by explicit `--demo`. Real SemIf remains the default; there is no automatic fallback to demo when inference fails.
+
+**Reason / original need:** permit application development/demonstration without loading an AI service. This does not replace the required LLM integration or establish AI accuracy.
+
+**Impact:** F04–F09 development/demo path; UC01–UC05; Adapter target contract preserved. [DemoDecisionModel.decide()/parse()](../src/main/java/com/sayswear/agent/DemoDecisionModel.java), [Main.compose()](../src/main/java/com/sayswear/app/Main.java), [SaySwearApplication.start()](../src/main/java/com/sayswear/app/SaySwearApplication.java) select/label the mode. Demo results are identified separately in validation.
+
+## D08 — Define observer removal and failure isolation
+
+**Original:** subject notification was planned without a subscriber-removal or exception policy.
+
+**Implemented change:** notify a copied subscriber list, allow removal, and catch/log individual subscriber failures while continuing notification. Register controller cleanup before the presentation observer.
+
+**Reason / original need:** a presentation failure must not prevent lifecycle cleanup; close/unsubscribe must be safe during notification.
+
+**Impact:** F01/F09/F10; UC01/UC02/UC06; Observer refined. [GameModel.removeObserver()/notifyObservers()](../src/main/java/com/sayswear/game/GameModel.java), [ApplicationController.start()/close()](../src/main/java/com/sayswear/app/ApplicationController.java) implement the policy. Observer removal and fall cleanup have deterministic tests.
+
+## D09 — Choose a reproducible Java build
+
+**Original:** Java/JavaFX were required without concrete build and dependency versions.
+
+**Implemented change:** use Java 21, JavaFX 21, Gradle wrapper 8.14.2, pinned sherpa Java/native dependencies and JUnit. Platform classifiers select native dependencies for the host.
+
+**Reason / original need:** provide reproducible compilation, ordinary tests and packaged GUI/CLI startup rather than requiring manually assembled classpaths.
+
+**Impact:** all features and UC01–UC06; all five patterns retained, no added pattern. [build.gradle](../build.gradle) defines `test`, `installDist`, `guiSmokeTest`, `asrSmokeTest` and `liveSemIfTest`; [wrapper configuration](../gradle/wrapper/gradle-wrapper.properties) pins Gradle. Historical suites increased 63 → 73 → 76 ordinary tests as functionality evolved; special tasks remain opt-in. D20 records Linux setup entry points.
+
+## D10 — Specify elapsed-time simulation and timer ownership
+
+**Original:** a fixed 60 Hz timestep and roughly one-tick timer quantization were proposed.
+
+**Implemented change:** schedule updates every 16 ms, measure elapsed time and cap one update at 50 ms. Advance timers before game movement; subdivide movement for corridor collision checks. `ActionExecutor` owns active timed commands and `TimedPressCommand` owns remaining duration.
+
+**Reason / original need:** bound motion after a delayed loop turn and prevent a large update from skipping across void. Timer tolerance follows the actual capped update; prolonged stalls can make simulation lag wall time.
+
+**Impact:** F01/F08/F09/F10; UC01/UC02/UC05/UC06; Command and State preserved. [ApplicationController.tickFromClock()/advance()](../src/main/java/com/sayswear/app/ApplicationController.java), [ActionExecutor.advance()](../src/main/java/com/sayswear/control/ActionExecutor.java), [TimedPressCommand.advance()](../src/main/java/com/sayswear/control/TimedPressCommand.java), [ActiveState.update()](../src/main/java/com/sayswear/game/ActiveState.java) implement this. Movement, quantization and collision tests cover deterministic behavior.
+
+## D11 — Centralize request invalidation and cleanup
+
+**Original:** sequences used explanatory operations `handleInputFailure(message, epoch, version)` and `invalidateControls(reason)`.
+
+**Implemented change:** completion callbacks check captured identity and use private `failCurrent(message)`/`invalidateControls()` helpers. Explicit `close()` lifecycles release resources. Control reset advances the epoch before cancellation callbacks run; decisions carry local version/epoch/revision metadata.
+
+**Reason / original need:** use one neutral cleanup path and prevent old successes/failures from changing a newer input session. Public implementation operations differ from the conceptual signatures without changing their responsibility.
+
+**Impact:** F02/F04/F06/F09/F10; UC01/UC02/UC04/UC06; MVC, Command, Adapter and Observer preserved. [ApplicationController.isCurrent()/failCurrent()/invalidateControls()/close()](../src/main/java/com/sayswear/app/ApplicationController.java), [ControlManager.reset()/accept()](../src/main/java/com/sayswear/control/ControlManager.java), [VoiceCommandAgent.reset()/close()](../src/main/java/com/sayswear/agent/VoiceCommandAgent.java), [VoiceInputService.stop()/close()](../src/main/java/com/sayswear/voice/VoiceInputService.java) implement cleanup. Tests cover stale callbacks and bounded/reset behavior.
+
+## D12 — Define precedence between voice and typed input
+
+**Original:** the selected frontend supplied voice or typed text, so simultaneous input-source precedence was unspecified.
+
+**Implemented change:** a typed command supersedes remaining partials of the current spoken utterance. Fresh voice becomes eligible after a new endpoint. Both sources share one version counter and control pipeline.
+
+**Reason / original need:** prevent an older evolving transcript from undoing a newer typed correction after D04 added GUI text entry.
+
+**Impact:** F02/F03/F06/F09; UC01/UC02/UC04; MVC and Adapter preserved. [ApplicationController.submitTextCommand()/handleTranscript()](../src/main/java/com/sayswear/app/ApplicationController.java) and [VoiceInputService.endpoint()](../src/main/java/com/sayswear/voice/VoiceInputService.java) implement source/utterance identity. Specific mixed microphone/text coverage remains unverified.
+
+## D13 — Factor bounded semantic selection into model readouts
+
+**Original:** the adapter conceptually obtained one bounded action from the provider.
+
+**Implemented change:** genuine upstream full-prompt SemIf scoring selects action type, vertical `UP/DOWN/NONE`, horizontal `LEFT/RIGHT/NONE`, and an optional duration. One to four readouts compose one allowed action. The original seven-type/51-label version became eight types/52 labels with D18.
+
+**Reason / original need:** respect the provider's per-readout option limit and resolve observed direction-set errors while supporting every diagonal. Each axis receives the transcript and its initial held direction; no map, position or destination is included.
+
+**Impact:** F04–F08; UC01–UC05; Adapter preserved, deterministic Command boundary unchanged. [DecisionEngine.decide()/validate()](../tools/semif/server.py), [OpenJevAdapter.createChoices()/parseResponse()](../src/main/java/com/sayswear/agent/OpenJevAdapter.java) enforce the vocabulary. Historical model failures, eventual sampled successes and controlled bridge tests remain recorded in validation; this is not a universal accuracy claim.
+
+## D14 — Specify compatible native model deployment
+
+**Original:** native model deployment and quantization were unspecified.
+
+**Implemented change:** use pinned Q4_K_M GGUF weights/reference tokenizer. The Windows deployment uses a project-local overlay pairing the same-version official portable AVX2 CPU DLL with unchanged CUDA libraries; the installed dependency is preserved. Explicit GPU allocation extends the upstream CPU allocation setting while retaining its scoring.
+
+**Reason / original need:** the initial CUDA wheel's CPU library required AVX512 unavailable on the verification CPU. GPU offload still needs compatible CPU instructions. Quantization makes local inference practical within the available memory.
+
+**Impact:** F04–F08 runtime; UC01–UC05; Adapter boundary preserved. [configure-semif-native.py `configure()`](../scripts/configure-semif-native.py), [server `load_scorer()`](../tools/semif/server.py), [SemIf setup](semif-setup.md) document provenance and startup. Historical readiness/model checks passed with 34/34 layers offloaded; this is platform-specific evidence.
+
+## D15 — Adjust the decision deadline
+
+**Original:** the initial implementation used a 1000 ms deadline including queue time.
+
+**Implemented change:** default to 2000 ms while retaining finite provider timeouts, two active calls, one replaceable latest pending input and fail-closed current failures. Explicit launch options override environment settings.
+
+**Reason / original need:** the initial four-partial burst expired at 1000 ms. A later pre-repeat burst returned the latest correction after 990.7 ms with the 2000 ms budget; the larger allowance accommodates queue/runtime variation without adding artificial delay.
+
+**Impact:** F04/F05/F06/F08/F09; UC01–UC05; Adapter/Command unchanged. [VoiceCommandAgent.interpret()/expire()](../src/main/java/com/sayswear/agent/VoiceCommandAgent.java), [OpenJevAdapter.decide()](../src/main/java/com/sayswear/agent/OpenJevAdapter.java), [AppConfig.parse()](../src/main/java/com/sayswear/app/AppConfig.java), [run.ps1](../run.ps1) implement deadlines/configuration. Pre-repeat real CLI/burst checks passed; current repeat-schema GPU budget verification remains outstanding.
+
+## D16 — Normalize correction word boundaries for axis readouts
+
+**Original:** the same raw transcript representation reached every model readout.
+
+**Implemented change:** preserve raw text in Java, the HTTP request and action-type scoring. Only after Qwen selects `SWITCH`, split commas/whitespace and join words with `, ` for axis scoring.
+
+**Reason / original need:** the unchanged ASR-like correction burst exposed sensitivity to unpunctuated text. Generic, idempotent formatting supplies word boundaries; it does not identify direction words or parse correction intent. Qwen still selects each axis.
+
+**Impact:** F06, with F05/F07 regression coverage; UC03/UC04/UC05; Adapter preserved. [DecisionEngine.decide()](../tools/semif/server.py), [bridge tests](../tools/semif/test_server.py), [LiveSemIfTest](../src/test/java/com/sayswear/agent/LiveSemIfTest.java) record the change. Twenty isolated cases and the original four-partial burst passed together before repeat support; wider language robustness remains unestablished.
+
+## D17 — Replace checkpoint recovery with start recovery
+
+**Original:** F10/UC06/SD05 included checkpoint activation and respawn at the latest checkpoint. `Level`/`GameSnapshot` exposed progress, `resetToCheckpoint()` restored it, and views showed checkpoints.
+
+**Implemented change:** remove checkpoint geometry, saved positions, activation events and progress displays. F10 becomes **Fall Detection and Start Recovery**, retaining its ID. Every fall restores `Level.start()` with zero velocity and no held inputs, while preserving cancellation/freshness and the fall/respawn lifecycle.
+
+**Reason / original need and scope:** the user requested that every fall lose all progress, matching the intended rage-game experience. Recovery still allows another attempt; preserving intermediate progress is deliberately removed, not claimed as implemented.
+
+**Impact:** F10 and F01/F09 feedback/cleanup; UC06; State, Observer, Command and MVC preserved. [GameModel.evaluatePosition()/resetToStart()](../src/main/java/com/sayswear/game/GameModel.java), [Level.start()](../src/main/java/com/sayswear/game/Level.java), [FallingState.update()](../src/main/java/com/sayswear/game/FallingState.java), [RespawningState.update()](../src/main/java/com/sayswear/game/RespawningState.java), [ApplicationController.onGameEvent()](../src/main/java/com/sayswear/app/ApplicationController.java), [GameView.onGameEvent()](../src/main/java/com/sayswear/view/GameView.java) implement recovery. `GameSnapshot`/`GameEventType` no longer contain checkpoint data/events. Current UC06/SD05 show the replacement; 63-test, GUI and CLI regressions passed at this change.
+
+## D18 — Add structured repeat memory and refresh UML
+
+**Original:** context contained held directions and prior accepted text, but no structured movement history. Seven action types/51 labels could not explicitly request replay after a timed movement expired.
+
+**Implemented change:** add `MovementIntent(type, directions, durationMs)` for accepted PRESS/SWITCH/TIMED_PRESS and expose nullable `ControlContext.lastMovement`. Add empty-direction, zero-duration `REPEAT_LAST` as the eighth type/52nd label. Java creates new commands from remembered semantics; absent history produces neutral feedback. Permit one repeat per utterance, including across intervening partial interpretations.
+
+**Reason / original need:** the user requested `again`. Resolved memory preserves exact duration/direction after expiry without asking the model to reconstruct an old action. Ordinary stop/expiry/keep/no-action preserve memory; pause/fall/restart/current failure clear it. This extends F05/F08/F09 rather than inventing another counted feature.
+
+**Impact:** F05/F08/F09; UC03/UC05, with reset behavior in UC06; Adapter and Command preserved. [MovementIntent](../src/main/java/com/sayswear/agent/MovementIntent.java), [ControlContext](../src/main/java/com/sayswear/agent/ControlContext.java), [ControlManager.accept()/plan()/reset()](../src/main/java/com/sayswear/control/ControlManager.java), [OpenJevAdapter.decide()](../src/main/java/com/sayswear/agent/OpenJevAdapter.java), [DecisionEngine.decide()/validate()](../tools/semif/server.py), [ApplicationController.acceptanceMessage()](../src/main/java/com/sayswear/app/ApplicationController.java) implement repeat. Restart an older running bridge to load the updated schema.
+
+**Historical evidence/artifacts:** 73 Java tests, nine bridge tests, 20 unchanged baseline plus eight repeat/history CPU samples and packaged demo/live CLI checks passed. CPU samples used 60000 ms and live CPU CLI 30000 ms diagnostic caps, not the 2000 ms gameplay gate. At this stage original diagrams were archived under `docs/uml/stage1/` and 14 archived files were hash-checked while current diagrams were regenerated. Those archives/previews are now historical; current diagrams are UMLet SVGs.
+
+## D19 — Keep the CLI display in place while editing input
+
+**Original:** full ASCII frames printed about once per second, scrolling the terminal while the user typed; Windows launched CLI through Gradle-forwarded streams.
+
+**Implemented change:** use JLine 3.30.16 `Status` for a fixed bottom panel and `LineReader` for editable input. Resize the map, include the JNI terminal provider and launch the installed distribution directly after `installDist`. Quiet, redirected and unsupported-terminal sessions use plain nonperiodic state/event output.
+
+**Reason / original need:** the user requested a stable game display that preserves partial commands. Direct startup exposes actual terminal capabilities. Renderers continue consuming shared snapshots; no second simulation or interpreter is added. This supersedes D06's scrolling interactive output.
+
+**Impact:** F01/F04 presentation and F09/F10 feedback; UC02, with UC06 recovery display; MVC and Observer preserved. [CliView.open()/readCommand()/refreshDashboard()/updateDashboard()/close()](../src/main/java/com/sayswear/view/CliView.java), [Main.runCli()](../src/main/java/com/sayswear/app/Main.java), [build.gradle](../build.gradle), [run.ps1](../run.ps1) implement the change. Seven CLI tests, full 76-test suite, packaged demo, automatic piped fallback, actual PowerShell quiet launch and native Windows ConPTY checks passed. Specific native Linux terminal interaction remains unverified.
+
+**UML impact:** class/SD02 show terminal ownership, redraw, editable input, fallback and cleanup; SD05 distinguishes ordinary throttled refresh from lifecycle events. Earlier regeneration/checks are historical; current corresponding SVGs retain those responsibilities.
+
+## D20 — Add Linux launch and model-setup entry points
+
+**Original:** recorded setup/launch automation was primarily PowerShell; portable Java source alone did not provide equivalent Linux bootstrap commands.
+
+**Implemented change:** add [run.sh](../run.sh), [setup-semif.sh](../scripts/setup-semif.sh), [run-semif.sh](../scripts/run-semif.sh) and [setup-asr.sh](../scripts/setup-asr.sh). These locate the repository, honor documented options/environment and provide Java launch, explicit CPU/GPU model setup, and pinned ASR download/extraction. The ASR script uses `verify_archive()` for size/hash checks and an extraction-completion marker so failed extraction is repaired on rerun.
+
+**Reason / original need:** support users building/running on Linux without translating Windows-specific paths, virtual-environment layout and native DLL handling. This is a supporting deployment change, not a new game feature or a rewrite of the Java application.
+
+**Impact:** setup for F01–F10; UC01/UC02 deployment prerequisite; no pattern added or replaced. [ASR setup](asr-setup.md), [SemIf setup](semif-setup.md), [AppConfig.parse()](../src/main/java/com/sayswear/app/AppConfig.java) document configuration. Recorded Git Bash/fixture checks verify selected script control flow, including interrupted extraction; they do not establish native Linux inference, audio or terminal behavior. Consult [validation](validation.md) for exact executed scope.
+
+## Preserved responsibilities and remaining completion work
+
+The human chooses every direction and turn. AI receives control context, never level geometry or a destination, and returns only a bounded semantic proposal. Java owns schema/freshness validation, memory replay, cancellation, timing, simulation, fall detection and recovery. Both frontends share that core.
+
+No design pattern has been replaced: MVC, Command, Adapter, Observer and State retain their roles with the refinements above. No checkpoint functionality is silently claimed after its removal. All feature videos and accessible timestamps remain pending. Specific microphone coverage and current default-budget GPU verification remain unverified; general user gameplay acceptance is recorded without extrapolating those details. Full Stage 3 testing/KUMA evaluation is a separate deliverable.

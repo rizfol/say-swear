@@ -1,16 +1,28 @@
 # AI-Human Collaboration Log
 
-This is a representative record for Stage 2, following sections 9–10 of `Project-Instruction.pdf`. It records actual instructions, generated work, and corrections from this development session. It does not imply that the student has reviewed or accepted every generated source file.
+This is a representative Stage 2 record, updated for `Project-Stage2-Instruction.pdf` and the baseline project instructions. It records actual instructions, generated work, human decisions, and corrections. General gameplay acceptance and detailed source/test review are recorded separately.
 
-**Latest user change:** C14 records explicit repeat support and the fix for overlapping diagram text. C12–C13 retain the earlier checkpoint-removal and start-arrow changes. Repeat tests and CPU semantic/CLI checks passed; All seven current diagrams rendered and the class layout passed preview/geometry checks. The updated default-budget GPU burst check remains outstanding. Prior outcomes below remain historical evidence in [validation](validation.md).
+**Current status — October 27, 2026 (Toronto):** the user reports having played the game and confirms that it works properly. The statement supports general gameplay acceptance; the interface, input mode, individual scenarios, and detailed code/test review were not specified. The latest recorded ordinary suite has **76 passing tests** from October 19; its saved results are being cited, not a new test execution. The pre-repeat 990.7 ms GPU burst remains historical evidence; the updated 2000 ms repeat-enabled burst has not been verified. The instructor accepted existing early commit history for weekly-progress evidence. Current report preparation and remaining evidence are tracked in [validation](validation.md). Earlier entries retain the evidence and pending status known when each interaction occurred.
 
 ## Tools and models
 
-| Tool/platform | Model | Purpose | Major project areas |
-|---|---|---|---|
-| OpenAI Codex coding agent, including delegated coding/review agents | GPT-6 model family, as identified by the session configuration. A precise served model snapshot is not exposed here. | Read the rubric/design, implement Java components, inspect interfaces and concurrency, author tests, and prepare traceability documentation. | Shared game/control core, JavaFX and CLI views, controller/agent integration work, adapter research, tests, build configuration, and these development records. |
+| Tool/platform | LLM/model | Features, classes, or development tasks | Total token cost/usage | Total money cost |
+|---|---|---|---|---|
+| OpenAI Codex, including delegated coding/review agents | GPT-6 model family, as identified by the session configuration; precise served snapshot unavailable | F01–F10; game/control core, JavaFX/CLI, controller/agent, adapters, concurrency review, tests, setup, diagrams, and implementation records | **Approximately 6 billion tokens** — student's estimate for project work, not a platform usage export | **Approximately CAD $282.50** — student-reported CAD $250 subscription charge multiplied by 1.13 for tax; project-specific allocation unmeasured |
+| Local SemIf decision runtime | Qwen3.5 4B, Q4_K_M | Application interpretation for F04–F08, genuine model/agent checks, and packaged live CLI validation; `OpenJevAdapter` and `tools/semif/server.py` | **Unavailable** — cumulative local inference tokens were not recorded | No separately billed model API charge; local electricity and hardware costs were not measured |
+| sherpa-onnx streaming recognition runtime | English streaming Zipformer; sherpa-onnx 1.13.5 | F03; `SherpaOnnxAdapter`, streaming audio integration, and native sample-audio validation | **N/A for LLM tokens** — audio recognition, with no LLM token billing counter | No separately billed ASR API charge; local electricity and hardware costs were not measured |
 
-The AI models intended to run **inside Say Swear** are distinct from the development assistant. The user selected **Qwen3.5 4B** and identified the intended backend as **SemIf**. The assistant then researched [openjev.com](https://openjev.com) and [TheoLeeCJ/SemIf-OpenJev](https://github.com/TheoLeeCJ/SemIf-OpenJev). Streaming recognition uses sherpa-onnx 1.13.5 and English streaming Zipformer. Final checks passed real ASR, 20 genuine model cases, the four-partial agent burst, and packaged live CLI interaction. Historical failures and remaining human/microphone review are recorded below and in [validation](validation.md).
+The October 27 Codex figures are student-supplied approximations. The 1.13 multiplier is treated as 13% tax, and CAD is assumed from the student's Toronto context; the billing period and whether the subscription also covered other work have not been specified. The CAD $282.50 figure is reported subscription spending, not a measured cost allocated solely to Say Swear. Confirm the currency, period, and estimate against available account records before submission. No private billing documents or account identifiers are included here. Local model token totals and compute costs cannot be inferred from test counts.
+
+The AI models running **inside Say Swear** are distinct from the development assistant. The user selected **Qwen3.5 4B** and identified the intended backend as **SemIf**. The assistant then researched [openjev.com](https://openjev.com) and [TheoLeeCJ/SemIf-OpenJev](https://github.com/TheoLeeCJ/SemIf-OpenJev). Recorded checks cover native sample-audio ASR, genuine model cases, an earlier four-partial agent burst, and packaged live CLI interaction. Their dates, diagnostic budgets, historical failures, and remaining evidence limits appear in [validation](validation.md).
+
+## October 20, 2026 — Authorized report update and gameplay acceptance
+
+- **Task:** Bring Stage 2 documentation and the implementation report into line with the new Stage 2 instructions.
+- **Input/Instruction:** The user authorized report/documentation work and stated, “I also played the game already so I know it works properly.”
+- **AI Contribution:** Audited the new requirements; separated existing implementation evidence from missing report, video, usage/cost, weekly-activity, and review records; prepared updated documentation and identified the remaining review items.
+- **Human Contribution:** Reported personal gameplay experience and general acceptance that the game works properly. The user did not identify a particular frontend, microphone session, scenario coverage, or completed source-code review in this statement.
+- **Outcome:** General gameplay acceptance is recorded. Existing test evidence remains unchanged. At the time, detailed review items, feature-video links, usage/cost totals, and weekly-progress evidence remained pending. The instructor's October 27 response about the early commit history is recorded in [validation](validation.md). This documentation update did not claim new application or model test results.
 
 ## Representative interactions
 
@@ -152,4 +164,4 @@ The AI models intended to run **inside Say Swear** are distinct from the develop
 
 ## Review and evidence still to record
 
-The student remains responsible for understanding and accepting the final implementation. Record subsequent human review, rejected or corrected code, commands used for validation, actual outcomes, and successful/failed live-model and microphone sessions. Do not convert a pending entry into a successful outcome solely because source code exists or a deterministic demo works.
+General gameplay acceptance is already recorded above; the student need not repeat that completed play session solely to satisfy this log. Record the remaining detailed source/test review, any rejected or corrected code, actual feature demonstrations, and the scope of microphone/CLI checks when that information is available. Usage/cost totals and weekly commit links also require actual records before final submission.

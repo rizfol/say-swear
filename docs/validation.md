@@ -1,6 +1,25 @@
 # Stage 2 Validation Record
 
-This record separates executed checks from outstanding validation. Results below were obtained on Windows on September 30, 2026, using Java 21, Gradle 8.14.2, and the shared Java application. The [feature mapping](feature-implementation-mapping.md) identifies the corresponding implementation files.
+This record separates executed checks from outstanding evidence, as of **October 27, 2026 (Toronto)**. Earlier development checks were recorded on September 30; later verification and setup work are dated below. The latest saved ordinary Java results are from **October 19, 2026: 76 tests passed, with zero failures, errors, or skipped tests**. This report update cites those saved results and does not represent another execution. The [feature mapping](feature-implementation-mapping.md) identifies the corresponding implementation files.
+
+## Current acceptance and verification status
+
+- **General gameplay accepted:** on October 20, the user stated, “I also played the game already so I know it works properly.” This is user-reported gameplay acceptance. The frontend, input device, scenarios exercised, and detailed source/test review were not specified.
+- **Ordinary Java verification:** the October 19 saved suite records 76 passing tests. Historical 63/73-test runs below describe earlier revisions.
+- **Real-model timing:** the **990.7 ms** GPU correction burst below predates repeat support. The updated repeat-enabled **2000 ms** GPU burst gate remains unverified. Repeat CPU cases used longer diagnostic deadlines, as recorded below.
+- **Evidence still needed:** a completed feature-video index and detailed code-understanding review. Student-estimated AI token/subscription figures are now recorded in the [collaboration log](ai-collaboration-log.md), with currency, period, and allocation still to confirm. The instructor accepted the existing early commit history for weekly-progress evidence, as recorded below. Specific microphone/device-failure and platform coverage are not established by the general gameplay statement. These evidence gaps do not require repeating the already accepted general play session.
+
+## Weekly code-activity summary
+
+The written Stage 2 instructions set a baseline of **five meaningful implementation/test commits pushed during each Toronto-dated reporting period**. On October 27, the student supplied the instructor's reply to a direct question about substantial implementation completed before October 20 and the weekly count: the existing history works. The screenshot remains outside the repository because it contains names and account details. This report presents the actual history as the accepted evidence; it does not assign early commits to later weeks or claim that each week's numerical baseline was met.
+
+| Period | Dates, inclusive (2026, Toronto) | Written baseline | Actual code/test pushes as of October 27 | Progress evidence |
+|---|---|---:|---:|---|
+| 1 | October 20–26 | 5 | 0 | Existing earlier implementation and test history accepted by instructor. |
+| 2 | October 27–November 2 | 5 | 0 so far | Existing earlier history accepted; add any later genuine work at submission. |
+| 3 | November 3–9 | 5 | Not started | Existing earlier history accepted; record actual activity after this period. |
+
+The early Stage 2 evidence includes [the shared game, agent, GUI/CLI implementation and tests](https://github.com/rizfol/say-swear/commit/cd0f52aee1410505ad5b7e94bd9507201647d984) (September 30), [Linux application and SemIf launchers](https://github.com/rizfol/say-swear/commit/8f9b76f2e211928deb221e488be994ea1b617760) (October 6), and [the integration into public main with Linux ASR setup](https://github.com/rizfol/say-swear/commit/160033725f9c6299863513ce36186f7a6813907c) (October 19). These are cited at their real dates. Report-only edits and artificial subdivisions are not represented as code progress.
 
 **Current diagram artifacts:** [current UML](uml/) now consists of UMLet-exported SVGs, superseding the earlier source/archive paths. The rendering tools, dimensions, and hashes recorded below describe those historical exports, not verification of the replacement UMLet files. The original diagram archive remains in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`); recorded application test results remain unchanged.
 
@@ -38,7 +57,7 @@ An initial test used JLine's `ScreenTerminal` emulator, whose cursor-down handli
 
 The test tool initially supplied `TERM=dumb`, so the first native attempt correctly used plain fallback. A process-local diagnostic wrapper cleared that variable for the ConPTY check; no user or system environment setting was changed. The application continues to honor `TERM=dumb` as an unsupported terminal.
 
-Native Linux/macOS interaction and human visual/usability review remain unverified. Earlier sections below remain historical evidence.
+Native Linux/macOS interaction and a documented frontend-specific human review remain unverified. General gameplay acceptance is recorded in the current status above; the earlier evidence below retains its original scope.
 
 ## Earlier change — repeat memory and current UML
 
@@ -74,7 +93,7 @@ The user requested removal of checkpoints after the checks recorded below. F10 i
 | JavaFX desktop regression | Set `SAY_SWEAR_GUI_SMOKE=1`; `./gradlew.bat guiSmokeTest` | **One passed.** Assistant inspection of the new scene capture confirmed no checkpoint markers/metric, visible start/goal markers, and a fall-to-start explanation. Actual text submission, Stop & release, and Restart run passed using the explicit demo model. |
 | Distribution and packaged demo CLI | `./gradlew.bat installDist`; `python scripts/check-cli.py --java-home '<Java21path>' --demo` | **Passed.** Timed movement reached x = **11.36**; expiry, state, restart, and quit checks passed. The updated CLI uses start/goal information without checkpoint output. |
 
-The ordinary test-class counts remain the same as the earlier 63-test table below. A source scan found no checkpoint references in `src/`, and `git diff --check` passed. Agent/model behavior was unchanged by this gameplay revision; the earlier genuine-model results remain recorded below and were not rerun for checkpoint removal. Microphone gameplay and student usability review remain outstanding.
+At this historical checkpoint, the ordinary test-class counts remained the same as the earlier 63-test table below. A source scan found no checkpoint references in `src/`, and `git diff --check` passed. Agent/model behavior was unchanged by this gameplay revision; the earlier genuine-model results were not rerun for checkpoint removal. Detailed microphone coverage was not recorded then; the current status above records the later general gameplay acceptance.
 
 ## Executed checks before checkpoint removal
 
@@ -169,7 +188,8 @@ An earlier run with the original **1000 ms** budget expired: its second/latest r
 
 ## Remaining checks
 
-- Have the student review the code, design changes, and GUI/CLI usability. Development-assistant inspection is not human acceptance.
-- Test a real microphone session, including start/stop, changing speech partials, correction, fall/recovery, and device failure. The native WAV test does not establish microphone permissions, background-noise tolerance, short-direction accuracy, or live latency.
+- Complete and record detailed code/test review and design understanding in the [collaboration log](ai-collaboration-log.md). General gameplay has already been accepted by the user.
+- Record which microphone, GUI, and CLI scenarios the user actually exercised. Prepare the required feature demonstrations and show relevant alternatives; do not infer device-failure, accent/noise, or live-latency results from the native WAV test or general play statement.
+- Supply all ten feature-video links/timestamps, confirm the student-reported AI accounting basis, and update the weekly summary only if later genuine code/test work occurs before final submission.
 
 Stage 3 KUMA evaluation remains a separate deliverable.
