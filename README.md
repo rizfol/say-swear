@@ -247,7 +247,7 @@ These seven SVGs were exported from UMLet. Earlier diagram versions remain in Gi
 
 ## 4. Verification and decisions to review
 
-The November 7 defect audit corrected startup exit status, help with invalid settings, timed-movement frame boundaries, a microphone startup/stop race, and slow CLI dashboard refresh. `build installDist` passes with **92 tests**, zero failures/errors/skips. [Fix details and review points](docs/stage2-bug-fixes.md) include SD04's outstanding UMLet timing-order refinement. Supported CLI dashboards now update at up to 10 Hz.
+The November 7 defect audit corrected startup exit status, help with invalid settings, timed-movement frame boundaries, a microphone startup/stop race, and slow CLI dashboard refresh. `build installDist` passes with **92 tests**, zero failures/errors/skips. [Fix details and review points](docs/stage2-bug-fixes.md) include the corrected SD04 timer sequence exported from UMLet. Supported CLI dashboards now update at up to 10 Hz.
 
 
 Ordinary JUnit tests run without model downloads, network calls to a live model, or microphone recording. They cover simulation, control contracts, stale results, cancellation, failure/recovery, agent scheduling, mocked HTTP, capture lifecycle, and CLI output. Opt-in desktop/native checks are documented in [validation.md](docs/validation.md).

@@ -39,7 +39,7 @@ The shared application loop serializes game/control changes. Worker threads hand
 | Live and platform coverage | Partial recorded evidence | Native sample-audio ASR, historical real-model checks, and packaged CLI checks exist. GUI microphone capture and partial transcripts are recorded. Detailed device-failure/recovery, native Linux, and updated repeat-enabled 2000 ms GPU performance remain unverified. |
 | AI tool accounting | Provisional student report | Approximately 6 billion Codex tokens and CAD $282.50 subscription spending are reported; local inference tokens and compute costs are unmeasured. Confirm period, currency, and allocation. |
 | Weekly progress evidence | Five fixes pushed November 7; early history accepted | Section 6 links five meaningful code/test commits for period 3 and records the instructor's acceptance of earlier development for periods 1-2. Commit dates are unchanged. |
-| Submission evidence | Partly pending | Video links/playable metadata are checked. Source-review outcomes, AI accounting and the SD04 timing-order refinement remain to complete. |
+| Submission evidence | Partly pending | Video links/playable metadata are checked. Source-review outcomes and AI accounting remain to complete. SD04 now matches the timer fix through a fresh UMLet SVG export. |
 
 ### Reproduction and configuration
 
@@ -149,13 +149,13 @@ Full commands, earlier failures, correction history, counts, diagnostic settings
 | BF04 | Cancelled native microphone startup cannot leak capture. | Delayed-open/stop race leaves the fake native line closed and not recording. |
 | BF05 | Interactive CLI feedback refreshes at up to 10 Hz. | Independent terminal emulator sees motion at 250 ms while preserving partial input. |
 
-SD04's final tick subsection needs a UMLet update: simulate a game slice bounded by the next timer expiry, then advance/release that timer. Existing class/pattern ownership remains accurate. The pre-fix feature recording still demonstrates the same command semantics.
+SD04's editable UMLet source was updated and re-exported with UMLet 15.1. It now queries the next expiry, simulates each bounded game slice before timer advancement/release, preserves lifecycle cleanup, and renders the final neutral snapshot. Existing class/pattern ownership remains accurate. The pre-fix recording demonstrates the same command semantics.
 
 ### Focused human review and remaining submission work
 
 The completed gameplay session is already accepted. Detailed source/test review has not yet been reported complete. Record its actual scope, corrections, and outcome in the collaboration log, including understanding of the shared core, the AI/execution boundary, freshness/cancellation, timer/repeat semantics, lifecycle recovery, and five pattern roles.
 
-Video links and matching YouTube duration are confirmed. Remaining submission items are detailed source/test review, confirmation of the reported AI accounting, and the SD04 UMLet timing-order update. The instructor accepted early history; five November 7 fixes meet the period 3 code/test push count. Native Linux runtime, detailed device-failure coverage and current repeat-enabled GPU timing remain unverified.
+Video links and matching YouTube duration are confirmed. Remaining submission items are detailed source/test review and confirmation of the reported AI accounting. The SD04 UMLet timing-order update is complete. The instructor accepted early history; five November 7 fixes meet the period 3 code/test push count. Native Linux runtime, detailed device-failure coverage and current repeat-enabled GPU timing remain unverified.
 
 ## 7. Demonstration index
 

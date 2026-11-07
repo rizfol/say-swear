@@ -24,7 +24,7 @@ These November 7, 2026 changes correct five verified Stage 2 defects. Each fix i
 - **Change:** query `secondsUntilExpiry()` through ControlManager/ActionExecutor, simulate each portion up to that boundary, then expire/release the command. Publish a final neutral snapshot when expiry lands exactly at the frame end. Fall/finish cleanup still stops the current lifecycle tick.
 - **Files:** `ApplicationController.java`, `ControlManager.java`, `ActionExecutor.java`, `TimedPressCommand.java`, and `ApplicationControllerTest.java` in their existing packages.
 - **Verification:** nine duration/frame combinations verify exact distance for 100/200/400 ms; additional checks cover a frame ending exactly at expiry, falling before expiry, stale inference after that fall, and full-distance timed repeat. Controller and control tests pass.
-- **Review:** small timed actions now move their full intended distance. SD04's final tick subsection still depicts the old timer-before-simulation order and needs a matching UMLet update: simulate a slice bounded by the next expiry, then advance/release its timer. Timer ownership and the five pattern roles are unchanged.
+- **Review:** small timed actions now move their full intended distance. SD04 has been updated in its editable UMLet source and re-exported to SVG: simulate a slice bounded by the next expiry, then advance/release its timer and publish the final neutral snapshot. Timer ownership and the five pattern roles are unchanged.
 
 ## BF04 - Close the microphone after cancelled native startup
 

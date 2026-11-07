@@ -8,7 +8,7 @@ This record separates executed checks from outstanding evidence, as of **Novembe
 - **Ordinary Java verification:** November 7 `build installDist` passes with 92 tests. The [defect record](stage2-bug-fixes.md) explains five independently committed fixes and their regressions. Packaged probes also confirm failure exit 1, usable help with an invalid timeout, and exact 0.70/1.40-unit distances for 100/200 ms holds across 10/50 ms frames.
 - **Real-model timing:** the **990.7 ms** GPU correction burst below predates repeat support. The updated repeat-enabled **2000 ms** GPU burst gate remains unverified. Repeat CPU cases used longer diagnostic deadlines, as recorded below.
 - **Recorded feature demonstration:** the [November 6 recording](stage2-demonstration-index.md) covers F01-F10 through GUI microphone/text and CLI gameplay. On November 7, YouTube returned player status OK without account credentials and duration 691 seconds, matching the reviewed source timeline. This is finite functional evidence; it does not establish measured accuracy or latency.
-- **Evidence still needed:** detailed student source review, confirmation of the AI accounting period/currency/estimate, and the SD04 UMLet timing-order refinement under BF03. The instructor accepted early commit history as recorded below. Detailed device-failure, native Linux and current GPU performance coverage remain limited.
+- **Evidence still needed:** detailed student source review and confirmation of the AI accounting period/currency/estimate before submission. The instructor accepted early commit history as recorded below. Detailed device-failure, native Linux and current GPU performance coverage remain limited.
 
 ## Weekly code-activity summary
 
@@ -203,6 +203,6 @@ An earlier run with the original **1000 ms** budget expired: its second/latest r
 
 - Complete and record detailed code/test review and design understanding in the [collaboration log](ai-collaboration-log.md). General gameplay has already been accepted by the user.
 - The video index now records the observed GUI microphone, GUI text and CLI scenarios. Do not infer exhaustive device-failure, accent/noise or measured live-latency coverage from the finite demonstration.
-- Confirm the student-reported AI accounting basis, update SD04 in UMLet for BF03's corrected tick ordering, and add commit publication links when the local fixes are pushed.
+- Confirm the student-reported AI accounting basis. The five fix commits are published and linked above; SD04's corrected timer sequence has been exported from UMLet.
 
 Stage 3 KUMA evaluation remains a separate deliverable.

@@ -10,7 +10,7 @@ The current class diagram is a UMLet-exported SVG. It shows the shared GUI/CLI a
 
 The [use-case diagram](uml/use-case-diagram.svg) and sequences describe the implemented participants: [SD01 voice](uml/sequence-diagrams/sd01-gui-voice-command.svg), [SD02 CLI](uml/sequence-diagrams/sd02-cli-text-command.svg), [SD03 context/repeat](uml/sequence-diagrams/sd03-contextual-command.svg), [SD04 correction/timed actions](uml/sequence-diagrams/sd04-live-correction.svg), and [SD05 start recovery](uml/sequence-diagrams/sd05-fall-recovery.svg). Original diagram sources/exports remain in Git history; they are not claimed to exist as current repository files.
 
-**November 7 timing refinement:** SD04's final timer subsection still shows the earlier timer-before-simulation order. BF03 now queries the next expiry, simulates that bounded game slice, then advances/releases the timer. Re-export that subsection from UMLet before final submission. The class roles, timer ownership, other sequence flows and five patterns are unchanged; [BF03](stage2-bug-fixes.md) records the exact method changes.
+**November 7 timing refinement:** SD04 was updated in its editable UMLet source and re-exported with UMLet 15.1. The timer loop queries `secondsUntilExpiry()` through the existing control/executor participants, simulates `GameModel.update(step)` before `ControlManager.advance(step)`, breaks on lifecycle changes, and renders the final released snapshot after an expiry boundary. The class roles, timer ownership and five patterns are unchanged; [BF03](stage2-bug-fixes.md) records the method changes.
 
 ## 1. MVC — shared behavior for two frontends
 
