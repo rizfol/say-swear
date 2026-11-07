@@ -54,6 +54,11 @@ public final class ActionExecutor {
         cancelled.forEach(command -> command.cancel(game));
     }
 
+    /** The application loop uses this boundary to simulate the full hold before releasing it. */
+    public double secondsUntilExpiry() {
+        return activeTimed.isEmpty() ? Double.POSITIVE_INFINITY : activeTimed.getFirst().secondsUntilExpiry();
+    }
+
     /** @return whether an active timed command expired during this tick */
     public boolean advance(double deltaTime) {
         if (!Double.isFinite(deltaTime) || deltaTime < 0) {

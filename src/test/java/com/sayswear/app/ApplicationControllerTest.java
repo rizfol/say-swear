@@ -10,11 +10,14 @@ import com.sayswear.game.Direction;
 import com.sayswear.game.GameModel;
 import com.sayswear.game.GameSnapshot;
 import com.sayswear.game.PlayerStatus;
+import com.sayswear.game.Player;
 import com.sayswear.game.Vector2;
 import com.sayswear.view.GameView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -117,6 +120,58 @@ class ApplicationControllerTest {
         assertTrue(view.messages.stream().anyMatch(message -> message.contains("Controls changed while interpreting")));
     }
 
+    @ParameterizedTest
+    @CsvSource({"100,0.01", "100,0.05", "100,0.16", "200,0.01", "200,0.05", "200,0.3",
+            "400,0.01", "400,0.05", "400,0.5"})
+    void timedMovementDistanceDoesNotDependOnFrameSize(int durationMs, double frameSeconds) throws Exception {
+        complete(command("brief right"), ActionType.TIMED_PRESS, Set.of(Direction.RIGHT), durationMs);
+        double remaining = durationMs / 1000.0 + 0.1;
+        while (remaining > 1e-10) {
+            double step = Math.min(frameSeconds, remaining);
+            controller.advanceForTest(step).get(5, TimeUnit.SECONDS);
+            remaining -= step;
+        }
+
+        GameSnapshot state = controller.getSnapshot();
+        assertEquals(state.level().start().x() + Player.SPEED * durationMs / 1000.0,
+                state.position().x(), 1e-8);
+        assertEquals(state.level().start().y(), state.position().y(), 1e-8);
+        assertTrue(state.heldDirections().isEmpty());
+        assertEquals(Vector2.ZERO, state.velocity());
+        assertEquals(state, view.lastRendered);
+    }
+
+    @Test
+    void expiryAtTheEndOfAFramePublishesTheReleasedSnapshot() throws Exception {
+        complete(command("brief right"), ActionType.TIMED_PRESS, Set.of(Direction.RIGHT), 100);
+        controller.advanceForTest(0.1).get(5, TimeUnit.SECONDS);
+        GameSnapshot state = controller.getSnapshot();
+        assertEquals(10 + Player.SPEED * 0.1, state.position().x(), 1e-8);
+        assertTrue(state.heldDirections().isEmpty());
+        assertEquals(Vector2.ZERO, state.velocity());
+        assertEquals(state, view.lastRendered);
+    }
+
+    @Test
+    void aFallBeforeTimedExpiryCancelsTheRemainingHoldAndStaleInterpretation() throws Exception {
+        complete(command("brief up"), ActionType.TIMED_PRESS, Set.of(Direction.UP), 400);
+        Call beforeFall = command("right");
+        controller.advanceForTest(0.5).get(5, TimeUnit.SECONDS);
+        assertEquals(PlayerStatus.FALLING, controller.getSnapshot().status());
+        assertTrue(controller.getSnapshot().heldDirections().isEmpty());
+        complete(beforeFall, ActionType.PRESS, Set.of(Direction.RIGHT), 0);
+        assertTrue(controller.getSnapshot().heldDirections().isEmpty());
+
+        controller.advanceForTest(1.0 / 60).get(5, TimeUnit.SECONDS);
+        controller.advanceForTest(1.0 / 60).get(5, TimeUnit.SECONDS);
+        assertEquals(PlayerStatus.ACTIVE, controller.getSnapshot().status());
+        assertEquals(controller.getSnapshot().level().start(), controller.getSnapshot().position());
+        complete(command("right"), ActionType.PRESS, Set.of(Direction.RIGHT), 0);
+        controller.advanceForTest(0.6).get(5, TimeUnit.SECONDS);
+        assertEquals(Set.of(Direction.RIGHT), controller.getSnapshot().heldDirections());
+        assertEquals(10 + Player.SPEED * 0.6, controller.getSnapshot().position().x(), 1e-8);
+    }
+
     @Test
     void againSendsStructuredMovementAfterExpiryAndExecutesANewTimedMovement() throws Exception {
         complete(command("a little right"), ActionType.TIMED_PRESS, Set.of(Direction.RIGHT), 200);
@@ -124,6 +179,8 @@ class ApplicationControllerTest {
         controller.advanceForTest(0.1).get(5, TimeUnit.SECONDS);
         assertTrue(controller.getSnapshot().heldDirections().isEmpty());
         Vector2 beforeRepeat = controller.getSnapshot().position();
+        assertEquals(controller.getSnapshot().level().start().x() + Player.SPEED * 0.2,
+                beforeRepeat.x(), 1e-8);
         Call again = command("again");
         assertTrue(again.context().heldDirections().isEmpty());
         assertEquals("a little right", again.context().previousCommand());
@@ -135,6 +192,7 @@ class ApplicationControllerTest {
         assertTrue(controller.getSnapshot().position().x() > beforeRepeat.x());
         controller.advanceForTest(0.1).get(5, TimeUnit.SECONDS);
         assertTrue(controller.getSnapshot().heldDirections().isEmpty());
+        assertEquals(beforeRepeat.x() + Player.SPEED * 0.2, controller.getSnapshot().position().x(), 1e-8);
         assertTrue(view.messages.stream().anyMatch(message -> message.contains("REPEAT_LAST TIMED_PRESS [RIGHT] for 200 ms")));
     }
 
@@ -242,7 +300,8 @@ class ApplicationControllerTest {
 
     private static final class RecordingView implements GameView {
         private final List<String> messages = new CopyOnWriteArrayList<>();
-        @Override public void render(GameSnapshot snapshot) { }
+        private volatile GameSnapshot lastRendered;
+        @Override public void render(GameSnapshot snapshot) { lastRendered = snapshot; }
         @Override public void showMessage(String message) { messages.add(message); }
     }
 }

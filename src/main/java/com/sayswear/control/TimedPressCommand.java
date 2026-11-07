@@ -75,4 +75,8 @@ public final class TimedPressCommand implements GameCommand {
     }
 
     boolean isActive() { return active; }
+
+    double secondsUntilExpiry() {
+        return active ? Math.max(0, remainingMs) / 1000.0 : Double.POSITIVE_INFINITY;
+    }
 }

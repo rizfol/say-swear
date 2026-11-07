@@ -152,6 +152,8 @@ public final class ControlManager {
         return List.copyOf(commands);
     }
 
+    public double secondsUntilExpiry() { return executor.secondsUntilExpiry(); }
+
     public void advance(double deltaTime) {
         if (executor.advance(deltaTime)) {
             revision++;

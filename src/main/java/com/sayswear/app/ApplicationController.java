@@ -241,9 +241,26 @@ public final class ApplicationController implements GameObserver, AutoCloseable 
     }
 
     private void advance(double seconds) {
-        controls.advance(seconds);
-        game.update(seconds);
+        if (!Double.isFinite(seconds) || seconds < 0 || seconds > 60) {
+            throw new IllegalArgumentException("deltaTime must be finite and between 0 and 60 seconds");
+        }
+        double remaining = seconds;
+        boolean reachedExpiry = false;
+        do {
+            double untilExpiry = controls.secondsUntilExpiry();
+            double step = Math.min(remaining, untilExpiry);
+            PlayerStatus before = game.getSnapshot().status();
+            // Simulate the held portion first, then release exactly at the timer boundary.
+            game.update(step);
+            controls.advance(step);
+            reachedExpiry |= untilExpiry <= remaining;
+            remaining -= step;
+            // Preserve one lifecycle transition per tick when a fall/finish cancels the timer.
+            if (game.getSnapshot().status() != before) break;
+        } while (remaining > 0);
         snapshot = game.getSnapshot();
+        // GameModel's update event precedes expiry; publish the final released snapshot too.
+        if (reachedExpiry) view.render(snapshot);
     }
 
     // Package-private deterministic integration-test seam; the real app uses the clock above.
