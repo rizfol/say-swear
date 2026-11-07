@@ -2,9 +2,9 @@
 
 **Stage 2 Implementation Report**
 
-EECS 3311 - Fall 2026 | Status date: October 27, 2026 (Toronto)
+EECS 3311 - Fall 2026 | Status date: November 6, 2026 (Toronto)
 
-**Review draft - submission evidence is still pending.** This report describes the public Stage 2 implementation. The user reports having played the game and confirms that it works properly. The instructor confirmed that the existing early commit history works for weekly-progress evidence. Videos/timestamps and focused source review remain pending; AI usage and cost figures are provisional student estimates where stated. Submission is due November 10, 2026.
+**Review draft - submission evidence is still pending.** This report describes the public Stage 2 implementation. The user reports having played the game and confirms that it works properly. The instructor confirmed that the existing early commit history works for weekly-progress evidence. The feature video and timestamps are supplied, with final YouTube processing/playback confirmation pending. Focused source review remains pending; AI usage and cost figures are provisional student estimates where stated. Submission is due November 10, 2026.
 
 This report accounts for all ten Stage 1 features, explains the five implemented patterns, and connects the current Java source to the revised UMLet diagrams. It separates recorded verification from evidence that still needs to be supplied.
 
@@ -34,12 +34,12 @@ The shared application loop serializes game/control changes. Worker threads hand
 |---|---|---|
 | F01-F10 and both frontends | Implemented, with documented refinements | Complete feature/method/pattern mapping in section 2; genuine model and deterministic paths are distinguished. |
 | Five course patterns | Implemented | Section 3 explains concrete participants and source methods; Appendix A contains the updated class diagram. |
-| User gameplay | User-reported acceptance | The user states that they played the game and it works properly. Interface, microphone mode, individual scenarios, and code-review scope were not specified. |
+| User gameplay | Acceptance and recorded demonstration | The November 6 recording shows GUI voice/text gameplay and CLI play, with feature timestamps in section 7. Detailed source/test review is not implied. |
 | Ordinary Java verification | Recorded pass | Latest saved suite: October 19, 2026, 76 tests, zero failures/errors/skips. No application tests were rerun for report preparation. |
-| Live and platform coverage | Partial recorded evidence | Native sample-audio ASR, historical real-model checks, and packaged CLI checks exist. Specific microphone/recovery, native Linux, and updated repeat-enabled 2000 ms GPU performance remain unverified. |
+| Live and platform coverage | Partial recorded evidence | Native sample-audio ASR, historical real-model checks, and packaged CLI checks exist. GUI microphone capture and partial transcripts are recorded. Detailed device-failure/recovery, native Linux, and updated repeat-enabled 2000 ms GPU performance remain unverified. |
 | AI tool accounting | Provisional student report | Approximately 6 billion Codex tokens and CAD $282.50 subscription spending are reported; local inference tokens and compute costs are unmeasured. Confirm period, currency, and allocation. |
 | Weekly progress evidence | Instructor accepted existing history | Section 6 lists actual early code/test commits and the response to the student's early-completion question. Commit dates are unchanged. |
-| Submission evidence | PENDING | All feature videos and detailed source-review outcomes remain to be supplied; AI accounting still needs final confirmation. |
+| Submission evidence | Partly pending | Feature links/timestamps are supplied; YouTube processing/playback, detailed source-review outcomes and AI accounting still need final confirmation. |
 
 ### Reproduction and configuration
 
@@ -47,7 +47,7 @@ The repository includes a Gradle wrapper, Java dependencies, GUI/CLI launchers f
 
 Local inference requires no API key. `.env.example` contains safe environment-variable examples; the application does not auto-load `.env`. Configuration can be supplied through environment variables or launcher options. `.gitignore` excludes local environment files, downloaded weights, caches, logs, and build outputs. Report aggregate usage/cost totals with their accounting basis; private billing documents, account identifiers, and machine-specific paths are not needed.
 
-Source references below are repository-relative paths. The supplied UMLet SVGs are preserved unchanged; their large-format PDF appendix pages allow readable zooming. Videos must eventually link to recordings accessible to the instructor and teaching assistants.
+Source references below are repository-relative paths. The supplied UMLet SVGs are preserved unchanged; their large-format PDF appendix pages allow readable zooming. Section 7 provides timestamped YouTube links; confirm signed-out playback after processing finishes.
 
 ## 2. Feature to implementation mapping
 
@@ -123,7 +123,7 @@ These representative interactions document actual scope decisions, corrections, 
 | Repeat-enabled CPU checks | Twenty baseline plus eight repeat/history cases passed with a 60000 ms diagnostic cap; packaged real CLI used 30000 ms. | Genuine Java/SemIf/Qwen repeat semantics and execution. Does not establish the default 2000 ms performance gate. |
 | GUI and packaged CLI | Recorded JavaFX text-entry, movement, Stop & release, restart, packaged real/demo CLI, native Windows terminal, and piped fallback checks passed. | Actual application wiring and terminal behavior; demo and genuine-model results remain distinguished. |
 | Linux ASR setup | Bash/GNU fixture checks passed on Windows: fresh/cached, resume, invalid archive, unsafe path, and interrupted extraction cases. | Downloader/control flow. Native Linux recognition, GUI, and interactive terminal behavior remain unverified. |
-| User gameplay | User reports having played the game and that it works properly. | General gameplay acceptance. Frontend, microphone mode, command coverage, detailed source review, and measured latency were not specified. |
+| User gameplay and feature recording | November 6 local recording reviewed; YouTube link and feature timestamps supplied. | Observed GUI microphone/transcript, text interpretation, contextual replacement, combined/timed/repeat actions, cleanup/fall and CLI play. No measured accuracy/latency guarantee or completed source review is inferred. |
 
 Full commands, earlier failures, correction history, counts, diagnostic settings, and limits remain in the [validation record](validation.md). No application/model tests were rerun merely to prepare this report. Report generation checks document structure, links, diagram embedding, and rendered page layout separately from application verification.
 
@@ -141,7 +141,7 @@ Full commands, earlier failures, correction history, counts, diagnostic settings
 
 The completed gameplay session is already accepted. Detailed source/test review has not yet been reported complete. Record its actual scope, corrections, and outcome in the collaboration log, including understanding of the shared core, the AI/execution boundary, freshness/cancellation, timer/repeat semantics, lifecycle recovery, and five pattern roles.
 
-Feature video URLs/timestamps remain **PENDING**. The AI accounting section records the student's approximate token and subscription figures with its unmeasured categories and items to confirm. The instructor accepted the existing early commit history as weekly-progress evidence; section 6 gives its actual dates and links. Specific microphone/recovery coverage, native Linux runtime coverage, and repeat-enabled performance under the default 2000 ms deadline remain unverified. Sections 5-7 retain these gaps explicitly without inferring them from general gameplay acceptance.
+Feature video URLs/timestamps are supplied in section 7. Final YouTube playback and timestamp alignment remain to confirm because the upload was still processing during the link check. The AI accounting section records the student's approximate token and subscription figures with its unmeasured categories and items to confirm. The instructor accepted the existing early commit history as weekly-progress evidence; section 6 gives its actual dates and links. Specific microphone/recovery coverage, native Linux runtime coverage, and repeat-enabled performance under the default 2000 ms deadline remain unverified. Sections 5-7 retain these gaps explicitly without inferring them from general gameplay acceptance.
 
 Stage 2 requires basic implementation verification. Full deterministic/KUMA evaluation remains a later-stage requirement and is not represented as completed or included in this public Stage 2 report.
 

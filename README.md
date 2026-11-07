@@ -25,7 +25,7 @@ The revised Stage 1 report describes the current local SemIf/Qwen design and emb
 
 **Current gameplay:** every fall returns to the level start, with no saved intermediate positions. F10 is **Fall Detection and Start Recovery**. A fresh `again` command repeats the remembered movement, including its duration. [D17–D18](docs/design-changes.md) record these changes; current UC06/SD05 show start recovery. The earlier checkpoint design is preserved in Git history. [Validation](docs/validation.md) records repeat tests and the remaining default-budget GPU check.
 
-**Stage 2 submission status (October 27, 2026):** the user reports having played the game and confirms that it works properly. The instructor replied that the existing early commit history works as evidence for the weekly-progress requirement; the [weekly summary](docs/validation.md) preserves the actual dates and links. Videos/timestamps and focused code review are still pending. The [AI accounting](docs/ai-collaboration-log.md) now records student-estimated tokens and subscription spending, with its basis and unmeasured categories stated. The report remains a review draft until these items are completed. Submission is due November 10.
+**Stage 2 submission status (November 6, 2026):** the [feature demonstration](https://youtu.be/Yo-rBAtVPxA) and [F01-F10 timestamps](docs/stage2-demonstration-index.md) are supplied, including GUI microphone input and CLI gameplay. YouTube reported processing during the link check; final playback and timing alignment remain to confirm. Focused source review and confirmation of the [student-estimated AI accounting](docs/ai-collaboration-log.md) remain open. The instructor accepted the existing early commit history; the [weekly summary](docs/validation.md) preserves real dates and links. Submission is due November 10.
 
 ## 1. Setup
 
@@ -113,7 +113,7 @@ On Linux, with Bash, `curl`, `tar`, `bzip2`, and GNU coreutils (`sha256sum`/`sta
 
 Both scripts download and verify the fixed English Zipformer model under `models/`, with resumable downloads cached under `.tools/downloads/`. The Linux script resolves the repository from its own location; `./run.sh` uses the default model path without an environment override. For direct launches from another working directory, set `SHERPA_MODEL_DIR` to the absolute model directory in your current shell; the setup script cannot change its parent shell's environment.
 
-See [ASR setup, model-path examples, and the optional native smoke test](docs/asr-setup.md). Native sherpa libraries are resolved with the Java dependencies. Setup opens no microphone and starts no service; model initialization starts only when you choose **Start listening**. The Python SemIf decision service is configured separately. Native Linux recognition and live microphone behavior remain unverified.
+See [ASR setup, model-path examples, and the optional native smoke test](docs/asr-setup.md). Native sherpa libraries are resolved with the Java dependencies. Setup opens no microphone and starts no service; model initialization starts only when you choose **Start listening**. The Python SemIf decision service is configured separately. The November 6 feature recording shows live GUI microphone behavior; native Linux recognition remains unverified.
 
 ## 2. Run and play
 

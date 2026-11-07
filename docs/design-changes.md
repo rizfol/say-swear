@@ -8,7 +8,7 @@ The original Stage 1 design is preserved in Git history at commit `56da5fd95c43d
 
 Recorded verification progressed from 63 ordinary Java tests, to 73 after repeat support, to 76 after terminal redraw. Nine controlled bridge tests and 28 CPU semantic samples were recorded for repeat support. Earlier 20-case GPU and four-partial burst checks predate repeat. Historical diagram rendering/geometry/hash checks apply to the versions named in [validation](validation.md), not automatically to replacement SVGs.
 
-The user reports having played the game and confirms that it works. This is general gameplay acceptance; no interface, microphone, command coverage or timing details were supplied. Specific microphone coverage and the updated 2000 ms GPU burst check remain unverified. Videos remain pending. These limits do not imply that the corresponding code is missing.
+The user reports having played the game and confirms that it works. The November 6 [feature recording](stage2-demonstration-index.md) adds observed GUI microphone/transcript, text-control and CLI scenarios. Feature links and timestamps are supplied; YouTube processing/playback remains to confirm. Detailed device-failure coverage and the updated 2000 ms GPU burst check remain unverified. These limits do not imply that the corresponding code is missing.
 
 ## D01 — Correct the decision provider identity
 
@@ -218,4 +218,4 @@ The user reports having played the game and confirms that it works. This is gene
 
 The human chooses every direction and turn. AI receives control context, never level geometry or a destination, and returns only a bounded semantic proposal. Java owns schema/freshness validation, memory replay, cancellation, timing, simulation, fall detection and recovery. Both frontends share that core.
 
-No design pattern has been replaced: MVC, Command, Adapter, Observer and State retain their roles with the refinements above. No checkpoint functionality is silently claimed after its removal. All feature videos and accessible timestamps remain pending. Specific microphone coverage and current default-budget GPU verification remain unverified; general user gameplay acceptance is recorded without extrapolating those details. Full Stage 3 testing/KUMA evaluation is a separate deliverable.
+No design pattern has been replaced: MVC, Command, Adapter, Observer and State retain their roles with the refinements above. No checkpoint functionality is silently claimed after its removal. All features now have timestamped video links, with final YouTube playback confirmation pending. The recording shows GUI microphone behavior; detailed device-failure coverage and current default-budget GPU verification remain unverified. Full Stage 3 testing/KUMA evaluation is a separate deliverable.

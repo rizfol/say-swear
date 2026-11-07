@@ -1,33 +1,34 @@
 # Stage 2 Demonstration Index
 
-**Status: PENDING USER RECORDINGS.** No video link or timestamp has been supplied. The user has played the game and reports that it works properly; this is gameplay acceptance, not a substitute for the rubric's feature videos. Fill every row and regenerate `stage2-report.pdf` before submission.
+**Recording supplied November 6, 2026.** [Say Swear feature demonstration](https://youtu.be/Yo-rBAtVPxA) covers the ten features and both interfaces. The local 11:30 recording was reviewed through sampled frames, closer inspection of key action transitions, and a local speech-recognition transcript. The rows describe the observed demonstration, rather than an unexecuted recording plan.
 
-One recording can cover several features. Give each segment a visible feature ID/name, show the actual input and running result, briefly explain the AI role, and include a relevant alternative/error when practical. Collectively show the JavaFX GUI and the Java CLI. For model-dependent demonstrations, run the genuine local SemIf/Qwen service with demo mode disabled. F02/F03 need actual microphone capture and changing transcripts; typed input bypasses them.
+**Playback check pending:** YouTube's public page and metadata recognized the supplied upload, but its player returned "We're processing this video. Check back later." on November 6. The timecodes below refer to the reviewed local recording and assume the upload keeps that timeline. Once processing finishes, confirm playback while signed out and check the timestamped links. If the upload was trimmed, adjust the timecodes before submission.
 
-| Feature | Interface and actual demonstration | Result / alternative to show | Video URL | Time (start-end) |
+| Feature | Demonstration shown | Visible result and scope | Video URL | Time (start-end) |
 |---|---|---|---|---|
-| F01 - Real-Time Precision Movement | GUI and CLI: issue a direction and inspect the shared position, velocity, held set, and lifecycle. | Continuous movement; neutral state after stop. Show GUI level and CLI map/state. | PENDING | PENDING |
-| F02 - Continuous Voice-Control Session | GUI: Start listening, speak successive instructions without restarting capture, then Stop & release. | Visible readiness/listening/stopped status; capture and movement stop. If capture is unavailable, show the error rather than claiming a successful session. | PENDING | PENDING |
-| F03 - Streaming Speech Transcription | GUI microphone: speak an instruction and correction while the transcript is visible. | Changing partial text before the utterance finishes; continued capture for a new utterance. Explain that ASR makes text, and SemIf interprets that text separately. | PENDING | PENDING |
-| F04 - Natural-Language Movement Interpretation | CLI with genuine model: enter `right`, `go up`, and `stop`; inspect accepted-action messages and resulting state. | Model-selected bounded actions become deterministic movement. Include an unrelated instruction and explain `NO_ACTION` preserves existing movement; use `/pause` to stop immediately. | PENDING | PENDING |
-| F05 - Context-Aware Commands | GUI or CLI: hold right, request `other way`; try `keep going`; after a timed action ends, request `again`. | Reversal from held context, continuation without replay, and replay from stored movement. After restart, `again` gives the no-history message. | PENDING | PENDING |
-| F06 - Live Command Correction / Interruption | GUI speech or CLI text: correct active movement with `right - no, left`, then another instruction. | New valid instruction replaces movement; earlier held directions/timers do not reappear. Explain the epoch/version/revision checks from code; a video alone cannot prove arbitrary response ordering. | PENDING | PENDING |
-| F07 - Combined Directional Commands | GUI or CLI: enter `up and right` from a suitable safe position. | Two perpendicular held directions and diagonal movement; explain normalized speed. Follow with a single direction or stop to show replacement. | PENDING | PENDING |
-| F08 - Magnitude / Timed Commands | GUI or CLI: request `a little right`, wait for release, then say/type a fresh `again`. | A 200 ms hold expires automatically; repeat starts a fresh full-duration hold even though the held set was empty. | PENDING | PENDING |
-| F09 - Control-State and Conflict Management | GUI Stop & release or CLI `/pause` during movement, then restart and try `again`. | Immediate neutral controls, cleared repeat memory, and no old movement resuming. Briefly show the relevant freshness/cancellation code or test as supporting evidence alongside the running app. | PENDING | PENDING |
-| F10 - Fall Detection and Start Recovery | GUI or CLI: deliberately leave the safe path after making progress. | Fall and return to the level start with zero velocity/held inputs; `again` has no history. If demonstrating voice, show requested capture recovering under a fresh session or report the actual failure. | PENDING | PENDING |
+| F01 - Real-Time Precision Movement | GUI movement during spoken instructions; CLI movement at 10:18-11:30. | Player position changes in the displayed level and CLI map/state. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=65) | 01:05-03:25 |
+| F02 - Continuous Voice-Control Session | GUI Start listening, successive spoken instructions, and Stop & release. | One listening session accepts multiple utterances; listening and control status are visible. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=83) | 01:23-03:25 |
+| F03 - Streaming Speech Transcription | GUI microphone input with the transcript visible during speech. | Partial text changes while the speaker continues; transcription is distinct from action selection. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=104) | 01:44-02:08 |
+| F04 - Natural-Language Movement Interpretation | GUI text instructions: right, stop, and hello, using the displayed local SemIf/Qwen backend. | Directional movement, release, and unsupported-input no-action feedback. CLI use is shown separately at 10:18. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=224) | 03:44-04:30 |
+| F05 - Context-Aware Commands | GUI right followed by other way; remembered timed repeats also appear in F08. | RIGHT is replaced by LEFT using current context; later repeats use stored movement. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=275) | 04:35-05:37 |
+| F06 - Live Command Correction / Interruption | Shared F05/F06 segment: a newer other way instruction replaces active right movement. | The held direction and velocity reverse. This shows active replacement, not an artificial out-of-order response test. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=275) | 04:35-05:37 |
+| F07 - Combined Directional Commands | GUI text: a little up and right. | The accepted timed action contains UP and RIGHT; both position coordinates change. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=337) | 05:37-06:23 |
+| F08 - Magnitude / Timed Commands | GUI timed movement followed by fresh again instructions after expiry. | The displayed 200 ms action releases automatically; repeats move again after the original action has ended. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=383) | 06:23-07:41 |
+| F09 - Control-State and Conflict Management | GUI movement, Stop & release, and again. | Controls become neutral and again reports no previous movement. Deliberately reordered responses and device failures are not demonstrated. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=467) | 07:47-08:17 |
+| F10 - Fall Detection and Start Recovery | GUI upward movement leaves the safe path after progress. | Fall feedback and return to the start with neutral movement; the narration explains loss of progress and cleared controls. | [Watch](https://youtu.be/Yo-rBAtVPxA?t=498) | 08:18-09:20 |
 
-## Separate acceptance criteria for F02, F03, and F04
+**CLI:** [10:18-11:30](https://youtu.be/Yo-rBAtVPxA?t=618) shows the terminal interface, typed directional instructions, map/state updates and fall recovery through the same local-model core. F05/F06 intentionally share the contextual reversal segment, which demonstrates both interpreting relative direction and replacing active movement.
 
-- **F02 - capture/session:** one start maintains successive audio input, visible status reflects readiness, and stopping releases capture and controls. Correct recognition is not necessary to establish the capture lifecycle itself.
-- **F03 - transcription:** audio produces changing visible partial text before recording completion and distinct utterances at endpoints. Movement interpretation is not necessary to establish incremental transcription.
-- **F04 - interpretation:** typed natural language, without a microphone, reaches real SemIf/Qwen and produces a bounded accepted action followed by actual game movement or stop. ASR correctness is independent of this criterion.
+## Independent evidence for F02, F03, and F04
 
-## Before marking videos complete
+- **F02 - capture/session:** GUI listening remains active across multiple spoken instructions and exposes session status and stopping.
+- **F03 - transcription:** changing visible partial text appears while speech continues, independently of whether every phrase becomes a movement instruction.
+- **F04 - interpretation:** GUI typed instructions reach the displayed local SemIf/Qwen backend and produce accepted movement, release and no-action feedback. The separate CLI segment shows typed gameplay without a microphone.
 
-- Replace every PENDING URL and timestamp with actual evidence. Use timestamped links for segments in a longer recording.
-- Check that the instructor and teaching assistants can open links without an access request.
-- Keep feature IDs/names visible or stated, show the input and resulting application behavior, and distinguish model inference from deterministic execution.
-- State the actual timeout/runtime settings used. A slower diagnostic run is not evidence that the default 2000 ms deadline passes.
-- Do not expose credentials, personal filesystem paths, private repository content, or unrelated windows in the recordings.
-- Update the feature mapping and regenerate the PDF after adding the links. Review the final PDF's links as well as this index.
+## Interpretation and evidence limits
+
+The recording is a finite demonstration, not a measured recognition-accuracy or latency benchmark. Its visible delays are inference limitations, not an intentionally added game mechanic. The application's default interpretation deadline is 2000 ms; the recording does not establish a new timed performance gate. Timed movement is bounded to 100/200/400 ms: the spoken example asking for a second visibly produces a 200 ms action and should not be read as arbitrary-duration support.
+
+The recording contains a black transition around 09:34-10:18 before the CLI. The CLI link skips it. No code walkthrough is required for the feature video, and this recording does not establish completed source/test review. Detailed device-failure testing, native Linux coverage and the updated repeat-enabled GPU timing gate remain separate limitations.
+
+The source recording, extracted frames/audio, transcript and review helpers remain local. They are not repository submission artifacts. Only the YouTube link and timestamps are included here. Rebuild the report after any link or timing correction.

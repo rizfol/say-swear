@@ -2,22 +2,22 @@
 
 This mapping follows the Course Project Stage 2 Instructions: every Stage 1 feature is accounted for with its status, implementation files/responsibilities, key methods, patterns, behavior type and video reference. The [revised Stage 1 report](stage1-report.md) retains F01–F10 and UC01–UC06. The original design is preserved in Git history at commit `56da5fd95c43dde4760032e59a36787a2c74049c`; current [UMLet SVG diagrams](uml/) describe the implementation. [Design changes](design-changes.md) explain differences.
 
-All ten features have connected implementations. **Implemented** does not imply a completed video or unrestricted reliability. The user reports having played the game and confirms that it works; no interface, microphone, command coverage or timing details were supplied. Specific microphone coverage and the updated 2000 ms GPU burst check remain unverified. Every demonstration is **PENDING — user recording, accessible link and timestamp required**.
+All ten features have connected implementations. The November 6 [recording and feature timestamps](stage2-demonstration-index.md) show GUI microphone input, streaming text, typed interpretation, contextual replacement, combined/timed actions, repeat, cleanup, fall recovery and CLI gameplay. YouTube processing/playback and timestamp alignment still need final confirmation. Demonstrations are finite samples; detailed device-failure coverage, native Linux operation and the updated 2000 ms GPU gate remain unverified.
 
 ## Feature index
 
 | Feature | Stage 1 reference | Status/change | Type | Video |
 |---|---|---|---|---|
-| F01 — Real-Time Precision Movement | F01, same requirement | Implemented; CLI presentation refined | Deterministic | PENDING |
-| F02 — Continuous Voice-Control Session | F02, same requirement | Implemented; lifetime/status refined | Deterministic session management | PENDING |
-| F03 — Streaming Speech Transcription | F03, same requirement | Implemented | AI-based; Java delivers text | PENDING |
-| F04 — Natural-Language Movement Interpretation | F04, same requirement | Implemented; local SemIf/Qwen provider | Hybrid | PENDING |
-| F05 — Context-Aware Commands | F05, same requirement | Implemented; repeat memory added | Hybrid | PENDING |
-| F06 — Live Command Correction / Interruption | F06, same requirement | Implemented; bounded scheduling | Hybrid | PENDING |
-| F07 — Combined Directional Commands | F07, same requirement | Implemented | Hybrid | PENDING |
-| F08 — Magnitude / Timed Commands | F08, same requirement | Implemented; timed replay added | Hybrid | PENDING |
-| F09 — Control-State and Conflict Management | F09, same requirement | Implemented; freshness/replay guards | Deterministic | PENDING |
-| F10 — Fall Detection and Start Recovery | F10 — Fall Detection and Checkpoint Recovery | Modified: every fall returns to start | Deterministic | PENDING |
+| F01 — Real-Time Precision Movement | F01, same requirement | Implemented; CLI presentation refined | Deterministic | [01:05-03:25](https://youtu.be/Yo-rBAtVPxA?t=65) |
+| F02 — Continuous Voice-Control Session | F02, same requirement | Implemented; lifetime/status refined | Deterministic session management | [01:23-03:25](https://youtu.be/Yo-rBAtVPxA?t=83) |
+| F03 — Streaming Speech Transcription | F03, same requirement | Implemented | AI-based; Java delivers text | [01:44-02:08](https://youtu.be/Yo-rBAtVPxA?t=104) |
+| F04 — Natural-Language Movement Interpretation | F04, same requirement | Implemented; local SemIf/Qwen provider | Hybrid | [03:44-04:30](https://youtu.be/Yo-rBAtVPxA?t=224) |
+| F05 — Context-Aware Commands | F05, same requirement | Implemented; repeat memory added | Hybrid | [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275) |
+| F06 — Live Command Correction / Interruption | F06, same requirement | Implemented; bounded scheduling | Hybrid | [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275) |
+| F07 — Combined Directional Commands | F07, same requirement | Implemented | Hybrid | [05:37-06:23](https://youtu.be/Yo-rBAtVPxA?t=337) |
+| F08 — Magnitude / Timed Commands | F08, same requirement | Implemented; timed replay added | Hybrid | [06:23-07:41](https://youtu.be/Yo-rBAtVPxA?t=383) |
+| F09 — Control-State and Conflict Management | F09, same requirement | Implemented; freshness/replay guards | Deterministic | [07:47-08:17](https://youtu.be/Yo-rBAtVPxA?t=467) |
+| F10 — Fall Detection and Start Recovery | F10 — Fall Detection and Checkpoint Recovery | Modified: every fall returns to start | Deterministic | [08:18-09:20](https://youtu.be/Yo-rBAtVPxA?t=498) |
 
 GUI text entry, explicit demo mode, session controls, repeat memory, terminal redraw and Linux setup are accounted for in D04–D07 and D18–D20. They extend these features or support setup and are not counted as additional features to reach ten. Checkpoint progression is explicitly removed under D17; no original feature ID is silently omitted.
 
@@ -29,7 +29,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** accepted directional controls set the game's held inputs. Loop ticks advance the player, check the corridor and publish snapshots. JavaFX draws the level/player; the CLI presents an adaptive map and exact position/velocity. Neither view simulates movement. Diagonal speed is normalized.
 
-**Verification:** saved movement/geometry/goal tests and terminal tests pass; historical GUI/packaged CLI checks exercised actual movement. **Video: PENDING.** Show movement in both interfaces, a diagonal and state metrics.
+**Verification:** saved movement/geometry/goal tests and terminal tests pass; historical GUI/packaged CLI checks exercised actual movement. **Video:** [01:05-03:25](https://youtu.be/Yo-rBAtVPxA?t=65).
 
 ## F02 — Continuous Voice-Control Session
 
@@ -39,7 +39,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** Start listening creates a session and initializes recognition on a worker. After the microphone opens, readiness changes the visible status. Capture continues across utterances until stop/failure. Stop & release invalidates old work and releases controls/capture. CLI text substitutes for this audio entry point.
 
-**Verification:** six controlled voice-service tests cover readiness, epoch isolation, nonblocking startup/stop, failure and PCM conversion. Specific real microphone session/recovery coverage remains unverified. **Video: PENDING.** Show starting, several utterances in one session, stopping and relevant unavailable-input behavior.
+**Verification:** six controlled voice-service tests cover readiness, epoch isolation, nonblocking startup/stop, failure and PCM conversion. The recording shows a real GUI listening session; detailed device-failure and repeated recovery coverage remain unverified. **Video:** [01:23-03:25](https://youtu.be/Yo-rBAtVPxA?t=83).
 
 ## F03 — Streaming Speech Transcription
 
@@ -49,7 +49,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** successive audio chunks produce changed partial text before the utterance ends. The controller filters duplicates and submits current revisions. Endpoint detection starts a new utterance identity without requiring another recording. Transcript output is separate from the eventual accepted movement decision.
 
-**Verification:** the historical native WAV check produced 17 partials, one endpoint, expected phrases and no errors; it opened no microphone. Live speech accuracy/latency remain unmeasured. **Video: PENDING.** Show partial words changing during speech, then the separate action feedback.
+**Verification:** the historical native WAV check produced 17 partials, one endpoint, expected phrases and no errors; it opened no microphone. Live speech accuracy/latency remain unmeasured. **Video:** [01:44-02:08](https://youtu.be/Yo-rBAtVPxA?t=104).
 
 ## F04 — Natural-Language Movement Interpretation
 
@@ -59,7 +59,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** spoken text or typed `go up` reaches the same agent. Qwen chooses a bounded semantic action; Java stamps trusted identity, validates it and changes the game through commands. The view shows accepted type/directions or no-action/error feedback. The model never calls game methods. `--demo` explicitly selects a deterministic parser and is not the AI implementation.
 
-**Verification:** recorded genuine-model and packaged CLI checks exercised the complete path. Finite samples do not guarantee every paraphrase. Current input errors stop controls; an unclear `NO_ACTION` leaves existing movement unchanged. **Video: PENDING.** Use the real model for direction/stop and an unclear or unsupported instruction.
+**Verification:** recorded genuine-model and packaged CLI checks exercised the complete path. Finite samples do not guarantee every paraphrase. Current input errors stop controls; an unclear `NO_ACTION` leaves existing movement unchanged. **Video:** [03:44-04:30](https://youtu.be/Yo-rBAtVPxA?t=224).
 
 ## F05 — Context-Aware Commands
 
@@ -69,7 +69,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** `other way` uses initially held directions; `keep going` preserves movement/timer. After timed movement expires, `again` asks Qwen for `REPEAT_LAST`; Java creates fresh commands from the stored direction/duration. With no history, repeat changes nothing and explains why. The model receives no map or goal.
 
-**Verification:** frozen-context/history/no-history tests pass; eight recorded CPU repeat/history samples passed under a diagnostic deadline. Updated default-budget GPU verification is pending. **Video: PENDING.** Demonstrate reversal, keeping movement, repeat after expiry and repeat after restart without history.
+**Verification:** frozen-context/history/no-history tests pass; eight recorded CPU repeat/history samples passed under a diagnostic deadline. Updated default-budget GPU verification is pending. **Video:** [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275).
 
 ## F06 — Live Command Correction / Interruption
 
@@ -79,7 +79,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** `right — no, left` produces revised text. Qwen interprets the correction; only a matching version/epoch/control revision may act. Java cancels old timed work before applying replacement directions. A typed instruction supersedes remaining partials of an older spoken utterance. Cancellation cannot later release a newer command.
 
-**Verification:** stale-result/replacement tests pass. The historical pre-repeat four-partial GPU burst returned LEFT after 990.7 ms within 2000 ms; this is not current repeat-schema timing evidence. Specific microphone correction coverage is unverified. **Video: PENDING.** Correct active movement and interrupt a timed action.
+**Verification:** stale-result/replacement tests pass. The historical pre-repeat four-partial GPU burst returned LEFT after 990.7 ms within 2000 ms; this is not current repeat-schema timing evidence. The linked replacement example uses GUI typed text; detailed spoken-correction coverage remains unverified. **Video:** [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275).
 
 ## F07 — Combined Directional Commands
 
@@ -89,7 +89,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** `up and right` selects both axes. Java releases unwanted old inputs, presses the desired pair and displays diagonal movement/held directions. Opposing pairs are excluded from the provider vocabulary and rejected by Java validation.
 
-**Verification:** compatibility/normalized-speed tests pass; recorded model samples covered all four perpendicular pairs. **Video: PENDING.** Show combined movement and the actual response to a contradictory instruction; do not claim universal language accuracy.
+**Verification:** compatibility/normalized-speed tests pass; recorded model samples covered all four perpendicular pairs. **Video:** [05:37-06:23](https://youtu.be/Yo-rBAtVPxA?t=337).
 
 ## F08 — Magnitude / Timed Commands
 
@@ -99,7 +99,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** `a little left` selects a 200 ms hold. Java presses, then releases the direction automatically. Equivalent partials within that utterance cannot extend its timer. A fresh `again` creates a new timed command from remembered semantics. Timing uses the simulation loop, not independent delayed callbacks.
 
-**Verification:** expiry, quantization, interruption and repeat tests pass. Packaged live CPU CLI replay used a 30000 ms diagnostic interpretation budget; the movement hold remained 200 ms of simulation time. **Video: PENDING.** Show temporary movement, automatic release and fresh repeat after expiry.
+**Verification:** expiry, quantization, interruption and repeat tests pass. Packaged live CPU CLI replay used a 30000 ms diagnostic interpretation budget; the movement hold remained 200 ms of simulation time. **Video:** [06:23-07:41](https://youtu.be/Yo-rBAtVPxA?t=383).
 
 ## F09 — Control-State and Conflict Management
 
@@ -109,7 +109,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** each proposal is checked against current transcript/session/control revision before execution. Invalid current actions and current timeouts release controls; stale responses/failures cannot alter a newer session. Duplicate partials cannot rearm timers/repeats. Pause/fall/restart/current failure clear memory; ordinary stop, expiry and keep/no-action preserve it.
 
-**Verification:** tests cover malformed/stale proposals, opposite directions, duplicate timers, expiry revision, reset/history and late failures. **Video: PENDING.** Show held-state feedback, interruption and current unavailable-service cleanup; explain the freshness guard without substituting mocked AI for real behavior.
+**Verification:** tests cover malformed/stale proposals, opposite directions, duplicate timers, expiry revision, reset/history and late failures. **Video:** [07:47-08:17](https://youtu.be/Yo-rBAtVPxA?t=467).
 
 ## F10 — Fall Detection and Start Recovery
 
@@ -119,10 +119,10 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Input → collaboration → result:** human-directed movement leaves the corridor. FallingState and the fall event trigger epoch invalidation, interpretation/timer cancellation and release. Later lifecycle ticks restore start position and zero velocity, then ActiveState. If listening was requested, voice capture restarts; movement requires fresh input. This deliberately changes recovery from preserving checkpoint progress to losing all progress on a fall.
 
-**Verification:** saved tests check repeated falls after level progress return to start and reject pre-fall responses. Specific real microphone restart/recovery coverage remains unverified. **Video: PENDING.** Show a fall, neutral recovery at start and fresh movement afterward.
+**Verification:** saved tests check repeated falls after level progress return to start and reject pre-fall responses. Specific real microphone restart/recovery coverage remains unverified. **Video:** [08:18-09:20](https://youtu.be/Yo-rBAtVPxA?t=498).
 
 ## Evidence and demonstration completion
 
-The saved ordinary suite contains **76 passing tests**. Real-model, native-ASR and JavaFX smoke tasks are separate opt-in checks; [validation](validation.md) records their historical results and diagnostic deadlines. Demo results establish application wiring, not AI quality. General user gameplay acceptance does not identify a tested interface or microphone path. Finite samples cannot establish general language reliability.
+The saved ordinary suite contains **76 passing tests**. Real-model, native-ASR and JavaFX smoke tasks are separate opt-in checks; [validation](validation.md) records their historical results and diagnostic deadlines. Demo results establish application wiring, not AI quality. The November 6 recording adds observed GUI microphone and CLI paths without changing the dates or scope of saved automated results. Finite samples cannot establish general language reliability.
 
-Before submission, replace every PENDING video with an accessible link and labeled timestamp. Each segment must identify the feature, show actual input/output, explain AI versus deterministic work, and cover relevant alternatives/errors. The collection must show both GUI and CLI. Full Stage 3 testing and KUMA evaluation remain separate deliverables.
+All ten features now have timestamped links. Before submission, confirm that YouTube processing has finished, playback is accessible without an account request, and timestamps match the uploaded edit. Full Stage 3 testing and KUMA evaluation remain separate deliverables.

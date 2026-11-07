@@ -1,23 +1,24 @@
 # Stage 2 Validation Record
 
-This record separates executed checks from outstanding evidence, as of **October 27, 2026 (Toronto)**. Earlier development checks were recorded on September 30; later verification and setup work are dated below. The latest saved ordinary Java results are from **October 19, 2026: 76 tests passed, with zero failures, errors, or skipped tests**. This report update cites those saved results and does not represent another execution. The [feature mapping](feature-implementation-mapping.md) identifies the corresponding implementation files.
+This record separates executed checks from outstanding evidence, as of **November 6, 2026 (Toronto)**. Earlier development checks were recorded on September 30; later verification and setup work are dated below. The latest saved ordinary Java results are from **October 19, 2026: 76 tests passed, with zero failures, errors, or skipped tests**. This report update cites those saved results and does not represent another execution. The [feature mapping](feature-implementation-mapping.md) identifies the corresponding implementation files.
 
 ## Current acceptance and verification status
 
 - **General gameplay accepted:** on October 20, the user stated, “I also played the game already so I know it works properly.” This is user-reported gameplay acceptance. The frontend, input device, scenarios exercised, and detailed source/test review were not specified.
 - **Ordinary Java verification:** the October 19 saved suite records 76 passing tests. Historical 63/73-test runs below describe earlier revisions.
 - **Real-model timing:** the **990.7 ms** GPU correction burst below predates repeat support. The updated repeat-enabled **2000 ms** GPU burst gate remains unverified. Repeat CPU cases used longer diagnostic deadlines, as recorded below.
-- **Evidence still needed:** a completed feature-video index and detailed code-understanding review. Student-estimated AI token/subscription figures are now recorded in the [collaboration log](ai-collaboration-log.md), with currency, period, and allocation still to confirm. The instructor accepted the existing early commit history for weekly-progress evidence, as recorded below. Specific microphone/device-failure and platform coverage are not established by the general gameplay statement. These evidence gaps do not require repeating the already accepted general play session.
+- **Recorded feature demonstration:** the November 6 local 11:30 recording shows GUI microphone capture, changing transcripts, typed model decisions, contextual reversal/replacement, combined/timed actions, repeat memory, cleanup, fall recovery and CLI gameplay. The [video index](stage2-demonstration-index.md) links F01-F10 and the CLI segment. YouTube metadata recognizes the upload, but the player reported processing; final signed-out playback and alignment with the local timecodes remain to confirm. This adds video evidence without rerunning the application test suite.
+- **Evidence still needed:** detailed code-understanding review and final YouTube playback/timestamp confirmation. Student-estimated AI token/subscription figures are now recorded in the [collaboration log](ai-collaboration-log.md), with currency, period, and allocation still to confirm. The instructor accepted the existing early commit history for weekly-progress evidence, as recorded below. Specific microphone/device-failure and platform coverage are not established by the general gameplay statement. These evidence gaps do not require repeating the already accepted general play session.
 
 ## Weekly code-activity summary
 
 The written Stage 2 instructions set a baseline of **five meaningful implementation/test commits pushed during each Toronto-dated reporting period**. On October 27, the student supplied the instructor's reply to a direct question about substantial implementation completed before October 20 and the weekly count: the existing history works. The screenshot remains outside the repository because it contains names and account details. This report presents the actual history as the accepted evidence; it does not assign early commits to later weeks or claim that each week's numerical baseline was met.
 
-| Period | Dates, inclusive (2026, Toronto) | Written baseline | Actual code/test pushes as of October 27 | Progress evidence |
+| Period | Dates, inclusive (2026, Toronto) | Written baseline | Actual code/test pushes as of November 6 | Progress evidence |
 |---|---|---:|---:|---|
-| 1 | October 20–26 | 5 | 0 | Existing earlier implementation and test history accepted by instructor. |
-| 2 | October 27–November 2 | 5 | 0 so far | Existing earlier history accepted; add any later genuine work at submission. |
-| 3 | November 3–9 | 5 | Not started | Existing earlier history accepted; record actual activity after this period. |
+| 1 | October 20–26 | 5 | 0 | Early history accepted; links below. |
+| 2 | October 27–November 2 | 5 | 0 | Early history accepted; links below. |
+| 3 | November 3–9 | 5 | 0 so far | Early history accepted; window open. |
 
 The early Stage 2 evidence includes [the shared game, agent, GUI/CLI implementation and tests](https://github.com/rizfol/say-swear/commit/cd0f52aee1410505ad5b7e94bd9507201647d984) (September 30), [Linux application and SemIf launchers](https://github.com/rizfol/say-swear/commit/8f9b76f2e211928deb221e488be994ea1b617760) (October 6), and [the integration into public main with Linux ASR setup](https://github.com/rizfol/say-swear/commit/160033725f9c6299863513ce36186f7a6813907c) (October 19). These are cited at their real dates. Report-only edits and artificial subdivisions are not represented as code progress.
 
@@ -189,7 +190,7 @@ An earlier run with the original **1000 ms** budget expired: its second/latest r
 ## Remaining checks
 
 - Complete and record detailed code/test review and design understanding in the [collaboration log](ai-collaboration-log.md). General gameplay has already been accepted by the user.
-- Record which microphone, GUI, and CLI scenarios the user actually exercised. Prepare the required feature demonstrations and show relevant alternatives; do not infer device-failure, accent/noise, or live-latency results from the native WAV test or general play statement.
-- Supply all ten feature-video links/timestamps, confirm the student-reported AI accounting basis, and update the weekly summary only if later genuine code/test work occurs before final submission.
+- The video index now records the observed GUI microphone, GUI text and CLI scenarios. Do not infer exhaustive device-failure, accent/noise or measured live-latency coverage from the finite demonstration.
+- Confirm YouTube signed-out playback and timestamp alignment after processing; confirm the student-reported AI accounting basis and update the weekly summary only if later genuine code/test work occurs before final submission.
 
 Stage 3 KUMA evaluation remains a separate deliverable.
