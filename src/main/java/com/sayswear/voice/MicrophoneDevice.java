@@ -6,6 +6,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 import java.util.Arrays;
+import java.util.Objects;
 
 /** Java Sound capture. Construction does not open or record the microphone. */
 public class MicrophoneDevice implements AutoCloseable {
@@ -13,10 +14,24 @@ public class MicrophoneDevice implements AutoCloseable {
     private static final int CHUNK_BYTES = 1_600; // 50 ms, 16-bit mono.
     private volatile TargetDataLine line;
     private final byte[] bytes = new byte[CHUNK_BYTES];
+    private final LineFactory lines;
 
-    public void open() throws LineUnavailableException {
+    @FunctionalInterface
+    interface LineFactory {
+        TargetDataLine get(AudioFormat format) throws LineUnavailableException;
+    }
+
+    public MicrophoneDevice() {
+        this(format -> (TargetDataLine) AudioSystem.getLine(new DataLine.Info(TargetDataLine.class, format)));
+    }
+
+    MicrophoneDevice(LineFactory lines) { this.lines = Objects.requireNonNull(lines, "lines"); }
+
+    // Keep native open/start and close ordered: closing a line mid-open can let it
+    // reopen afterward. VoiceInputService performs these potentially slow calls on workers.
+    public synchronized void open() throws LineUnavailableException {
         AudioFormat format = new AudioFormat(SAMPLE_RATE, 16, 1, true, false);
-        TargetDataLine opened = (TargetDataLine) AudioSystem.getLine(new DataLine.Info(TargetDataLine.class, format));
+        TargetDataLine opened = lines.get(format);
         line = opened;
         opened.open(format);
         opened.start();
@@ -42,7 +57,7 @@ public class MicrophoneDevice implements AutoCloseable {
     }
 
     @Override
-    public void close() {
+    public synchronized void close() {
         TargetDataLine closing = line;
         line = null;
         if (closing != null) {

@@ -25,3 +25,11 @@ These November 7, 2026 changes address defects reproduced during the requested S
 - **Files:** `ApplicationController.java`, `ControlManager.java`, `ActionExecutor.java`, `TimedPressCommand.java`, and `ApplicationControllerTest.java` in their existing packages.
 - **Verification:** nine duration/frame combinations verify exact distance for 100/200/400 ms; additional checks cover a frame ending exactly at expiry, falling before expiry, stale inference after that fall, and full-distance timed repeat. Controller and control tests pass.
 - **Review:** small timed actions now move their full intended distance. SD04's final tick subsection still depicts the old timer-before-simulation order and needs a matching UMLet update: simulate a slice bounded by the next expiry, then advance/release its timer. Timer ownership and the five pattern roles are unchanged.
+
+## BF04 - Close the microphone after cancelled native startup
+
+- **Before:** `close()` could detach and close a Java Sound line while `open()` was still initializing it. A late native open/start could then leave the detached line recording, with no reference left for cleanup.
+- **Change:** serialize native open/start and close within MicrophoneDevice. VoiceInputService already performs these operations on workers, preserving nonblocking controller/UI stopping.
+- **Files:** `src/main/java/com/sayswear/voice/MicrophoneDevice.java`; `src/test/java/com/sayswear/voice/MicrophoneDeviceTest.java`.
+- **Verification:** a controlled TargetDataLine blocks inside native open while stop arrives. Before the fix the probe ends open and recording; afterward the regression verifies both are false. The new regression and all six voice-service tests pass; no microphone hardware is opened by these tests.
+- **Review:** public microphone methods and relationships are unchanged. The package-private line factory only permits deterministic lifecycle testing.
