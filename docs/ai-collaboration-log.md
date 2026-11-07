@@ -6,9 +6,9 @@ This is a representative Stage 2 record, updated for `Project-Stage2-Instruction
 
 ## November 7, 2026 — Reproduced defects and separate fixes
 
-- **Task/Input:** the student asked for additional bugs and required each distinct fix to have a separate commit.
-- **AI Contribution:** reproduced shell exit/help defects and frame-dependent timed distance; delegated focused timer, microphone-lifecycle and CLI audits. Implemented five fixes with regression tests and one local code/test commit per fix. Updated the [fix record](stage2-bug-fixes.md), mappings and verification evidence. Temporary diagnostics remain local.
-- **Human Contribution:** requested the audit and commit structure; earlier gameplay acceptance and the feature recording remain the reported human checks. Detailed source review has not been claimed complete.
+- **Task/Input:** correct five verified Stage 2 defects and verify their behavior with regression tests.
+- **AI Contribution:** reproduced and corrected shell exit/help defects, frame-dependent timed distance, a microphone startup/stop race, and slow CLI refresh. Used focused investigations and regression tests, with one local code/test commit per fix. Updated the [fix record](stage2-bug-fixes.md), mappings and verification evidence. Temporary diagnostics remain local.
+- **Human Contribution:** established the gameplay/control requirements and supplied the gameplay recording that identified slow CLI feedback. Earlier gameplay acceptance remains recorded. Detailed source review has not been claimed complete.
 - **Outcome:** 92 ordinary Java tests pass without failures/errors/skips; build and installed distribution pass. Packaged before/after probes confirm corrected exit status, help and timed distance. No real-model or microphone hardware tests were rerun for this audit. SD04 needs a UMLet timing-order refinement. The new commits remain local until push is authorized.
 
 ## Tools and models

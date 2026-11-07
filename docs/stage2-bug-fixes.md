@@ -1,6 +1,6 @@
 # Stage 2 Defect Fixes
 
-These November 7, 2026 changes address defects reproduced during the requested Stage 2 audit. Each fix includes its regression coverage in the same commit. The student requested the audit and separate commits; detailed student source review remains to be recorded. Temporary reproduction files remain local under ignored `.tools/`.
+These November 7, 2026 changes correct five verified Stage 2 defects. Each fix includes its regression coverage in the same commit. The student's recording identified slow CLI feedback; the remaining defect reproductions and regression results are described below. Detailed student source review remains to be recorded. Temporary reproduction files remain local under ignored `.tools/`.
 
 ## BF01 - Report startup failure to the calling shell
 
