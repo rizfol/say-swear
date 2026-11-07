@@ -2,7 +2,7 @@
 
 This mapping follows the Course Project Stage 2 Instructions: every Stage 1 feature is accounted for with its status, implementation files/responsibilities, key methods, patterns, behavior type and video reference. The [revised Stage 1 report](stage1-report.md) retains F01–F10 and UC01–UC06. The original design is preserved in Git history at commit `56da5fd95c43dde4760032e59a36787a2c74049c`; current [UMLet SVG diagrams](uml/) describe the implementation. [Design changes](design-changes.md) explain differences.
 
-All ten features have connected implementations. The November 6 [recording and feature timestamps](stage2-demonstration-index.md) show GUI microphone input, streaming text, typed interpretation, contextual replacement, combined/timed actions, repeat, cleanup, fall recovery and CLI gameplay. YouTube processing/playback and timestamp alignment still need final confirmation. Demonstrations are finite samples; detailed device-failure coverage, native Linux operation and the updated 2000 ms GPU gate remain unverified.
+All ten features have connected implementations. The November 6 [recording and feature timestamps](stage2-demonstration-index.md) show GUI microphone input, streaming text, typed interpretation, contextual replacement, combined/timed actions, repeat, cleanup, fall recovery and CLI gameplay. On November 7, YouTube returned playable status and a 691-second duration matching the reviewed recording. Demonstrations are finite samples; detailed device-failure coverage, native Linux operation and the updated 2000 ms GPU gate remain unverified.
 
 ## Feature index
 
@@ -27,7 +27,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Files, responsibilities and key methods:** [ApplicationController](../src/main/java/com/sayswear/app/ApplicationController.java) schedules `tickFromClock()`/`advance()`. [GameModel](../src/main/java/com/sayswear/game/GameModel.java) owns `update()`/`evaluatePosition()`. [ActiveState](../src/main/java/com/sayswear/game/ActiveState.java) subdivides `update()` for collision checks; [Player](../src/main/java/com/sayswear/game/Player.java) applies `move()` and normalized velocity. [Level](../src/main/java/com/sayswear/game/Level.java) supplies `isSafe()`/`isGoal()`. [JavaFxGameView](../src/main/java/com/sayswear/view/JavaFxGameView.java) and [CliView](../src/main/java/com/sayswear/view/CliView.java) implement snapshot `render()`.
 
-**Input → collaboration → result:** accepted directional controls set the game's held inputs. Loop ticks advance the player, check the corridor and publish snapshots. JavaFX draws the level/player; the CLI presents an adaptive map and exact position/velocity. Neither view simulates movement. Diagonal speed is normalized.
+**Input → collaboration → result:** accepted directional controls set the game's held inputs. Loop ticks advance the player, check the corridor and publish snapshots. JavaFX draws the level/player; the CLI presents an adaptive map and exact position/velocity, with supported in-place dashboards refreshed at up to 10 Hz. Neither view simulates movement. Diagonal speed is normalized.
 
 **Verification:** saved movement/geometry/goal tests and terminal tests pass; historical GUI/packaged CLI checks exercised actual movement. **Video:** [01:05-03:25](https://youtu.be/Yo-rBAtVPxA?t=65).
 
@@ -97,7 +97,7 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Files, responsibilities and key methods:** [OpenJevAdapter.decide()](../src/main/java/com/sayswear/agent/OpenJevAdapter.java) limits semantic durations to 100/200/400 ms. [ControlManager.validate()/plan()/advance()](../src/main/java/com/sayswear/control/ControlManager.java) validate/create commands and change revision at expiry. [TimedPressCommand.execute()/advance()/cancel()](../src/main/java/com/sayswear/control/TimedPressCommand.java) own duration; [ActionExecutor.advance()](../src/main/java/com/sayswear/control/ActionExecutor.java) advances/removes timers.
 
-**Input → collaboration → result:** `a little left` selects a 200 ms hold. Java presses, then releases the direction automatically. Equivalent partials within that utterance cannot extend its timer. A fresh `again` creates a new timed command from remembered semantics. Timing uses the simulation loop, not independent delayed callbacks.
+**Input → collaboration → result:** `a little left` selects a 200 ms hold. The controller queries `ControlManager.secondsUntilExpiry()`/`ActionExecutor.secondsUntilExpiry()`, simulates each slice up to that boundary, then advances/releases the timer. This preserves full movement distance across frame sizes. Equivalent partials within that utterance cannot extend its timer. A fresh `again` creates a new timed command from remembered semantics. Timing uses the simulation loop, not independent delayed callbacks.
 
 **Verification:** expiry, quantization, interruption and repeat tests pass. Packaged live CPU CLI replay used a 30000 ms diagnostic interpretation budget; the movement hold remained 200 ms of simulation time. **Video:** [06:23-07:41](https://youtu.be/Yo-rBAtVPxA?t=383).
 
@@ -123,6 +123,6 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 ## Evidence and demonstration completion
 
-The saved ordinary suite contains **76 passing tests**. Real-model, native-ASR and JavaFX smoke tasks are separate opt-in checks; [validation](validation.md) records their historical results and diagnostic deadlines. Demo results establish application wiring, not AI quality. The November 6 recording adds observed GUI microphone and CLI paths without changing the dates or scope of saved automated results. Finite samples cannot establish general language reliability.
+The November 7 ordinary suite contains **92 passing tests**, including the [five defect fixes](stage2-bug-fixes.md). Earlier 76-test results remain historical evidence. Real-model, native-ASR and JavaFX smoke tasks are separate opt-in checks; [validation](validation.md) records their historical results and diagnostic deadlines. Demo results establish application wiring, not AI quality. The November 6 recording adds observed GUI microphone and CLI paths without changing the dates or scope of saved automated results. Finite samples cannot establish general language reliability.
 
-All ten features now have timestamped links. Before submission, confirm that YouTube processing has finished, playback is accessible without an account request, and timestamps match the uploaded edit. Full Stage 3 testing and KUMA evaluation remain separate deliverables.
+All ten features have timestamped links; YouTube playback metadata and matching duration were checked on November 7. SD04 still needs the timing-order refinement described in the bug-fix record. Full Stage 3 testing and KUMA evaluation remain separate deliverables.

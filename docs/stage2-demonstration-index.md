@@ -2,7 +2,7 @@
 
 **Recording supplied November 6, 2026.** [Say Swear feature demonstration](https://youtu.be/Yo-rBAtVPxA) covers the ten features and both interfaces. The local 11:30 recording was reviewed through sampled frames, closer inspection of key action transitions, and a local speech-recognition transcript. The rows describe the observed demonstration, rather than an unexecuted recording plan.
 
-**Playback check pending:** YouTube's public page and metadata recognized the supplied upload, but its player returned "We're processing this video. Check back later." on November 6. The timecodes below refer to the reviewed local recording and assume the upload keeps that timeline. Once processing finishes, confirm playback while signed out and check the timestamped links. If the upload was trimmed, adjust the timecodes before submission.
+**Playback metadata checked November 7:** YouTube returned player status `OK` without account credentials and a duration of 691 seconds, matching the local recording reviewed for these timecodes. The November 6 processing condition has cleared. The source demonstration predates the November 7 fixes to precise timed distance and CLI refresh; those changes preserve the demonstrated commands and feature scope.
 
 | Feature | Demonstration shown | Visible result and scope | Video URL | Time (start-end) |
 |---|---|---|---|---|

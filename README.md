@@ -18,6 +18,7 @@ The application is **Java 21**, with a **JavaFX GUI and a terminal CLI sharing o
 | AI tools/models and representative collaboration log | [docs/ai-collaboration-log.md](docs/ai-collaboration-log.md) |
 | Original design → implementation change → reason | [docs/design-changes.md](docs/design-changes.md) |
 | Executed validation and remaining limitations | [docs/validation.md](docs/validation.md) |
+| November 7 reproduced defects and fixes | [docs/stage2-bug-fixes.md](docs/stage2-bug-fixes.md) |
 | Implemented pattern explanations | [docs/implemented-design-patterns.md](docs/implemented-design-patterns.md) |
 | Feature video links and recording plan | [docs/stage2-demonstration-index.md](docs/stage2-demonstration-index.md) |
 
@@ -25,7 +26,7 @@ The revised Stage 1 report describes the current local SemIf/Qwen design and emb
 
 **Current gameplay:** every fall returns to the level start, with no saved intermediate positions. F10 is **Fall Detection and Start Recovery**. A fresh `again` command repeats the remembered movement, including its duration. [D17–D18](docs/design-changes.md) record these changes; current UC06/SD05 show start recovery. The earlier checkpoint design is preserved in Git history. [Validation](docs/validation.md) records repeat tests and the remaining default-budget GPU check.
 
-**Stage 2 submission status (November 6, 2026):** the [feature demonstration](https://youtu.be/Yo-rBAtVPxA) and [F01-F10 timestamps](docs/stage2-demonstration-index.md) are supplied, including GUI microphone input and CLI gameplay. YouTube reported processing during the link check; final playback and timing alignment remain to confirm. Focused source review and confirmation of the [student-estimated AI accounting](docs/ai-collaboration-log.md) remain open. The instructor accepted the existing early commit history; the [weekly summary](docs/validation.md) preserves real dates and links. Submission is due November 10.
+**Stage 2 submission status (November 7, 2026):** the [feature demonstration](https://youtu.be/Yo-rBAtVPxA) and [F01-F10 timestamps](docs/stage2-demonstration-index.md) are supplied, including GUI microphone input and CLI gameplay. YouTube now reports the upload playable, with its 691-second duration matching the reviewed local recording. Focused source review and confirmation of the [student-estimated AI accounting](docs/ai-collaboration-log.md) remain open. The instructor accepted the existing early commit history; the [weekly summary](docs/validation.md) preserves real dates and links. Submission is due November 10.
 
 ## 1. Setup
 
@@ -245,6 +246,9 @@ The [feature mapping](docs/feature-implementation-mapping.md) connects F01–F10
 These seven SVGs were exported from UMLet. Earlier diagram versions remain in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`).
 
 ## 4. Verification and decisions to review
+
+The November 7 defect audit corrected startup exit status, help with invalid settings, timed-movement frame boundaries, a microphone startup/stop race, and slow CLI dashboard refresh. `build installDist` passes with **92 tests**, zero failures/errors/skips. [Fix details and review points](docs/stage2-bug-fixes.md) include SD04's outstanding UMLet timing-order refinement. Supported CLI dashboards now update at up to 10 Hz.
+
 
 Ordinary JUnit tests run without model downloads, network calls to a live model, or microphone recording. They cover simulation, control contracts, stale results, cancellation, failure/recovery, agent scheduling, mocked HTTP, capture lifecycle, and CLI output. Opt-in desktop/native checks are documented in [validation.md](docs/validation.md).
 
