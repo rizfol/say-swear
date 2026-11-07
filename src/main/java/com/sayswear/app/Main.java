@@ -14,9 +14,15 @@ public final class Main {
     private Main() { }
 
     public static void main(String[] arguments) {
+        // Help must remain accessible while the user repairs invalid runtime settings.
+        for (String argument : arguments) {
+            if ("--help".equals(argument) || "-h".equals(argument)) {
+                printHelp();
+                return;
+            }
+        }
         try {
             AppConfig configuration = AppConfig.parse(arguments);
-            if (configuration.help()) { printHelp(); return; }
             if (configuration.cli()) runCli(configuration);
             else Application.launch(SaySwearApplication.class, arguments);
         } catch (IllegalArgumentException | IOException exception) {

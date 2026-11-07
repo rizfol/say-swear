@@ -35,6 +35,17 @@ class LauncherProcessTest {
         assertTrue(quit.output().contains("DEMO ONLY"), quit.output());
     }
 
+    @Test void helpRemainsAvailableWhenRuntimeConfigurationIsBroken() throws Exception {
+        Map<String, String> broken = Map.of("DECISION_TIMEOUT_MS", "invalid", "SEMIF_ENDPOINT", "not-an-endpoint");
+        for (List<String> arguments : List.of(List.of("--help"), List.of("-h"),
+                List.of("--decision-timeout-ms", "invalid", "--help"))) {
+            Result result = launch(arguments, broken, "");
+            assertEquals(0, result.exitCode(), result.output());
+            assertTrue(result.output().contains("--decision-timeout-ms"), result.output());
+            assertFalse(result.output().contains("Say Swear:"), result.output());
+        }
+    }
+
     private Result launch(List<String> arguments, Map<String, String> overrides, String input) throws Exception {
         String executable = System.getProperty("os.name").startsWith("Windows") ? "java.exe" : "java";
         List<String> command = new ArrayList<>(List.of(
