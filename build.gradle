@@ -51,6 +51,7 @@ tasks.withType(JavaCompile).configureEach {
 
 test {
     useJUnitPlatform { excludeTags 'native-asr', 'live-semif', 'gui-smoke' }
+    systemProperty 'sayswear.test.runtimeClasspath', sourceSets.main.runtimeClasspath.asPath
     testLogging { events 'failed', 'skipped' }
 }
 

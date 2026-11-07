@@ -21,6 +21,7 @@ public final class Main {
             else Application.launch(SaySwearApplication.class, arguments);
         } catch (IllegalArgumentException | IOException exception) {
             System.err.println("Say Swear: " + exception.getMessage());
+            System.exit(1);
         }
     }
 
