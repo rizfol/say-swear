@@ -18,11 +18,21 @@ The written Stage 2 instructions set a baseline of **five meaningful implementat
 |---|---|---:|---:|---|
 | 1 | October 20–26 | 5 | 0 | Early history accepted; links below. |
 | 2 | October 27–November 2 | 5 | 0 | Early history accepted; links below. |
-| 3 | November 3–9 | 5 | 0 so far | Five local code/test fixes await push. |
+| 3 | November 3–9 | 5 | 5 | Five code/test fixes pushed November 7; links below. |
 
 The early Stage 2 evidence includes [the shared game, agent, GUI/CLI implementation and tests](https://github.com/rizfol/say-swear/commit/cd0f52aee1410505ad5b7e94bd9507201647d984) (September 30), [Linux application and SemIf launchers](https://github.com/rizfol/say-swear/commit/8f9b76f2e211928deb221e488be994ea1b617760) (October 6), and [the integration into public main with Linux ASR setup](https://github.com/rizfol/say-swear/commit/160033725f9c6299863513ce36186f7a6813907c) (October 19). These are cited at their real dates. Report-only edits and artificial subdivisions are not represented as code progress.
 
-The five local code/test commits are `d825af6` (startup status), `6f270dc` (help), `1d4a443` (timed distance), `4cc51d8` (microphone race) and `539368a` (CLI refresh). They preserve actual November 7 dates. No new fixes have been pushed yet.
+Five meaningful code/test fixes were committed and pushed to public main on November 7:
+
+| Commit | Development progress |
+|---|---|
+| [d825af6](https://github.com/rizfol/say-swear/commit/d825af6) | Startup errors return failure status; subprocess exit regressions. |
+| [6f270dc](https://github.com/rizfol/say-swear/commit/6f270dc) | Help remains available with invalid configuration; subprocess regressions. |
+| [1d4a443](https://github.com/rizfol/say-swear/commit/1d4a443) | Timed movement preserves full duration across frame sizes; distance, repeat and fall regressions. |
+| [4cc51d8](https://github.com/rizfol/say-swear/commit/4cc51d8) | Cancelled native microphone startup cannot leak capture; controlled lifecycle regression. |
+| [539368a](https://github.com/rizfol/say-swear/commit/539368a) | Interactive CLI refreshes during precision movement; terminal screen/input regression. |
+
+Documentation-only commits are excluded from this code/test count. The first two reporting periods remain described by the instructor's acceptance of early history; November 7 publication does not change those earlier dates.
 
 **Current diagram artifacts:** [current UML](uml/) now consists of UMLet-exported SVGs, superseding the earlier source/archive paths. The rendering tools, dimensions, and hashes recorded below describe those historical exports, not verification of the replacement UMLet files. The original diagram archive remains in Git history (Git commit `56da5fd95c43dde4760032e59a36787a2c74049c`, `docs/uml/stage1`); recorded application test results remain unchanged.
 

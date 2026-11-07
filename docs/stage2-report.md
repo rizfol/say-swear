@@ -38,7 +38,7 @@ The shared application loop serializes game/control changes. Worker threads hand
 | Ordinary Java verification | Recorded pass | November 7: 92 tests, zero failures/errors/skips; build/installDist passed after five separate defect fixes. |
 | Live and platform coverage | Partial recorded evidence | Native sample-audio ASR, historical real-model checks, and packaged CLI checks exist. GUI microphone capture and partial transcripts are recorded. Detailed device-failure/recovery, native Linux, and updated repeat-enabled 2000 ms GPU performance remain unverified. |
 | AI tool accounting | Provisional student report | Approximately 6 billion Codex tokens and CAD $282.50 subscription spending are reported; local inference tokens and compute costs are unmeasured. Confirm period, currency, and allocation. |
-| Weekly progress evidence | Instructor accepted existing history | Section 6 lists actual early code/test commits and the response to the student's early-completion question. Commit dates are unchanged. |
+| Weekly progress evidence | Five fixes pushed November 7; early history accepted | Section 6 links five meaningful code/test commits for period 3 and records the instructor's acceptance of earlier development for periods 1-2. Commit dates are unchanged. |
 | Submission evidence | Partly pending | Video links/playable metadata are checked. Source-review outcomes, AI accounting and the SD04 timing-order refinement remain to complete. |
 
 ### Reproduction and configuration
@@ -139,7 +139,7 @@ Full commands, earlier failures, correction history, counts, diagnostic settings
 
 ### November 7 reproduced defect fixes
 
-[Detailed fix and regression record](stage2-bug-fixes.md). Each row is one separate local code/test commit.
+[Detailed fix and regression record](stage2-bug-fixes.md). Each row is one separate code/test commit pushed November 7; publication links appear in the weekly summary above.
 
 | Fix | Corrected behavior | Regression evidence |
 |---|---|---|
@@ -155,7 +155,7 @@ SD04's final tick subsection needs a UMLet update: simulate a game slice bounded
 
 The completed gameplay session is already accepted. Detailed source/test review has not yet been reported complete. Record its actual scope, corrections, and outcome in the collaboration log, including understanding of the shared core, the AI/execution boundary, freshness/cancellation, timer/repeat semantics, lifecycle recovery, and five pattern roles.
 
-Feature video URLs/timestamps are supplied in section 7. YouTube returned playable status and a matching 691-second duration on November 7. The AI accounting section records the student's approximate token and subscription figures with its unmeasured categories and items to confirm. The instructor accepted the existing early commit history as weekly-progress evidence; section 6 gives its actual dates and links. The SD04 timing-order refinement remains to export from UMLet. Detailed microphone/device-failure coverage, native Linux runtime coverage, and repeat-enabled GPU performance under the default 2000 ms deadline remain unverified. Sections 5-7 retain these gaps explicitly without inferring them from general gameplay acceptance.
+Video links and matching YouTube duration are confirmed. Remaining submission items are detailed source/test review, confirmation of the reported AI accounting, and the SD04 UMLet timing-order update. The instructor accepted early history; five November 7 fixes meet the period 3 code/test push count. Native Linux runtime, detailed device-failure coverage and current repeat-enabled GPU timing remain unverified.
 
 ## 7. Demonstration index
 
