@@ -36,7 +36,8 @@ import java.util.stream.Collectors;
 public final class CliView implements GameView, AutoCloseable {
     public static final int MAP_COLUMNS = 61;
     public static final int MAP_ROWS = 27;
-    private static final long FRAME_INTERVAL_NANOS = 1_000_000_000L;
+    private static final long PLAIN_FRAME_INTERVAL_NANOS = 1_000_000_000L;
+    private static final long DASHBOARD_FRAME_INTERVAL_NANOS = 100_000_000L;
     private static final String PROMPT = "say> ";
     private static final String REFRESH_WIDGET = "say-swear-refresh";
     private static final String SESSION_HELP = "/state /pause /restart /help /quit";
@@ -103,11 +104,15 @@ public final class CliView implements GameView, AutoCloseable {
 
     /** Stream-backed terminals exercise the same editor/dashboard in headless tests. */
     CliView(Terminal terminal) throws IOException {
+        this(terminal, System::nanoTime);
+    }
+
+    CliView(Terminal terminal, LongSupplier nanoTime) throws IOException {
         this.terminal = Objects.requireNonNull(terminal, "terminal");
         if (!supportsDashboard(terminal)) throw new IllegalArgumentException("Terminal cannot display a dashboard");
         output = System.out;
         input = null;
-        nanoTime = System::nanoTime;
+        this.nanoTime = Objects.requireNonNull(nanoTime, "nanoTime");
         status = Objects.requireNonNull(Status.getStatus(terminal));
         status.setBorder(false);
         lineReader = new DashboardReader(terminal);
@@ -202,8 +207,9 @@ public final class CliView implements GameView, AutoCloseable {
         Objects.requireNonNull(event, "event");
         if (event.type() == GameEventType.STATE_CHANGED) {
             long now = nanoTime.getAsLong();
+            long interval = lineReader == null ? PLAIN_FRAME_INTERVAL_NANOS : DASHBOARD_FRAME_INTERVAL_NANOS;
             if (interactive && (lastRenderNanos == Long.MIN_VALUE
-                    || now - lastRenderNanos >= FRAME_INTERVAL_NANOS)) {
+                    || now - lastRenderNanos >= interval)) {
                 render(event.snapshot());
             }
             return;

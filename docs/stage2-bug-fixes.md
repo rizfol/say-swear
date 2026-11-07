@@ -33,3 +33,11 @@ These November 7, 2026 changes address defects reproduced during the requested S
 - **Files:** `src/main/java/com/sayswear/voice/MicrophoneDevice.java`; `src/test/java/com/sayswear/voice/MicrophoneDeviceTest.java`.
 - **Verification:** a controlled TargetDataLine blocks inside native open while stop arrives. Before the fix the probe ends open and recording; afterward the regression verifies both are false. The new regression and all six voice-service tests pass; no microphone hardware is opened by these tests.
 - **Review:** public microphone methods and relationships are unchanged. The package-private line factory only permits deterministic lifecycle testing.
+
+## BF05 - Refresh the interactive CLI before the next turn is missed
+
+- **Before:** the in-place terminal dashboard retained a one-second throttle from the old scrolling renderer. At speed 7 the player moved seven units between ordinary frames, making the narrow corridor difficult to follow; the recorded CLI demonstration also identified this limitation.
+- **Change:** refresh the supported in-place dashboard at up to 10 Hz. Plain interactive fallback retains its one-second throttle, and redirected/scripted sessions still suppress ordinary periodic maps.
+- **Files:** `src/main/java/com/sayswear/view/CliView.java`; `src/test/java/com/sayswear/view/CliTerminalTest.java`.
+- **Verification:** a real JLine terminal and independent JediTerm screen emulator verify that a position change appears at 250 ms while the partially typed command remains intact on the same row, then completes correctly. All eight CLI tests pass, including the existing fallback, editing, resize and terminal cleanup checks.
+- **Review:** terminal movement feedback updates more frequently without replacing the input editor or adding scrolling frames.

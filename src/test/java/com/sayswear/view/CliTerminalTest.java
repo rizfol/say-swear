@@ -1,6 +1,8 @@
 package com.sayswear.view;
 
 import com.sayswear.game.Direction;
+import com.sayswear.game.GameEvent;
+import com.sayswear.game.GameEventType;
 import com.sayswear.game.GameSnapshot;
 import com.sayswear.game.Level;
 import com.sayswear.game.PlayerStatus;
@@ -38,6 +40,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongSupplier;
 import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +49,32 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Exercises real JLine editing and interprets its ANSI output into screen cells. */
 @Timeout(15)
 class CliTerminalTest {
+    @Test
+    void ordinaryMotionRefreshesWithinASecondWithoutDisturbingEditedInput() throws Exception {
+        AtomicLong clock = new AtomicLong();
+        try (Harness terminal = new Harness(80, 24, clock::get)) {
+            terminal.view.render(snapshot(10));
+            Future<String> command = terminal.read();
+            terminal.screen.await(text -> text.contains("say> "));
+            terminal.type("a little ri");
+            String before = terminal.screen.await(text -> text.contains("say> a little ri"));
+            int promptRow = rowContaining(before, "say> a little ri");
+
+            // At the game's speed, 250 ms is 1.75 units of real movement. It must
+            // be visible before the old one-second interval loses the next turn.
+            clock.set(250_000_000L);
+            terminal.view.onGameEvent(new GameEvent(GameEventType.STATE_CHANGED, snapshot(11.75)));
+            String moved = terminal.screen.await(text -> text.contains("position: (11.75, 64.00)"));
+            assertTrue(moved.contains("say> a little ri"), moved);
+            assertEquals(promptRow, rowContaining(moved, "say> a little ri"), moved);
+            assertEquals(1, occurrences(moved, "say> "), moved);
+            assertFalse(command.isDone());
+
+            terminal.type("ght\r");
+            assertEquals("a little right", command.get(5, TimeUnit.SECONDS));
+        }
+    }
+
     @Test
     void backgroundFramesAndMessagesPreserveTheVisiblePartialCommand() throws Exception {
         try (Harness terminal = new Harness(80, 24)) {
@@ -158,11 +188,15 @@ class CliTerminalTest {
         final ExecutorService inputWorker = Executors.newSingleThreadExecutor();
 
         Harness(int columns, int rows) throws IOException {
+            this(columns, rows, System::nanoTime);
+        }
+
+        Harness(int columns, int rows, LongSupplier clock) throws IOException {
             screen = new ScreenOutput(columns, rows, keyboard);
             terminal = TerminalBuilder.builder().name("say-swear-test").system(false)
                     .type("xterm-256color").encoding(StandardCharsets.UTF_8)
                     .streams(input, screen).size(new Size(columns, rows)).build();
-            view = new CliView(terminal);
+            view = new CliView(terminal, clock);
         }
 
         Future<String> read() { return inputWorker.submit(view::readCommand); }
