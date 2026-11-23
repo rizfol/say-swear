@@ -1,7 +1,7 @@
 """Build the Stage 2 documentation PDF; does not run the game or alter diagrams.
 
 Documentation-only dependencies: reportlab, svglib. Run from any working directory.
-The report includes other maintained Markdown documents and embeds existing SVGs.
+The report includes maintained Markdown documents, raster screenshots and existing SVGs.
 """
 
 from __future__ import annotations
@@ -13,13 +13,14 @@ import re
 import xml.etree.ElementTree as ET
 
 from reportlab.lib import colors
+from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     BaseDocTemplate, Frame, LongTable, NextPageTemplate,
-    PageBreak, PageTemplate, Paragraph, Spacer, TableStyle,
+    Image, KeepTogether, PageBreak, PageTemplate, Paragraph, Spacer, TableStyle,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
 from svglib.svglib import svg2rlg
@@ -225,9 +226,34 @@ def build(output: Path):
         if line.startswith("<!--"):
             i += 1
             continue
+        screenshot = re.fullmatch(r"!\[([^\]]*)\]\(([^)]+)\)", line)
+        if screenshot and Path(screenshot.group(2)).suffix.lower() in {".png", ".jpg", ".jpeg"}:
+            path = (origin.parent / screenshot.group(2)).resolve()
+            if not path.is_relative_to(ROOT):
+                raise ValueError("Screenshot paths must remain in the repository")
+            image_width, image_height = ImageReader(str(path)).getSize()
+            scale = min(width / image_width, 450 / image_height, 1)
+            picture = Image(str(path), width=image_width * scale, height=image_height * scale)
+            picture.hAlign = "LEFT"
+            figure = [picture, Spacer(1, 5)]
+            i += 1
+            # Keep a following Markdown italic caption with its screenshot.
+            caption_index = i
+            while caption_index < len(lines) and not lines[caption_index][0].strip():
+                caption_index += 1
+            if caption_index < len(lines) and re.fullmatch(r"\*[^*].+\*", lines[caption_index][0]):
+                caption, caption_origin = lines[caption_index]
+                figure.append(Paragraph(inline(caption, caption_origin), styles["SmallBody"]))
+                i = caption_index + 1
+            story += [KeepTogether(figure), Spacer(1, 8)]
+            continue
         heading = re.match(r"^(#{1,6}) (.*)$", line)
         if heading:
             level, label = len(heading.group(1)), heading.group(2)
+            if (origin.name == "feature-implementation-mapping.md"
+                    and re.match(r"^F\d{2}\s+-\s+", label)):
+                # Each feature's requirement, implementation and evidence form one review unit.
+                story.append(PageBreak())
             if level == 2:
                 if not seen_section:
                     story += [Spacer(1, 17), Paragraph("Contents", styles["Subsection"]), toc]
@@ -258,7 +284,7 @@ def build(output: Path):
             continue
         block = [line]
         i += 1
-        while i < len(lines) and lines[i][0].strip() and not re.match(r"^(#|\||[-*] |\d+\. |```|<!--)", lines[i][0]):
+        while i < len(lines) and lines[i][0].strip() and not re.match(r"^(#|\||[-*] |\d+\. |```|<!--|!\[)", lines[i][0]):
             block.append(lines[i][0]); i += 1
         paragraph = " ".join(block)
         if paragraph.startswith("!["):

@@ -4,6 +4,8 @@ This mapping follows the Course Project Stage 2 Instructions: every Stage 1 feat
 
 All ten features have connected implementations. The November 6 [recording and feature timestamps](stage2-demonstration-index.md) show GUI microphone input, streaming text, typed interpretation, contextual replacement, combined/timed actions, repeat, cleanup, fall recovery and CLI gameplay. On November 7, YouTube returned playable status and a 691-second duration matching the reviewed recording. Demonstrations are finite samples; detailed device-failure coverage, native Linux operation and the updated 2000 ms GPU gate remain unverified.
 
+Screenshots below are genuine cropped frames from the November 6 recording. Paired images read left to right; transcript/action/state pixels are unchanged. F05 and F06 share a transition because it demonstrates both contextual interpretation and active replacement. These stills complement the video and tests, and predate the November 7 timing and CLI refresh fixes.
+
 ## Feature index
 
 | Feature | Stage 1 reference | Status/change | Type | Video |
@@ -23,6 +25,8 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 ## F01 — Real-Time Precision Movement
 
+**Original requirement:** The character moves through the 2D level using deterministic directional movement and game logic.
+
 **Reference/status:** Stage 1 F01; implemented, with D06/D10/D19 presentation/timestep refinements. **Design:** UC01/UC02; SD02/SD05. **Patterns:** MVC, Observer, State. **Type:** deterministic.
 
 **Files, responsibilities and key methods:** [ApplicationController](../src/main/java/com/sayswear/app/ApplicationController.java) schedules `tickFromClock()`/`advance()`. [GameModel](../src/main/java/com/sayswear/game/GameModel.java) owns `update()`/`evaluatePosition()`. [ActiveState](../src/main/java/com/sayswear/game/ActiveState.java) subdivides `update()` for collision checks; [Player](../src/main/java/com/sayswear/game/Player.java) applies `move()` and normalized velocity. [Level](../src/main/java/com/sayswear/game/Level.java) supplies `isSafe()`/`isGoal()`. [JavaFxGameView](../src/main/java/com/sayswear/view/JavaFxGameView.java) and [CliView](../src/main/java/com/sayswear/view/CliView.java) implement snapshot `render()`.
@@ -31,7 +35,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** saved movement/geometry/goal tests and terminal tests pass; historical GUI/packaged CLI checks exercised actual movement. **Video:** [01:05-03:25](https://youtu.be/Yo-rBAtVPxA?t=65).
 
+![Movement before and after a directional command](screenshots/f01-movement-state.png)
+
+*F01 — GUI state at 04:52 (left) and 04:54 (right): position changes from (10.00, 64.00) to (17.73, 64.00), RIGHT is held and horizontal velocity is 7.00. [Video](https://youtu.be/Yo-rBAtVPxA?t=292).*
+
 ## F02 — Continuous Voice-Control Session
+
+**Original requirement:** The GUI continuously accepts microphone input while gameplay is active.
 
 **Reference/status:** Stage 1 F02; implemented, refined by D11/D12. **Design:** UC01; SD01. **Patterns:** MVC, Adapter. **Type:** deterministic session management around ASR.
 
@@ -41,7 +51,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** six controlled voice-service tests cover readiness, epoch isolation, nonblocking startup/stop, failure and PCM conversion. The recording shows a real GUI listening session; detailed device-failure and repeated recovery coverage remain unverified. **Video:** [01:23-03:25](https://youtu.be/Yo-rBAtVPxA?t=83).
 
+![Continuous listening with incoming speech](screenshots/f02-listening-session.png)
+
+*F02 — 01:57: the GUI is listening and interpreting speech, with incoming words visible. Start listening and Stop & release are session controls; no new recording is started for each phrase. Session continuity is shown in the linked segment. [Video](https://youtu.be/Yo-rBAtVPxA?t=115).*
+
 ## F03 — Streaming Speech Transcription
+
+**Original requirement:** Speech is transcribed incrementally so commands can be interpreted without waiting for the user to finish a full recording.
 
 **Reference/status:** Stage 1 F03; implemented. **Design:** UC01; SD01. **Patterns:** Adapter, MVC. **Type:** AI-based recognition with deterministic delivery.
 
@@ -51,7 +67,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** the historical native WAV check produced 17 partials, one endpoint, expected phrases and no errors; it opened no microphone. Live speech accuracy/latency remain unmeasured. **Video:** [01:44-02:08](https://youtu.be/Yo-rBAtVPxA?t=104).
 
+![Successive partial speech transcripts](screenshots/f03-partial-transcripts.png)
+
+*F03 — 01:56 (left) and 01:57 (right): the visible partial grows from “our words appear” to “our words appear over here” while speech continues. These are the actual recognized words, including recognition imperfections. [Video](https://youtu.be/Yo-rBAtVPxA?t=116).*
+
 ## F04 — Natural-Language Movement Interpretation
+
+**Original requirement:** The AI interprets movement instructions such as left, right, go up, and stop.
 
 **Reference/status:** Stage 1 F04; implemented with local SemIf/Qwen instead of the original provider assumption (D01/D13). **Design:** UC01/UC02; SD01/SD02. **Patterns:** Adapter, Command, MVC. **Type:** hybrid.
 
@@ -61,7 +83,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** recorded genuine-model and packaged CLI checks exercised the complete path. Finite samples do not guarantee every paraphrase. Current input errors stop controls; an unclear `NO_ACTION` leaves existing movement unchanged. **Video:** [03:44-04:30](https://youtu.be/Yo-rBAtVPxA?t=224).
 
+![Right and stop interpreted into bounded actions](screenshots/f04-interpretation.png)
+
+*F04 — 04:02 (left): typed “right” becomes PRESS [RIGHT], with positive horizontal velocity. At 04:03 (right), “stop” becomes RELEASE_ALL and held directions/velocity become neutral. [Video](https://youtu.be/Yo-rBAtVPxA?t=242).*
+
 ## F05 — Context-Aware Commands
+
+**Original requirement:** The AI interprets commands such as other way and keep going using current control context.
 
 **Reference/status:** Stage 1 F05; implemented and extended with repeat memory (D18). **Design:** UC03; SD03. **Patterns:** Adapter, Command. **Type:** hybrid.
 
@@ -71,7 +99,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** frozen-context/history/no-history tests pass; eight recorded CPU repeat/history samples passed under a diagnostic deadline. Updated default-budget GPU verification is pending. **Video:** [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275).
 
+![Contextual interpretation of other way](screenshots/f05-f06-contextual-replacement.png)
+
+*F05 — 04:54 (left): RIGHT is active. At 04:56 (right), “other way” has become SWITCH [LEFT] and negative horizontal velocity. The relative instruction is interpreted using the previous held direction. This same observed transition also demonstrates F06. [Video](https://youtu.be/Yo-rBAtVPxA?t=294).*
+
 ## F06 — Live Command Correction / Interruption
+
+**Original requirement:** A newer instruction can supersede an active one, for example right — no, left.
 
 **Reference/status:** Stage 1 F06; implemented with D11/D12/D15/D16 refinements. **Design:** UC04; SD04. **Patterns:** Adapter, Command. **Type:** hybrid.
 
@@ -81,7 +115,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** stale-result/replacement tests pass. The historical pre-repeat four-partial GPU burst returned LEFT after 990.7 ms within 2000 ms; this is not current repeat-schema timing evidence. The linked replacement example uses GUI typed text; detailed spoken-correction coverage remains unverified. **Video:** [04:35-05:37](https://youtu.be/Yo-rBAtVPxA?t=275).
 
+![New input replaces active movement](screenshots/f05-f06-contextual-replacement.png)
+
+*F06 — 04:54 and 04:56: a fresh typed “other way” replaces active RIGHT with LEFT, reversing velocity. This shared F05/F06 screenshot demonstrates active replacement; it does not show a spoken within-utterance correction or artificially reordered model responses. [Video](https://youtu.be/Yo-rBAtVPxA?t=294).*
+
 ## F07 — Combined Directional Commands
+
+**Original requirement:** Commands such as up and right can result in multiple simultaneous directional inputs.
 
 **Reference/status:** Stage 1 F07; implemented. D13 describes axis readouts. **Design:** UC05; SD04. **Patterns:** Adapter, Command. **Type:** hybrid.
 
@@ -91,7 +131,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** compatibility/normalized-speed tests pass; recorded model samples covered all four perpendicular pairs. **Video:** [05:37-06:23](https://youtu.be/Yo-rBAtVPxA?t=337).
 
+![Combined up and right timed movement](screenshots/f07-combined-directions.png)
+
+*F07 — 06:00: “a little up and right” produces TIMED_PRESS [RIGHT, UP] for 200 ms. The resulting position is (10.95, 61.72); by this frame the short hold has expired, so held directions and velocity are neutral. [Video](https://youtu.be/Yo-rBAtVPxA?t=360).*
+
 ## F08 — Magnitude / Timed Commands
+
+**Original requirement:** Commands such as a little left can produce a temporary directional action.
 
 **Reference/status:** Stage 1 F08; implemented with timed replay under D18. **Design:** UC05/UC03; SD04/SD03. **Patterns:** Adapter, Command. **Type:** hybrid.
 
@@ -101,7 +147,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** expiry, quantization, interruption and repeat tests pass. Packaged live CPU CLI replay used a 30000 ms diagnostic interpretation budget; the movement hold remained 200 ms of simulation time. **Video:** [06:23-07:41](https://youtu.be/Yo-rBAtVPxA?t=383).
 
+![Timed right movement and a later repeat](screenshots/f08-timed-repeat.png)
+
+*F08 — 06:42 (left): “go right for a second” is bounded to a 200 ms TIMED_PRESS [RIGHT]. At 07:10 (right), a later “again” is accepted as REPEAT_LAST TIMED_PRESS [RIGHT] for 200 ms. Both frames show automatic release after completion. Arbitrary one-second holds are not supported; the displayed duration is authoritative. [Video](https://youtu.be/Yo-rBAtVPxA?t=402).*
+
 ## F09 — Control-State and Conflict Management
+
+**Original requirement:** The system tracks active inputs and prevents contradictory or stale actions from being applied incorrectly.
 
 **Reference/status:** Stage 1 F09; implemented with failure/replay refinements. **Design:** UC01–UC06; SD01/SD03/SD04/SD05. **Patterns:** Command. **Type:** deterministic.
 
@@ -111,7 +163,13 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 
 **Verification:** tests cover malformed/stale proposals, opposite directions, duplicate timers, expiry revision, reset/history and late failures. **Video:** [07:47-08:17](https://youtu.be/Yo-rBAtVPxA?t=467).
 
+![Controls released and cleared movement history](screenshots/f09-control-cleanup.png)
+
+*F09 — 08:12 (left): Stop & release has neutralized movement. At 08:17 (right), “again” reports no previous movement to repeat; position remains (22.33, 64.00), with no held direction or velocity. This captures cleanup/history protection; stale-response and contradictory-input guards are covered by the referenced tests. [Video](https://youtu.be/Yo-rBAtVPxA?t=492).*
+
 ## F10 — Fall Detection and Start Recovery
+
+**Original requirement:** When the player falls, pending controls are cancelled, active inputs are released, and the player respawns at the latest checkpoint.
 
 **Reference/status:** original F10 — Fall Detection and Checkpoint Recovery; modified and implemented. D17 removes checkpoint progression. **Design:** UC06; SD05. **Patterns:** State, Observer, Command. **Type:** deterministic.
 
@@ -120,6 +178,10 @@ GUI text entry, explicit demo mode, session controls, repeat memory, terminal re
 **Input → collaboration → result:** human-directed movement leaves the corridor. FallingState and the fall event trigger epoch invalidation, interpretation/timer cancellation and release. Later lifecycle ticks restore start position and zero velocity, then ActiveState. If listening was requested, voice capture restarts; movement requires fresh input. This deliberately changes recovery from preserving checkpoint progress to losing all progress on a fall.
 
 **Verification:** saved tests check repeated falls after level progress return to start and reject pre-fall responses. Specific real microphone restart/recovery coverage remains unverified. **Video:** [08:18-09:20](https://youtu.be/Yo-rBAtVPxA?t=498).
+
+![Upward movement followed by return to start](screenshots/f10-fall-recovery.png)
+
+*F10 — 08:28 (left): UP is active after progress, at (22.33, 63.89). At 08:30 (right), fall recovery reports “Back at the start,” position (10.00, 64.00), no held directions and zero velocity. D17 intentionally replaces the original checkpoint requirement with return to start. [Video](https://youtu.be/Yo-rBAtVPxA?t=508).*
 
 ## Evidence and demonstration completion
 

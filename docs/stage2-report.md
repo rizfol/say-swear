@@ -2,9 +2,9 @@
 
 **Stage 2 Implementation Report**
 
-EECS 3311 - Fall 2026 | Status date: November 7, 2026 (Toronto)
+EECS 3311 - Fall 2026 | Status date: November 23, 2026
 
-**Review draft - submission evidence is still pending.** This report describes the public Stage 2 implementation. The user reports having played the game and confirms that it works properly. The instructor confirmed that the existing early commit history works for weekly-progress evidence. The feature video and timestamps are supplied, with playable YouTube metadata and matching duration confirmed November 7. Focused source review remains pending; AI usage and cost figures are provisional student estimates where stated. Submission is due November 10, 2026.
+**Review draft - submission evidence is still pending.** This report describes the public Stage 2 implementation. The user reports having played the game and confirms that it works properly. The instructor confirmed that the existing early commit history works for weekly-progress evidence. The feature video and timestamps are supplied, with playable YouTube metadata and matching duration confirmed November 7. Per-feature screenshots extracted from that recording were added November 23. Focused source review remains pending; AI usage and cost figures are provisional student estimates where stated. The original submission deadline was November 10, 2026; the instructor's follow-up requests missing video, CLI and screenshot evidence by November 24.
 
 This report accounts for all ten Stage 1 features, explains the five implemented patterns, and connects the current Java source to the revised UMLet diagrams. It separates recorded verification from evidence that still needs to be supplied.
 
@@ -17,6 +17,10 @@ This report accounts for all ten Stage 1 features, explains the five implemented
 Say Swear is a small 2D precision game for players who want to navigate a narrow winding path using natural-language instructions. One player character moves over a void toward one goal. Leaving the safe path cancels movement and returns the character to the level start. The implemented scope contains one fixed level, four-direction movement, combined directions, bounded timed movements, falling, and start recovery. There are no checkpoints, enemies, jumping, inventory, procedural generation, autonomous navigation, or pathfinding.
 
 The human chooses every turn and its timing. A JavaFX GUI displays the actual level and accepts continuous microphone input, with a text-instruction field for the same interpreter. A Java terminal CLI accepts natural-language text and displays a map, coordinates, velocity, held directions, transcript/action feedback, and lifecycle. Both frontends use the same Java 21 controller, game, agent, and control objects composed by `Main.compose()`; the CLI substitutes typed text for capture/transcription.
+
+![JavaFX game running with rightward movement](screenshots/f01-gui-overview.png)
+
+*GUI overview — 04:54 in the November 6 recording. The winding level, player, transcript, accepted RIGHT action and control-state panel are visible. Section 2 provides readable close-ups for each feature. [Video](https://youtu.be/Yo-rBAtVPxA?t=294).*
 
 ### AI integration and deterministic execution
 
@@ -39,19 +43,19 @@ The shared application loop serializes game/control changes. Worker threads hand
 | Live and platform coverage | Partial recorded evidence | Native sample-audio ASR, historical real-model checks, and packaged CLI checks exist. GUI microphone capture and partial transcripts are recorded. Detailed device-failure/recovery, native Linux, and updated repeat-enabled 2000 ms GPU performance remain unverified. |
 | AI tool accounting | Provisional student report | Approximately 6 billion Codex tokens and CAD $282.50 subscription spending are reported; local inference tokens and compute costs are unmeasured. Confirm period, currency, and allocation. |
 | Weekly progress evidence | Five fixes pushed November 7; early history accepted | Section 6 links five meaningful code/test commits for period 3 and records the instructor's acceptance of earlier development for periods 1-2. Commit dates are unchanged. |
-| Submission evidence | Partly pending | Video links/playable metadata are checked. Source-review outcomes and AI accounting remain to complete. SD04 now matches the timer fix through a fresh UMLet SVG export. |
+| Submission evidence | Partly pending | Video links/playable metadata are checked; section 2 now includes screenshots and original requirements for F01-F10. Source-review outcomes and AI accounting remain to complete. SD04 matches the timer fix through a fresh UMLet SVG export. |
 
 ### Reproduction and configuration
 
-The repository includes a Gradle wrapper, Java dependencies, GUI/CLI launchers for Windows and Linux, and pinned setup instructions for SemIf and streaming ASR. Follow the root [README](../README.md), [SemIf setup](semif-setup.md), and [ASR setup](asr-setup.md). Start the real local service, wait for readiness, then launch GUI or CLI without demo mode. CLI play needs neither a microphone nor an ASR model.
+The repository supplies the Gradle wrapper, Windows/Linux GUI/CLI launchers and pinned model setup. Follow the [README](../README.md), [SemIf setup](semif-setup.md) and [ASR setup](asr-setup.md). Wait for local inference readiness, then launch without demo mode. CLI play needs no microphone or ASR model.
 
-Local inference requires no API key. `.env.example` contains safe environment-variable examples; the application does not auto-load `.env`. Configuration can be supplied through environment variables or launcher options. `.gitignore` excludes local environment files, downloaded weights, caches, logs, and build outputs. Report aggregate usage/cost totals with their accounting basis; private billing documents, account identifiers, and machine-specific paths are not needed.
+Local inference needs no API key. Configure environment variables or launcher options using `.env.example`; `.env` is not auto-loaded. Local settings, weights, caches, logs and build outputs are ignored. Accounting uses aggregate estimates without private billing or machine details.
 
-Source references below are repository-relative paths. The supplied UMLet SVGs are preserved unchanged; their large-format PDF appendix pages allow readable zooming. Section 7 provides timestamped YouTube links; playable metadata and matching duration were checked November 7.
+Source links are repository-relative. Appendices preserve the supplied UMLet SVGs as zoomable vectors. Section 7 provides timestamped video links; playback metadata was checked November 7.
 
 ## 2. Feature to implementation mapping
 
-All ten original feature IDs are accounted for. F10 replaces checkpoint recovery with return-to-start recovery. Repeat memory extends F05/F08/F09. Supporting input/session/display refinements are documented as changes, not counted as additional features.
+All ten original feature IDs are accounted for below with their original requirement, implementation, changes, and a screenshot with its source time. F10 replaces checkpoint recovery with return-to-start recovery. Repeat memory extends F05/F08/F09. Supporting input/session/display refinements are documented as changes, not counted as additional features.
 
 [Maintained feature mapping](feature-implementation-mapping.md)
 
@@ -160,6 +164,14 @@ Video links and matching YouTube duration are confirmed. Remaining submission it
 ## 7. Demonstration index
 
 <!-- report-include: stage2-demonstration-index.md -->
+
+### Standalone CLI in the recording
+
+The standalone Java CLI accepts natural-language lines through standard input in an interactive terminal. The README documents Windows and Linux launch commands and supported options. This is the supported input method permitted by the instructor's alternatives; a separate task-file input option is not required for this game. The GUI and CLI run the same agent and game core.
+
+![Standalone CLI accepting commands and displaying the game](screenshots/cli-gameplay.png)
+
+*CLI — 10:39: the terminal shows typed commands, the local SemIf/Qwen backend, accepted PRESS [RIGHT, UP], held directions, position/velocity, and the map with player/start/goal. This is the recorded pre-November 7 display, before the refresh-rate fix. [Video](https://youtu.be/Yo-rBAtVPxA?t=639).*
 
 ### Diagram appendices
 
